@@ -54,14 +54,15 @@ class PesquisaLetra {
     return letraCortada;
   }
 
+  // future para retornar o titulo da letra da musica pesquisa
   static Future<String> exibirTituloLetra() async {
     return tituloLetra;
   }
 
   // future para pesquisar no google o que for digitado
-  // pelo usuario e retornar somente os links para
+  // pelo usuario e retorna um map contendo o titulo do link e o link
+  // para direcionar a pagina
   static Future pesquisarLinks(String itemDigitado) async {
-    dynamic linkVerificar = "";
     var linkPesquisa =
         Uri.parse("https://www.google.com/search?q=$itemDigitado");
     try {
@@ -76,22 +77,30 @@ class PesquisaLetra {
         },
       ).timeout(const Duration(seconds: 20));
       var retornoResposta = parse(resposta.body);
-      //verificando todas as tag <a que existem na pagina html
-      List<String> links = [];
-      for (int i = 0;
-          i < retornoResposta.getElementsByTagName("a").length;
-          i++) {
-        linkVerificar = retornoResposta.getElementsByTagName("a")[i].outerHtml;
-        if (linkVerificar.toString().contains("www.letras.mus.br")) {
-          //a variavel vai receber os valores que estao entre os parametros passados para o SUB STRING
-          // o primeiro parametro do SUB STRING e para remover o comeco da tag <a deixando somente o link
-          var resultadoLink =
-              retornoResposta.getElementsByTagName("a")[i].outerHtml;
-          links.add(resultadoLink);
-          //print(links);
+      List<Map<String, String>> linksNome = [];
+      // pegando os elementos da lista que estao dentro da TAG A(tag de link)
+      retornoResposta.getElementsByTagName("a").forEach((elemento) {
+        // pegando o conteudo contido dentro do item da lista
+        String linksResposta = elemento.outerHtml;
+        if (linksResposta.contains("www.letras.mus.br") &&
+            // verificando se a varivavel contem nome da classe e o nome do site
+            linksResposta.contains("BNeawe")) {
+          Map<String, String> dados = {};
+          //print(linksResposta);
+          // variaveis vai receber String partindo da primeira ocorrencia
+          // do primeiro INDEX OF e indo ate a primeira correncia do segundo INDEX OF
+          String nomeLink = linksResposta.substring(
+              linksResposta.indexOf('AP7Wnd">'),
+              linksResposta.indexOf("</div>"));
+          String link =
+              linksResposta.substring(16, linksResposta.indexOf("/&amp"));
+          //print(linksResposta.substring(16, linksResposta.indexOf("/&amp")));
+          dados[nomeLink] = link;
+          linksNome.add(dados);
         }
-      }
-      return links;
+      });
+
+      return linksNome;
     } catch (e) {
       List<String> retornoErro = [];
       return retornoErro;

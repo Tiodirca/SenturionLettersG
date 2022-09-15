@@ -14,7 +14,7 @@ class TelaPesquisa extends StatefulWidget {
 
 class _TelaPesquisaState extends State<TelaPesquisa> {
   Estilo estilo = Estilo();
-  List<String> resultadoLinks = [];
+  List<Map<String, String>> resultadoLinks = [];
   bool boolExibirListagemLinks = false;
   bool boolExibirTelaCarregamento = false;
 
@@ -127,8 +127,9 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                 Visibility(
                                     visible: boolExibirListagemLinks,
                                     child: Container(
-                                        margin:
-                                            const EdgeInsets.only(top: 20.0,),
+                                        margin: const EdgeInsets.only(
+                                          top: 20.0,
+                                        ),
                                         width: larguraTela,
                                         height: alturaTela * 0.6,
                                         child: Column(
@@ -140,38 +141,26 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                   const TextStyle(fontSize: 20),
                                             ),
                                             Container(
-                                              margin:
-                                              const EdgeInsets.only(top: 10.0,),
+                                              margin: const EdgeInsets.only(
+                                                top: 10.0,
+                                              ),
                                               width: larguraTela,
                                               height: alturaTela * 0.5,
                                               child: ListView.builder(
                                                 itemCount:
                                                     resultadoLinks.length,
                                                 itemBuilder: (context, index) {
-                                                  // definindo que a variavel vai receber o valor da subtring
-                                                  // comecando pelo index apos o parametro passado para o LAST INDEX
-                                                  // e termenimando no index passado para o outro LAST INDEX
-                                                  String nomeMusica = resultadoLinks
-                                                      .elementAt(index);
-                                                      // .substring(
-                                                      //     resultadoLinks
-                                                      //         .elementAt(index)
-                                                      //         .lastIndexOf(
-                                                      //             'vvjwJb AP7Wnd">'),
-                                                      //     resultadoLinks
-                                                      //         .elementAt(index)
-                                                      //         .lastIndexOf(
-                                                      //             "</div></h3>"));
-                                                  String linkLetraItem =
+                                                  // variaveis vao receber o valor do map
+                                                  String nomeMusica =
                                                       resultadoLinks
                                                           .elementAt(index)
-                                                          .substring(
-                                                              16,
-                                                              resultadoLinks
-                                                                  .elementAt(
-                                                                      index)
-                                                                  .lastIndexOf(
-                                                                      "/&amp;"));
+                                                          .keys
+                                                          .toString();
+                                                  String linkMusica =
+                                                      resultadoLinks
+                                                          .elementAt(index)
+                                                          .values
+                                                          .toString();
                                                   return ListTile(
                                                     iconColor: Colors.black,
                                                     title: Row(
@@ -184,10 +173,13 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                           width:
                                                               larguraTela * 0.7,
                                                           child: Text(
-                                                              //
-                                                              nomeMusica.replaceAll(
-                                                                  'vvjwJb AP7Wnd">',
-                                                                  ""),
+                                                              // removendo texto desnecessario para exibicao
+                                                              nomeMusica
+                                                                  .replaceAll(
+                                                                      '(AP7Wnd">',
+                                                                      "")
+                                                                  .replaceAll(
+                                                                      ")", ""),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -196,8 +188,19 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                     ),
 
                                                     onTap: () {
-                                                      Navigator.pushReplacementNamed(
-                                                          context, Constantes.rotaTelaListagemLetra,arguments: linkLetraItem);
+                                                      // passando como argumento texto
+                                                      // e removendo texto desnecessario link da musica
+                                                      // funcionar
+                                                      Navigator
+                                                          .pushReplacementNamed(
+                                                        context,
+                                                        Constantes
+                                                            .rotaTelaListagemLetra,
+                                                        arguments: linkMusica
+                                                            .replaceAll("(", "")
+                                                            .replaceAll(
+                                                                ")", ""),
+                                                      );
                                                     }, // Handle your onTap here.
                                                   );
                                                 },

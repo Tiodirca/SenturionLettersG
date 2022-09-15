@@ -61,6 +61,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     }
     tituloMusica = await PesquisaLetra.exibirTituloLetra();
   }
+
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
