@@ -1,97 +1,50 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
 import 'package:senturionlettersg/Uteis/Textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/paleta_cores.dart';
-import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 
-class TelaLisagemLetra extends StatefulWidget {
-  const TelaLisagemLetra(
+class TelaEdicaoLetra extends StatefulWidget {
+  const TelaEdicaoLetra(
       {Key? key,
-      required this.linkLetra,
       required this.letraCompleta,
       required this.nomeLetra,
       required this.modelo})
       : super(key: key);
 
-  final String linkLetra;
   final List<String> letraCompleta;
   final String nomeLetra;
   final String modelo;
 
   @override
-  State<TelaLisagemLetra> createState() => _TelaLisagemLetraState();
+  State<TelaEdicaoLetra> createState() => _TelaEdicaoLetraState();
 }
 
-class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
+class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
   Estilo estilo = Estilo();
   bool boolExibirTelaCarregamento = true;
   bool boolExibirBotoes = false;
   bool boolExibirLogo = false;
   late String tipoLogo = widget.modelo;
   int valorRadioButton = 0;
-  String exibicaoTela = Constantes.exibicaoTelaCarregar;
-  List<String> letraCompleta = [];
-  List<String> letraCompletaCortada = [];
+  String exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+  List<String> letraCompletaEditada = [];
   String nomeLetra = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.linkLetra.isNotEmpty) {
-      realizarPesquisaLetraCompleta(); // chamando metodo
+    nomeLetra = widget.nomeLetra;
+    if (widget.modelo == Constantes.logoGeral) {
+      boolExibirLogo = false;
     } else {
-      letraCompletaCortada = widget.letraCompleta;
-      nomeLetra = widget.nomeLetra;
-      exibicaoTela = Constantes.exibicaoTelaListagemLetra;
-      boolExibirBotoes = true;
-      if (widget.modelo == Constantes.logoGeral) {
-        boolExibirLogo = false;
-      } else {
-        boolExibirLogo = true;
-      }
+      boolExibirLogo = true;
     }
-  }
-
-  realizarPesquisaLetraCompleta() async {
-    await PesquisaLetra.pesquisarLetra(widget.linkLetra).then(
-      (value) {
-        letraCompleta = value;
-        setState(() {
-          //removendo primeiro index da lista pois o mesmo e vazio
-          letraCompleta.removeAt(0);
-          exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
-          boolExibirTelaCarregamento = false;
-        });
-      },
-    );
-
-    for (var element in letraCompleta) {
-      var corte = element.split("<br>");
-      String versoConcatenado = "";
-      for (int index = 0; index < corte.length; index++) {
-        versoConcatenado =
-            "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
-        // vericando se o index da lista e igual a algum dos valores passados para adicionar
-        // string na outra lista pegando 4 linhas por vez lembrando 0 conta
-        if (index == 3 ||
-            index == 7 ||
-            index == 11 ||
-            index == 15 ||
-            index == 19) {
-          letraCompletaCortada.add(versoConcatenado);
-          versoConcatenado = "";
-        } else if (index == corte.length - 1) {
-          letraCompletaCortada.add(versoConcatenado);
-          versoConcatenado = "";
-        }
-      }
-    }
-    nomeLetra = await PesquisaLetra.exibirTituloLetra();
+    boolExibirBotoes = true;
+    letraCompletaEditada = widget.letraCompleta;
   }
 
   void mudarRadioButton(int value) {
@@ -117,107 +70,186 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
 
   Widget listagemLetra(double larguraTela, double alturaTela,
           double tamanhoIcones, double tamanhoTexto, double tamanhoSlide) =>
-      SizedBox(
+      Container(
+        padding: const EdgeInsets.only(bottom: 10),
         width: larguraTela,
         height: alturaTela * 0.6,
         child: ListView.builder(
-          itemCount: letraCompletaCortada.length,
+          itemCount: letraCompletaEditada.length,
           itemBuilder: (context, index) {
             return ListTile(
                 title: Container(
-                    padding: const EdgeInsets.all(10),
-                    width: larguraTela,
-                    height: tamanhoSlide,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/imagens/fundo_letra.png'),
-                            fit: BoxFit.cover)),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                  width: tamanhoIcones,
-                                  height: tamanhoIcones,
-                                  child: Visibility(
-                                    visible: boolExibirLogo,
-                                    child: Image.asset(
-                                      'assets/imagens/logo_geracao_fire.png',
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: larguraTela * 0.5,
-                                child: Text(
-                                  nomeLetra,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    decorationStyle: TextDecorationStyle.solid,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(1.0, 2.0),
-                                        blurRadius: 3.0,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+              width: larguraTela,
+              height: tamanhoSlide,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/imagens/fundo_letra.png'),
+                      fit: BoxFit.cover)),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: tamanhoSlide == 300 ? 60 : 40,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                            width: tamanhoIcones,
+                            height: tamanhoIcones,
+                            child: Visibility(
+                              visible: boolExibirLogo,
+                              child: Image.asset(
+                                'assets/imagens/logo_geracao_fire.png',
                               ),
-                              SizedBox(
-                                width: tamanhoIcones,
-                                height: tamanhoIcones,
-                                child: Image.asset(
-                                  'assets/imagens/logo_adtl.png',
+                            )),
+                        SizedBox(
+                          width: larguraTela * 0.5,
+                          child: Text(
+                            nomeLetra,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              decorationStyle: TextDecorationStyle.solid,
+                              shadows: <Shadow>[
+                                Shadow(
+                                  offset: Offset(1.0, 2.0),
+                                  blurRadius: 3.0,
+                                  color: Color.fromARGB(255, 0, 0, 0),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                          Text(
-                              letraCompletaCortada[index]
-                                  .toString()
-                                  .replaceAll(
-                                      RegExp(
-                                        r'</p>',
-                                      ),
-                                      '')
-                                  .replaceAll(
-                                      RegExp(
-                                        Constantes.stringPularLinhaSlide,
-                                      ),
-                                      '\n'),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: tamanhoTexto,
-                                color: Colors.white,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ),
-                    )));
+                        ),
+                        SizedBox(
+                          width: tamanhoIcones,
+                          height: tamanhoIcones,
+                          child: Image.asset(
+                            'assets/imagens/logo_adtl.png',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: tamanhoSlide == 300 ? 160 : 120,
+                    child: TextFormField(
+                        textAlign: TextAlign.center,
+                        initialValue: letraCompletaEditada[index]
+                            .toString()
+                            .replaceAll(
+                                RegExp(
+                                  r'</p>',
+                                ),
+                                '')
+                            .replaceAll(
+                                RegExp(
+                                  Constantes.stringPularLinhaSlide,
+                                ),
+                                '\n'),
+                        onChanged: (value) {
+                          letraCompletaEditada[index] = value;
+                        },
+                        maxLines: 10,
+                        minLines: 4,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                        decoration: const InputDecoration(
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        )),
+                  ),
+                  SizedBox(
+                    height: tamanhoSlide == 300 ? 60 : 40,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: tamanhoSlide == 300 ? 40 : 30,
+                          height: tamanhoSlide == 300 ? 40 : 30,
+                          child: FloatingActionButton(
+                              heroTag: "btnAdd$index",
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.add,
+                                color: Colors.black,
+                                size: tamanhoSlide == 300 ? 30 : 25,
+                              ),
+                              onPressed: () {
+                                letraCompletaEditada.insert(index + 1, "");
+                                Map dados = {};
+                                dados[Constantes.parametrosTelaLetra] =
+                                    letraCompletaEditada;
+                                dados[Constantes.paramatrosTelaNomeLetra] =
+                                    nomeLetra;
+                                dados[Constantes.parametrosTelaModelo] =
+                                    tipoLogo;
+                                Navigator.pushReplacementNamed(
+                                    context, Constantes.rotaTelaEdicaoLetra,
+                                    arguments: dados);
+                              }),
+                        ),
+                        SizedBox(
+                          width: tamanhoSlide == 300 ? 40 : 30,
+                          height: tamanhoSlide == 300 ? 40 : 30,
+                          child: FloatingActionButton(
+                            heroTag: "btnClose$index",
+                            backgroundColor: Colors.white,
+                            onPressed: () {
+                              if (letraCompletaEditada.length == 1) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(Textos.erroUmSlide)));
+                              } else {
+                                letraCompletaEditada.removeAt(index);
+                                Map dados = {};
+                                dados[Constantes.parametrosTelaLetra] =
+                                    letraCompletaEditada;
+                                dados[Constantes.paramatrosTelaNomeLetra] =
+                                    nomeLetra;
+                                dados[Constantes.parametrosTelaModelo] =
+                                    tipoLogo;
+                                Navigator.pushReplacementNamed(
+                                    context, Constantes.rotaTelaEdicaoLetra,
+                                    arguments: dados);
+                              }
+                            },
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.black,
+                              size: tamanhoSlide == 300 ? 30 : 25,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ));
           },
         ),
       );
@@ -240,15 +272,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
               height: alturaTela,
               child: LayoutBuilder(
                 builder: (p0, p1) {
-                  if (exibicaoTela == Constantes.exibicaoTelaCarregar) {
-                    return SizedBox(
-                        width: larguraTela,
-                        height: alturaTela,
-                        child: const Center(
-                          child: TelaCarregamento(),
-                        ));
-                  } else if (exibicaoTela ==
-                      Constantes.exibicaoTelaSelecaoLogo) {
+                  if (exibicaoTela == Constantes.exibicaoTelaSelecaoLogo) {
                     return SizedBox(
                       width: larguraTela,
                       height: alturaTela,
@@ -378,7 +402,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      "Quantidade de Slides : ${letraCompletaCortada.length}",
+                                      "Quantidade de Slides : ${letraCompletaEditada.length}",
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontSize: 20,
@@ -420,39 +444,34 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                               height: 50,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corCastanho,
-                                ),
-                                onPressed: () {
-                                  Map dados = {};
-                                  dados[Constantes.parametrosTelaLetra] =
-                                      letraCompletaCortada;
-                                  dados[Constantes.paramatrosTelaNomeLetra] =
-                                      nomeLetra;
-                                  dados[Constantes.parametrosTelaModelo] =
-                                      tipoLogo;
-                                  Navigator.pushReplacementNamed(
-                                      context, Constantes.rotaTelaEdicaoLetra,
-                                      arguments: dados);
-                                },
-                                child: Text(Textos.btnEditar,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 100,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
                                   backgroundColor: PaletaCores.corVerdeCiano,
                                 ),
                                 onPressed: () {
-                                  // Navigator.pushReplacementNamed(
-                                  //     context, Constantes.rotaTelaPesquisa);
+                                  var slideVazio = [...letraCompletaEditada]
+                                      .every((el) => el.toString().isNotEmpty);
+                                  if (slideVazio) {
+                                    Map dados = {};
+                                    dados[Constantes.parametrosTelaLinkLetra] =
+                                        "";
+                                    dados[Constantes.parametrosTelaLetra] =
+                                        letraCompletaEditada;
+                                    dados[Constantes.paramatrosTelaNomeLetra] =
+                                        nomeLetra;
+                                    dados[Constantes.parametrosTelaModelo] =
+                                        tipoLogo;
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      Constantes.rotaTelaListagemLetra,
+                                      arguments: dados,
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text(Textos.erroSlideVazio)));
+                                  }
                                 },
-                                child: Text(Textos.btnGerarArquivo,
+                                child: Text(Textos.btnSalvar,
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontSize: 18,
@@ -486,8 +505,16 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                     ))),
           ),
           onWillPop: () async {
+            Map dados = {};
+            dados[Constantes.parametrosTelaLinkLetra] = "";
+            dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
+            dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+            dados[Constantes.parametrosTelaModelo] = widget.modelo;
             Navigator.pushReplacementNamed(
-                context, Constantes.rotaTelaPesquisa);
+              context,
+              Constantes.rotaTelaListagemLetra,
+              arguments: dados,
+            );
             return false;
           },
         ));

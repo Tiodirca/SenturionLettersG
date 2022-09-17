@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Telas/tela_edicao_letra.dart';
 import 'package:senturionlettersg/Telas/tela_inicial.dart';
 import 'package:senturionlettersg/Telas/tela_listagem_letra.dart';
 import 'package:senturionlettersg/Telas/tela_pesquisa.dart';
@@ -19,25 +20,30 @@ class Rotas {
       case Constantes.rotaTelaPesquisa:
         return MaterialPageRoute(builder: (_) => const TelaPesquisa());
       case Constantes.rotaTelaListagemLetra:
-        if (args is String) {
+        if (args is Map) {
           return MaterialPageRoute(
-              builder: (_) => TelaLisagemLetra(
-                linkMusica: args,
-                  ));
+            builder: (_) => TelaLisagemLetra(
+              linkLetra: args[Constantes.parametrosTelaLinkLetra],
+              letraCompleta: args[Constantes.parametrosTelaLetra],
+              nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
+              modelo: args[Constantes.parametrosTelaModelo],
+            ),
+          );
         } else {
           return erroRota(settings);
         }
-      // case Constantes.rotaTelaCadastroLocalTrabalho:
-      //   if (args is Map) {
-      //     return MaterialPageRoute(
-      //       builder: (_) => TelaCadastroLocalTrabalho(
-      //         genero: args[Constantes.parametroGenero],
-      //         listaPessoas: args[Constantes.parametroListaPessoas],
-      //       ),
-      //     );
-      //   } else {
-      //     return erroRota(settings);
-      //   }
+      case Constantes.rotaTelaEdicaoLetra:
+        if (args is Map) {
+          return MaterialPageRoute(
+            builder: (_) => TelaEdicaoLetra(
+              letraCompleta: args[Constantes.parametrosTelaLetra],
+              nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
+              modelo: args[Constantes.parametrosTelaModelo],
+            ),
+          );
+        } else {
+          return erroRota(settings);
+        }
     }
     // Se o argumento não é do tipo correto, retorna erro
     return erroRota(settings);

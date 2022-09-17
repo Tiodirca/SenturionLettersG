@@ -3,6 +3,12 @@ class Constantes {
   static const rotaTelaInicial = "/telaInicial";
   static const rotaTelaPesquisa = "/telaPesquisa";
   static const rotaTelaListagemLetra = "/telaListagemLetra";
+  static const rotaTelaEdicaoLetra = "/telaEdicaoLetra";
+
+  static const parametrosTelaLinkLetra = "linkLetra";
+  static const parametrosTelaLetra = "letraCompleta";
+  static const paramatrosTelaNomeLetra = "nomeLetra";
+  static const parametrosTelaModelo = "modelo";
 
   static const stringPularLinhaSlide = "pnj";
 

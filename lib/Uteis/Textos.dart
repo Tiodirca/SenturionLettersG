@@ -3,12 +3,15 @@ class Textos {
 
   static String telaInicial = "";
 
+  // string com o nome dos botoes
   static String btnTelaPesquisa = "Pesquisar Letra na internet";
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";
   static String btnUsar = "Usar";
   static String btnTrocarModelo = "Trocar de Modelo";
+  static String btnSalvar = "Salvar";
 
+  // string com o nome dos radio button
   static String radioButtonGeral = "Modelo Geral";
   static String radioButtonGeracaoFire = "Modelo Geração Fire";
 
@@ -34,4 +37,8 @@ class Textos {
       "Infelizmente não foi possivel encontrar "
       "links para a sua pesquisa. verifique e tente novamente";
   static String erroCampoVazio = "Preencha o campo antes de prosseguir";
+  static String erroSlideVazio =
+      "Existe um ou mais slides sem conteudo, por valor preencha ou exclua-os";
+  static String erroUmSlide =
+      "Não é possivel remover o slide,pois a letra precisa conter pelo menos um slide";
 }

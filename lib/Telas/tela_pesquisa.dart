@@ -191,15 +191,27 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                       // passando como argumento texto
                                                       // e removendo texto desnecessario link da musica
                                                       // funcionar
+                                                      Map dados = {};
+                                                      dados[Constantes
+                                                              .parametrosTelaLinkLetra] =
+                                                          linkMusica
+                                                              .replaceAll(
+                                                                  "(", "")
+                                                              .replaceAll(
+                                                                  ")", "");
+                                                      List<String> vazio = [];
+                                                      dados[Constantes
+                                                          .parametrosTelaLetra] = vazio;
+                                                      dados[Constantes
+                                                          .paramatrosTelaNomeLetra] = "";
+                                                      dados[Constantes
+                                                          .parametrosTelaModelo] = "";
                                                       Navigator
                                                           .pushReplacementNamed(
                                                         context,
                                                         Constantes
                                                             .rotaTelaListagemLetra,
-                                                        arguments: linkMusica
-                                                            .replaceAll("(", "")
-                                                            .replaceAll(
-                                                                ")", ""),
+                                                        arguments: dados,
                                                       );
                                                     }, // Handle your onTap here.
                                                   );
