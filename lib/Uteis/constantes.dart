@@ -5,4 +5,11 @@ class Constantes {
   static const rotaTelaListagemLetra = "/telaListagemLetra";
 
   static const stringPularLinhaSlide = "pnj";
+
+  static const logoGeral = "geral";
+  static const logoGeracaoFire = "geracaoFire";
+
+  static const exibicaoTelaCarregar = "carregamento";
+  static const exibicaoTelaSelecaoLogo = "selecaoLogo";
+  static const exibicaoTelaListagemLetra = "listagemLetra";
 }
