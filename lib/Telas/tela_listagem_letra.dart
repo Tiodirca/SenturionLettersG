@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
 import 'package:senturionlettersg/Uteis/Textos.dart';
@@ -27,8 +29,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print(widget.linkMusica);
-    realizarPesquisaLetraCompleta();
+    realizarPesquisaLetraCompleta(); // chamando metodo
   }
 
   realizarPesquisaLetraCompleta() async {
@@ -45,12 +46,17 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
 
     for (var element in letraCompleta) {
       var corte = element.split("<br>");
-      //print(corte);
       String versoConcatenado = "";
       for (int index = 0; index < corte.length; index++) {
         versoConcatenado =
             "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
-        if (index == 3) {
+        // vericando se o index da lista e igual a algum dos valores passados para adicionar
+        // string na outra lista pegando 4 linhas por vez lembrando 0 conta
+        if (index == 3 ||
+            index == 7 ||
+            index == 11 ||
+            index == 15 ||
+            index == 19) {
           letraCompletaCortada.add(versoConcatenado);
           versoConcatenado = "";
         } else if (index == corte.length - 1) {
@@ -62,10 +68,116 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     tituloMusica = await PesquisaLetra.exibirTituloLetra();
   }
 
+  Widget listagemLetra(double larguraTela, double alturaTela,
+          double tamanhoIcones, double tamanhoTexto, double tamanhoSlide) =>
+      SizedBox(
+        width: larguraTela,
+        height: alturaTela * 0.6,
+        child: ListView.builder(
+          itemCount: letraCompletaCortada.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+                title: Container(
+              padding: const EdgeInsets.all(10),
+              width: larguraTela,
+              height: tamanhoSlide,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/imagens/fundo_letra.png'),
+                      fit: BoxFit.cover)),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Visibility(
+                        visible: true,
+                        child: SizedBox(
+                          width: tamanhoIcones,
+                          height: tamanhoIcones,
+                          child: Image.asset(
+                            'assets/imagens/logo_geracao_fire.png',
+                          ),
+                        ),
+                      ),
+                      Text(
+                        tituloMusica,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          decorationStyle: TextDecorationStyle.solid,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 2.0),
+                              blurRadius: 3.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: tamanhoIcones,
+                        height: tamanhoIcones,
+                        child: Image.asset(
+                          'assets/imagens/logo_adtl.png',
+                        ),
+                      ),
+                    ],
+                  ),
+                  SingleChildScrollView(
+                    child: Text(
+                        letraCompletaCortada[index]
+                            .toString()
+                            .replaceAll(
+                                RegExp(
+                                  r'</p>',
+                                ),
+                                '')
+                            .replaceAll(
+                                RegExp(
+                                  Constantes.stringPularLinhaSlide,
+                                ),
+                                '\n'),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: tamanhoTexto,
+                          color: Colors.white,
+                          shadows: const <Shadow>[
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                            Shadow(
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 10.0,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ],
+                        )),
+                  )
+                ],
+              ),
+            ));
+          },
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
     double larguraTela = MediaQuery.of(context).size.width;
+
     return Theme(
         data: estilo.estiloGeral,
         child: WillPopScope(
@@ -111,113 +223,16 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                 style: const TextStyle(fontSize: 20),
                               ),
                             ),
-                            Container(
-                              width: larguraTela,
-                              height: alturaTela * 0.6,
-                              child: ListView.builder(
-                                itemCount: letraCompletaCortada.length,
-                                itemBuilder: (context, index) {
-                                  return ListTile(
-                                      title: Container(
-                                    padding: const EdgeInsets.all(10),
-                                    width: larguraTela,
-                                    decoration: const BoxDecoration(
-                                        image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/imagens/fundo_letra.png'),
-                                            fit: BoxFit.cover)),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Visibility(
-                                              visible: false,
-                                              child: SizedBox(
-                                                width: 25,
-                                                height: 25,
-                                                child: Image.asset(
-                                                  'assets/imagens/logo_geracao_fire.png',
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              tituloMusica,
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                decorationStyle:
-                                                    TextDecorationStyle.solid,
-                                                shadows: <Shadow>[
-                                                  Shadow(
-                                                    offset: Offset(1.0, 2.0),
-                                                    blurRadius: 3.0,
-                                                    color: Color.fromARGB(
-                                                        255, 0, 0, 0),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 25,
-                                              height: 25,
-                                              child: Image.asset(
-                                                'assets/imagens/logo_adtl.png',
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        Text(
-                                            letraCompletaCortada[index]
-                                                .toString()
-                                                .replaceAll(
-                                                    RegExp(
-                                                      r'</p>',
-                                                    ),
-                                                    '')
-                                                .replaceAll(
-                                                    RegExp(
-                                                      Constantes
-                                                          .stringPularLinhaSlide,
-                                                    ),
-                                                    '\n'),
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              shadows: <Shadow>[
-                                                Shadow(
-                                                  offset: Offset(1.0, 1.0),
-                                                  blurRadius: 10.0,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                                Shadow(
-                                                  offset: Offset(1.0, 1.0),
-                                                  blurRadius: 10.0,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                                Shadow(
-                                                  offset: Offset(1.0, 1.0),
-                                                  blurRadius: 10.0,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                                Shadow(
-                                                  offset: Offset(1.0, 1.0),
-                                                  blurRadius: 10.0,
-                                                  color: Color.fromARGB(
-                                                      255, 0, 0, 0),
-                                                ),
-                                              ],
-                                            )),
-                                      ],
-                                    ),
-                                  ));
-                                },
-                              ),
+                            LayoutBuilder(
+                              builder: (p0, p1) {
+                                if (Platform.isAndroid || Platform.isIOS) {
+                                  return listagemLetra(
+                                      larguraTela, alturaTela, 35, 20, 200);
+                                } else {
+                                  return listagemLetra(larguraTela * 0.7,
+                                      alturaTela, 50, 30, 400);
+                                }
+                              },
                             )
                           ],
                         ));
