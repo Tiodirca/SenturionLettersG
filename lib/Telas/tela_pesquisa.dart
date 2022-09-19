@@ -205,7 +205,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                       dados[Constantes
                                                           .paramatrosTelaNomeLetra] = "";
                                                       dados[Constantes
-                                                          .parametrosTelaModelo] = "";
+                                                          .parametrosTelaModelo] = Constantes.logoGeral;
                                                       Navigator
                                                           .pushReplacementNamed(
                                                         context,

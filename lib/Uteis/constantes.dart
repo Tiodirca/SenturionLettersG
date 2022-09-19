@@ -12,8 +12,8 @@ class Constantes {
 
   static const stringPularLinhaSlide = "pnj";
 
-  static const logoGeral = "geral";
-  static const logoGeracaoFire = "geracaoFire";
+  static const logoGeral = "modelo_geral";
+  static const logoGeracaoFire = "modelo_geracao_fire";
 
   static const exibicaoTelaCarregar = "carregamento";
   static const exibicaoTelaSelecaoLogo = "selecaoLogo";

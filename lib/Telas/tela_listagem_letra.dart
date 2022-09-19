@@ -7,6 +7,8 @@ import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class TelaLisagemLetra extends StatefulWidget {
   const TelaLisagemLetra(
@@ -31,7 +33,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
   bool boolExibirTelaCarregamento = true;
   bool boolExibirBotoes = false;
   bool boolExibirLogo = false;
-  late String tipoLogo = widget.modelo;
+  late String tipoModelo = widget.modelo;
   int valorRadioButton = 0;
   String exibicaoTela = Constantes.exibicaoTelaCarregar;
   List<String> letraCompleta = [];
@@ -77,11 +79,16 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
         versoConcatenado =
             "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
         // vericando se o index da lista e igual a algum dos valores passados para adicionar
-        // string na outra lista pegando 4 linhas por vez lembrando 0 conta
-        if (index == 3 ||
+        // string na outra lista pegando 2 linhas por vez lembrando 0 conta
+        if (index == 1 ||
+            index == 3 ||
+            index == 5 ||
             index == 7 ||
+            index == 9 ||
             index == 11 ||
+            index == 13 ||
             index == 15 ||
+            index == 17 ||
             index == 19) {
           letraCompletaCortada.add(versoConcatenado);
           versoConcatenado = "";
@@ -101,18 +108,74 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       switch (valorRadioButton) {
         case 0:
           setState(() {
-            tipoLogo = Constantes.logoGeral;
+            tipoModelo = Constantes.logoGeral;
             boolExibirLogo = false;
           });
           break;
         case 1:
           setState(() {
-            tipoLogo = Constantes.logoGeracaoFire;
+            tipoModelo = Constantes.logoGeracaoFire;
             boolExibirLogo = true;
           });
           break;
       }
     });
+  }
+
+  Future<void> _launchUrl() async {
+    String endereco = "http://192.168.69.105:5000/";
+    String urlConcatenada = "${endereco}teste";
+    final Uri _url = Uri.parse("http://192.168.69.105:5000/teste");
+    print(urlConcatenada);
+    if (!await launchUrl(
+      _url,
+      mode: LaunchMode.externalApplication,
+      webViewConfiguration:
+          const WebViewConfiguration(headers: {'textos': 'my_header_value'}),
+    )) {
+      throw 'Could not launch $_url';
+    }
+  }
+
+  Future<dynamic> passarValoresGerarArquivo() async {
+    String endereco = "http://192.168.69.105:5000/";
+    String urlConcatenada = "${endereco}pegarValores";
+    var url = Uri.parse(urlConcatenada);
+    try {
+      // criando map para adicionar os valores da lista
+      Map<String, String> dadosBackEnd = {};
+      // add cada elemento da lista no map
+      for (int i = 0; i < letraCompletaCortada.length; i++) {
+        // a chave deve ser a mesma utilizada na back end em python
+        dadosBackEnd.addAll(
+            {"versos[$i]": letraCompletaCortada[i].substring(5).toString()});
+      }
+      // add elemento contendo o tamanho do map criado com os elementos da lista
+      dadosBackEnd.addAll({"tamanhoLista": dadosBackEnd.length.toString()});
+      dadosBackEnd.addAll({"modelo_slide": tipoModelo.toString()});
+      dadosBackEnd.addAll({"nome_letra": nomeLetra});
+      final respostaRequisicao = await http
+          .post(url, body: dadosBackEnd)
+          .timeout(const Duration(seconds: 20));
+      print(respostaRequisicao.body);
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
+  Future<dynamic> teste() async {
+    String endereco = "http://192.168.69.105:5000/";
+    String urlConcatenada = "${endereco}gerarT";
+    var url = Uri.parse(urlConcatenada);
+    try {
+      final respostaRequisicao =
+          await http.post(url, body: {}).timeout(const Duration(seconds: 20));
+      print(respostaRequisicao.body);
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
   }
 
   Widget listagemLetra(double larguraTela, double alturaTela,
@@ -177,6 +240,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                           ),
                           Text(
                               letraCompletaCortada[index]
+                                  .substring(5)
                                   .toString()
                                   .replaceAll(
                                       RegExp(
@@ -393,7 +457,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                       larguraTela, alturaTela, 35, 20, 200);
                                 } else {
                                   return listagemLetra(larguraTela * 0.7,
-                                      alturaTela, 50, 30, 300);
+                                      alturaTela, 50, 30, 200);
                                 }
                               },
                             )
@@ -429,7 +493,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                   dados[Constantes.paramatrosTelaNomeLetra] =
                                       nomeLetra;
                                   dados[Constantes.parametrosTelaModelo] =
-                                      tipoLogo;
+                                      tipoModelo;
                                   Navigator.pushReplacementNamed(
                                       context, Constantes.rotaTelaEdicaoLetra,
                                       arguments: dados);
@@ -449,8 +513,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                   backgroundColor: PaletaCores.corVerdeCiano,
                                 ),
                                 onPressed: () {
-                                  // Navigator.pushReplacementNamed(
-                                  //     context, Constantes.rotaTelaPesquisa);
+                                  passarValoresGerarArquivo();
                                 },
                                 child: Text(Textos.btnGerarArquivo,
                                     textAlign: TextAlign.center,
