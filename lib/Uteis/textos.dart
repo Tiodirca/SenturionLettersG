@@ -41,4 +41,6 @@ class Textos {
       "Existe um ou mais slides sem conteudo, por valor preencha ou exclua-os";
   static String erroUmSlide =
       "Não é possivel remover o slide,pois a letra precisa conter pelo menos um slide";
+  static String erroGerarArquivo =
+      "Não foi possivel gerar o arquivo devido ao seguinte erro : ";
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:senturionlettersg/Uteis/Textos.dart';
+import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 
 class TelaCarregamento extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
-import 'package:senturionlettersg/Uteis/Textos.dart';
+import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/paleta_cores.dart';
@@ -59,6 +59,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     }
   }
 
+  // metodo responsavel por chamar metodo para realizar a pesquisa da letra completa
   realizarPesquisaLetraCompleta() async {
     await PesquisaLetra.pesquisarLetra(widget.linkLetra).then(
       (value) {
@@ -78,7 +79,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       for (int index = 0; index < corte.length; index++) {
         versoConcatenado =
             "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
-        // vericando se o index da lista e igual a algum dos valores passados para adicionar
+        // vericficando se o index da lista e igual a algum dos valores passados para adicionar
         // string na outra lista pegando 2 linhas por vez lembrando 0 conta
         if (index == 1 ||
             index == 3 ||
@@ -98,6 +99,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
         }
       }
     }
+    // variavel vai receber o valor retornado pelo metodo
     nomeLetra = await PesquisaLetra.exibirTituloLetra();
   }
 
@@ -122,25 +124,27 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     });
   }
 
-  Future<void> _launchUrl() async {
-    String endereco = "http://192.168.69.105:5000/";
-    String urlConcatenada = "${endereco}teste";
-    final Uri _url = Uri.parse("http://192.168.69.105:5000/teste");
-    print(urlConcatenada);
+  // future responsavel por abrir o navegador
+  Future<void> abrirNavegador() async {
+    String endereco = "http://192.168.69.105:5000/chamarBaixarArquivo";
+    final Uri url = Uri.parse(endereco);
     if (!await launchUrl(
-      _url,
+      url,
       mode: LaunchMode.externalApplication,
-      webViewConfiguration:
-          const WebViewConfiguration(headers: {'textos': 'my_header_value'}),
     )) {
-      throw 'Could not launch $_url';
+      throw 'Could not launch $url';
     }
   }
 
+  // metodo para passar os valores para o back end
+  // para assim estar gerando o arquivo
   Future<dynamic> passarValoresGerarArquivo() async {
-    String endereco = "http://192.168.69.105:5000/";
-    String urlConcatenada = "${endereco}pegarValores";
-    var url = Uri.parse(urlConcatenada);
+    setState(() {
+      exibicaoTela = Constantes.exibicaoTelaCarregar;
+      boolExibirBotoes = false;
+    });
+    String endereco = "http://192.168.69.105:5000/pegarValores";
+    var url = Uri.parse(endereco);
     try {
       // criando map para adicionar os valores da lista
       Map<String, String> dadosBackEnd = {};
@@ -154,25 +158,33 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       dadosBackEnd.addAll({"tamanhoLista": dadosBackEnd.length.toString()});
       dadosBackEnd.addAll({"modelo_slide": tipoModelo.toString()});
       dadosBackEnd.addAll({"nome_letra": nomeLetra});
+      // variavel vai receber o retorno da requisicao http
       final respostaRequisicao = await http
           .post(url, body: dadosBackEnd)
           .timeout(const Duration(seconds: 20));
-      print(respostaRequisicao.body);
-    } catch (e) {
-      debugPrint(e.toString());
-      return false;
-    }
-  }
 
-  Future<dynamic> teste() async {
-    String endereco = "http://192.168.69.105:5000/";
-    String urlConcatenada = "${endereco}gerarT";
-    var url = Uri.parse(urlConcatenada);
-    try {
-      final respostaRequisicao =
-          await http.post(url, body: {}).timeout(const Duration(seconds: 20));
-      print(respostaRequisicao.body);
+      if (respostaRequisicao.body.contains("sucesso")) {
+        setState(() {
+          exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+          boolExibirBotoes = true;
+          dadosBackEnd = {};
+        });
+        abrirNavegador();
+      } else {
+        setState(() {
+          exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+          boolExibirBotoes = true;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(Textos.erroGerarArquivo + respostaRequisicao.body)));
+      }
     } catch (e) {
+      setState(() {
+        exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+        boolExibirBotoes = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(Textos.erroGerarArquivo + e.toString())));
       debugPrint(e.toString());
       return false;
     }

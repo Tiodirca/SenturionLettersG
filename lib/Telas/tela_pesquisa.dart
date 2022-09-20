@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
-import 'package:senturionlettersg/Uteis/Textos.dart';
+import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
