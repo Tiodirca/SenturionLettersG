@@ -5,6 +5,7 @@ class Estilo {
   ThemeData get estiloGeral => ThemeData(
       appBarTheme: const AppBarTheme(
         elevation: 0,
+
         backgroundColor: PaletaCores.corAzulMagenta,
         titleTextStyle: TextStyle(
           fontSize: 20,

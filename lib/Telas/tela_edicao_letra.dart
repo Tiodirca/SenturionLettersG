@@ -188,15 +188,15 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(
-                          width: tamanhoSlide == 300 ? 40 : 30,
-                          height: tamanhoSlide == 300 ? 40 : 30,
+                          width: tamanhoSlide == 300 ? 40 : 35,
+                          height: tamanhoSlide == 300 ? 40 : 35,
                           child: FloatingActionButton(
                               heroTag: "btnAdd$index",
                               backgroundColor: Colors.white,
                               child: Icon(
                                 Icons.add,
                                 color: Colors.black,
-                                size: tamanhoSlide == 300 ? 30 : 25,
+                                size: tamanhoSlide == 300 ? 30 : 30,
                               ),
                               onPressed: () {
                                 letraCompletaEditada.insert(index + 1, "");
@@ -210,11 +210,14 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                 Navigator.pushReplacementNamed(
                                     context, Constantes.rotaTelaEdicaoLetra,
                                     arguments: dados);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(Textos.sucessoAddSlide)));
                               }),
                         ),
                         SizedBox(
-                          width: tamanhoSlide == 300 ? 40 : 30,
-                          height: tamanhoSlide == 300 ? 40 : 30,
+                          width: tamanhoSlide == 300 ? 40 : 35,
+                          height: tamanhoSlide == 300 ? 40 : 35,
                           child: FloatingActionButton(
                             heroTag: "btnClose$index",
                             backgroundColor: Colors.white,
@@ -235,12 +238,16 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                 Navigator.pushReplacementNamed(
                                     context, Constantes.rotaTelaEdicaoLetra,
                                     arguments: dados);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content:
+                                            Text(Textos.sucessoRemoSlide)));
                               }
                             },
                             child: Icon(
                               Icons.close,
                               color: Colors.black,
-                              size: tamanhoSlide == 300 ? 30 : 25,
+                              size: tamanhoSlide == 300 ? 30 : 30,
                             ),
                           ),
                         )
@@ -264,7 +271,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
         child: WillPopScope(
           child: Scaffold(
             appBar: AppBar(
-              title: Text(Textos.telaVisualizacaoLetra),
+              title: Text(Textos.telaEdicaoLetra),
             ),
             body: Container(
               margin: const EdgeInsets.only(right: 10.0, left: 10.0),
@@ -289,59 +296,89 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(bottom: 20.0),
+                            margin: const EdgeInsets.only(bottom: 30.0),
                             child: Wrap(
                               children: [
-                                SizedBox(
-                                  width: 300,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 35,
-                                        height: 35,
-                                        child: Image.asset(
-                                          'assets/imagens/logo_adtl.png',
+                                Card(
+                                  elevation: 0,
+                                  color: valorRadioButton == 0
+                                      ? PaletaCores.corVerdeCiano
+                                      : Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: Image.asset(
+                                            'assets/imagens/logo_adtl.png',
+                                          ),
                                         ),
-                                      ),
-                                      Radio(
-                                          value: 0,
-                                          groupValue: valorRadioButton,
-                                          onChanged: (_) {
-                                            mudarRadioButton(0);
-                                          }),
-                                      Text(
-                                        Textos.radioButtonGeral,
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
+                                        Radio(
+                                            activeColor:
+                                                PaletaCores.corCastanho,
+                                            value: 0,
+                                            groupValue: valorRadioButton,
+                                            onChanged: (_) {
+                                              mudarRadioButton(0);
+                                            }),
+                                        Text(
+                                          Textos.radioButtonGeral,
+                                          style: TextStyle(
+                                            color: valorRadioButton == 0
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 18.0,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 300,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 35,
-                                        height: 35,
-                                        child: Image.asset(
-                                          'assets/imagens/logo_geracao_fire.png',
+                                Card(
+                                  elevation: 0,
+                                  color: valorRadioButton == 1
+                                      ? PaletaCores.corVerdeCiano
+                                      : Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: Image.asset(
+                                            'assets/imagens/logo_geracao_fire.png',
+                                          ),
                                         ),
-                                      ),
-                                      Radio(
-                                          value: 1,
-                                          groupValue: valorRadioButton,
-                                          onChanged: (_) {
-                                            mudarRadioButton(1);
-                                          }),
-                                      Text(
-                                        Textos.radioButtonGeracaoFire,
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
+                                        Radio(
+                                            activeColor:
+                                                PaletaCores.corCastanho,
+                                            value: 1,
+                                            groupValue: valorRadioButton,
+                                            onChanged: (_) {
+                                              mudarRadioButton(1);
+                                            }),
+                                        Text(
+                                          Textos.radioButtonGeracaoFire,
+                                          style: TextStyle(
+                                            color: valorRadioButton == 1
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 18.0,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 )
                               ],
@@ -381,7 +418,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                   left: 5.0, right: 5.0, top: 20.0),
                               width: larguraTela,
                               child: Text(
-                                Textos.descricaoTelaVisualizacaoLetra,
+                                Textos.descricaoTelaEdicaoLetra,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(fontSize: 20),
                               ),
@@ -440,8 +477,8 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             SizedBox(
-                              width: 100,
-                              height: 50,
+                              width: 110,
+                              height: 65,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: PaletaCores.corVerdeCiano,
@@ -479,8 +516,8 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                               ),
                             ),
                             SizedBox(
-                              width: 150,
-                              height: 50,
+                              width: 110,
+                              height: 65,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: PaletaCores.corAzulCiano,

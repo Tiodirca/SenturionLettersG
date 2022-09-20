@@ -33,12 +33,19 @@ class Textos {
   static String descricaoSelecaoLogo =
       "Selecione um modelo antes de visualizar a letra ";
 
+  static String telaEdicaoLetra = "Edição da Letra da musica";
+  static String descricaoTelaEdicaoLetra =
+      "Aqui você pode editar a letra, adicionar e/ou remover estrofes da música";
+
+  static String sucessoAddSlide = "Sucesso ao adicionar slide";
+  static String sucessoRemoSlide = "Sucesso ao remover slide";
+
   static String erroPesquisaInvalida =
       "Infelizmente não foi possivel encontrar "
       "links para a sua pesquisa. verifique e tente novamente";
   static String erroCampoVazio = "Preencha o campo antes de prosseguir";
   static String erroSlideVazio =
-      "Existe um ou mais slides sem conteudo, por valor preencha ou exclua-os";
+      "Existe um ou mais slides sem conteudo, por favor preencha ou exclua-os";
   static String erroUmSlide =
       "Não é possivel remover o slide,pois a letra precisa conter pelo menos um slide";
   static String erroGerarArquivo =
