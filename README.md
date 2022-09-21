@@ -1,16 +1,3 @@
 # senturionlettersg
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+No programa o usuario pode pesquisar o nome de uma musica para buscar a letra. tal programa permite ele editar a letra podendo adicionar e/ou remover estrofes e selecionar um dos modelos disponiveis para a apresentacao de slides. apos isso tais informações são passadas a um back end, sendo ele responsavel por pegar a letra e adicionar cada estrofe a uma pagina de slide e ao final gerar um arquivo contendo as paginas. tal codigo tambem é responsavel por permitir o usuario fazer o download do arquivo
