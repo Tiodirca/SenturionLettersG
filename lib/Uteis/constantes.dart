@@ -10,6 +10,8 @@ class Constantes {
   static const paramatrosTelaNomeLetra = "nomeLetra";
   static const parametrosTelaModelo = "modelo";
 
+  static const retornoRequesicaoSucesso = "sucesso";
+
   static const stringPularLinhaSlide = "pnj";
 
   static const logoGeral = "modelo_geral";

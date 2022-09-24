@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:http/http.dart' as http;
 
 class TelaLisagemLetra extends StatefulWidget {
   const TelaLisagemLetra(
@@ -48,6 +47,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       realizarPesquisaLetraCompleta(); // chamando metodo
     } else {
       letraCompletaCortada = widget.letraCompleta;
+      print("Lista$letraCompletaCortada");
       nomeLetra = widget.nomeLetra;
       exibicaoTela = Constantes.exibicaoTelaListagemLetra;
       boolExibirBotoes = true;
@@ -124,69 +124,29 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     });
   }
 
-  // future responsavel por abrir o navegador
-  Future<void> abrirNavegador() async {
-    String endereco = "http://192.168.69.105:5000/chamarBaixarArquivo";
-    final Uri url = Uri.parse(endereco);
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.externalApplication,
-    )) {
-      throw 'Could not launch $url';
-    }
-  }
-
   // metodo para passar os valores para o back end
   // para assim estar gerando o arquivo
-  Future<dynamic> passarValoresGerarArquivo() async {
+  passarValoresGerarArquivo() async {
     setState(() {
       exibicaoTela = Constantes.exibicaoTelaCarregar;
       boolExibirBotoes = false;
     });
-    String endereco = "http://192.168.69.105:5000/pegarValores";
-    var url = Uri.parse(endereco);
-    try {
-      // criando map para adicionar os valores da lista
-      Map<String, String> dadosBackEnd = {};
-      // add cada elemento da lista no map
-      for (int i = 0; i < letraCompletaCortada.length; i++) {
-        // a chave deve ser a mesma utilizada na back end em python
-        dadosBackEnd.addAll(
-            {"versos[$i]": letraCompletaCortada[i].substring(5).toString()});
-      }
-      // add elemento contendo o tamanho do map criado com os elementos da lista
-      dadosBackEnd.addAll({"tamanhoLista": dadosBackEnd.length.toString()});
-      dadosBackEnd.addAll({"modelo_slide": tipoModelo.toString()});
-      dadosBackEnd.addAll({"nome_letra": nomeLetra});
-      // variavel vai receber o retorno da requisicao http
-      final respostaRequisicao = await http
-          .post(url, body: dadosBackEnd)
-          .timeout(const Duration(seconds: 20));
-
-      if (respostaRequisicao.body.contains("sucesso")) {
-        setState(() {
-          exibicaoTela = Constantes.exibicaoTelaListagemLetra;
-          boolExibirBotoes = true;
-          dadosBackEnd = {};
-        });
-        abrirNavegador();
-      } else {
-        setState(() {
-          exibicaoTela = Constantes.exibicaoTelaListagemLetra;
-          boolExibirBotoes = true;
-        });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(Textos.erroGerarArquivo + respostaRequisicao.body)));
-      }
-    } catch (e) {
+    GerarArquivo arquivo = GerarArquivo();
+    String retornoMetodo = await arquivo.passarValoresGerarArquivo(
+        letraCompletaCortada, tipoModelo, nomeLetra);
+    if (retornoMetodo.contains(Constantes.retornoRequesicaoSucesso)) {
       setState(() {
         exibicaoTela = Constantes.exibicaoTelaListagemLetra;
         boolExibirBotoes = true;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(Textos.erroGerarArquivo + e.toString())));
-      debugPrint(e.toString());
-      return false;
+    } else {
+      setState(() {
+        exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+        boolExibirBotoes = true;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(Textos.erroGerarArquivo + retornoMetodo.toString())));
+      debugPrint(retornoMetodo.toString());
     }
   }
 

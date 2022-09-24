@@ -147,7 +147,11 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                 ),
                                 '\n'),
                         onChanged: (value) {
-                          letraCompletaEditada[index] = value;
+                          print(value);
+                          String valor =
+                              " ${Constantes.stringPularLinhaSlide} $value";
+                          print(valor);
+                          letraCompletaEditada[index] = valor;
                         },
                         maxLines: 10,
                         minLines: 4,
@@ -485,7 +489,11 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                 ),
                                 onPressed: () {
                                   var slideVazio = [...letraCompletaEditada]
-                                      .every((el) => el.toString().isNotEmpty);
+                                      .every((el) =>
+                                          el.toString().isNotEmpty &&
+                                          el.toString() ==
+                                              Constantes.stringPularLinhaSlide);
+                                  print("EDICAO$letraCompletaEditada");
                                   if (slideVazio) {
                                     Map dados = {};
                                     dados[Constantes.parametrosTelaLinkLetra] =
