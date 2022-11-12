@@ -18,7 +18,14 @@ class Rotas {
       case Constantes.rotaTelaInicial:
         return MaterialPageRoute(builder: (_) => TelaInicial());
       case Constantes.rotaTelaPesquisa:
-        return MaterialPageRoute(builder: (_) => const TelaPesquisa());
+        if (args is bool) {
+          return MaterialPageRoute(
+              builder: (_) => TelaPesquisa(
+                    boolPesquisaUnica: args,
+                  ));
+        } else {
+          return erroRota(settings);
+        }
       case Constantes.rotaTelaListagemLetra:
         if (args is Map) {
           return MaterialPageRoute(

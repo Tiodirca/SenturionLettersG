@@ -28,15 +28,50 @@ class TelaInicial extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 300,
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 200,
                   height: 80,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.pushReplacementNamed(
-                          context, Constantes.rotaTelaPesquisa);
+                          context, Constantes.rotaTelaPesquisa,
+                          arguments: true);
                     },
-                    child: Text(Textos.btnTelaPesquisa,
+                    child: Text(Textos.btnTelaPesquisaInternet,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 200,
+                  height: 80,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                          context, Constantes.rotaTelaPesquisa,
+                          arguments: false);
+                    },
+                    child: Text(Textos.btnUnirLetras,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        )),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  width: 200,
+                  height: 80,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Navigator.pushReplacementNamed(
+                      //     context, Constantes.rotaTelaPesquisa);
+                    },
+                    child: Text(Textos.btnCriarLetraTexto,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 20,

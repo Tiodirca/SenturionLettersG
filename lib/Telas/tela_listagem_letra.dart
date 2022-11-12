@@ -551,8 +551,8 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                     ))),
           ),
           onWillPop: () async {
-            Navigator.pushReplacementNamed(
-                context, Constantes.rotaTelaPesquisa);
+            Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
+                arguments: false);
             return false;
           },
         ));

@@ -6,7 +6,10 @@ import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 
 class TelaPesquisa extends StatefulWidget {
-  const TelaPesquisa({Key? key}) : super(key: key);
+  const TelaPesquisa({Key? key, required this.boolPesquisaUnica})
+      : super(key: key);
+
+  final bool boolPesquisaUnica;
 
   @override
   State<TelaPesquisa> createState() => _TelaPesquisaState();
@@ -17,9 +20,18 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
   List<Map<String, String>> resultadoLinks = [];
   bool boolExibirListagemLinks = false;
   bool boolExibirTelaCarregamento = false;
+  bool boolExibirItensDuasLetras = false;
 
   final chaveFormulario = GlobalKey<FormState>();
   TextEditingController controllerPesquisa = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.boolPesquisaUnica == false) {
+      boolExibirItensDuasLetras = true;
+    }
+  }
 
   // metodo para realizar a pesquisa dos links
   // que contem o conteudo digitado na barra de pesquisa pelo usuario
@@ -127,11 +139,12 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                 Visibility(
                                     visible: boolExibirListagemLinks,
                                     child: Container(
+                                        color: Colors.amber,
                                         margin: const EdgeInsets.only(
                                           top: 20.0,
                                         ),
                                         width: larguraTela,
-                                        height: alturaTela * 0.6,
+                                        height: alturaTela * 0.7,
                                         child: Column(
                                           children: [
                                             Text(
@@ -140,10 +153,19 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                               style:
                                                   const TextStyle(fontSize: 20),
                                             ),
+                                            Visibility(
+                                                visible:
+                                                    boolExibirItensDuasLetras,
+                                                child: Container(
+                                                  width: larguraTela,
+                                                  color: Colors.blue,
+                                                  height: alturaTela * 0.1,
+                                                )),
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 top: 10.0,
                                               ),
+                                              color: Colors.green,
                                               width: larguraTela,
                                               height: alturaTela * 0.5,
                                               child: ListView.builder(
@@ -201,11 +223,13 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                   ")", "");
                                                       List<String> vazio = [];
                                                       dados[Constantes
-                                                          .parametrosTelaLetra] = vazio;
+                                                              .parametrosTelaLetra] =
+                                                          vazio;
                                                       dados[Constantes
                                                           .paramatrosTelaNomeLetra] = "";
                                                       dados[Constantes
-                                                          .parametrosTelaModelo] = Constantes.logoGeral;
+                                                              .parametrosTelaModelo] =
+                                                          Constantes.logoGeral;
                                                       Navigator
                                                           .pushReplacementNamed(
                                                         context,
