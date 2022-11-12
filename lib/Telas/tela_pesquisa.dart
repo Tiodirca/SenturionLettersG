@@ -164,6 +164,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 top: 10.0,
+
                                               ),
                                               color: Colors.green,
                                               width: larguraTela,

@@ -39,6 +39,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
   List<String> letraCompletaCortada = [];
   String nomeLetra = "";
 
+
   @override
   void initState() {
     // TODO: implement initState

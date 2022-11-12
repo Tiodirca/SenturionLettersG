@@ -7,6 +7,7 @@ class Textos {
   static String btnTelaPesquisaInternet = "Pesquisar Letra na internet";
   static String btnUnirLetras = "Unir 2 letras em uma só";
   static String btnCriarLetraTexto = "Criar Letra apartir de um texto";
+
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";
   static String btnUsar = "Usar";

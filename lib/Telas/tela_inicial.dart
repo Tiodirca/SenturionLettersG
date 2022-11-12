@@ -54,6 +54,7 @@ class TelaInicial extends StatelessWidget {
                       Navigator.pushReplacementNamed(
                           context, Constantes.rotaTelaPesquisa,
                           arguments: false);
+
                     },
                     child: Text(Textos.btnUnirLetras,
                         textAlign: TextAlign.center,

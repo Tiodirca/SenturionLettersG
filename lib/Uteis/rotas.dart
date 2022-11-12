@@ -19,6 +19,7 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => TelaInicial());
       case Constantes.rotaTelaPesquisa:
         if (args is bool) {
+
           return MaterialPageRoute(
               builder: (_) => TelaPesquisa(
                     boolPesquisaUnica: args,
