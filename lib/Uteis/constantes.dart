@@ -4,11 +4,16 @@ class Constantes {
   static const rotaTelaPesquisa = "/telaPesquisa";
   static const rotaTelaListagemLetra = "/telaListagemLetra";
   static const rotaTelaEdicaoLetra = "/telaEdicaoLetra";
+  static const rotaTelaListagemLetraUnir = "/telaListagemLetraUnir";
 
   static const parametrosTelaLinkLetra = "linkLetra";
   static const parametrosTelaLetra = "letraCompleta";
   static const paramatrosTelaNomeLetra = "nomeLetra";
   static const parametrosTelaModelo = "modelo";
+  static const paramatrosTelaLetraUnir = "letraCompletaUnir";
+
+  static const paraNomeLetra= "nomeM";
+  static const paraLinkLetra = "linkM";
 
   static const retornoRequesicaoSucesso = "sucesso";
 

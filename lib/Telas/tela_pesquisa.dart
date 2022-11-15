@@ -20,17 +20,14 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
   List<Map<String, String>> resultadoLinks = [];
   bool boolExibirListagemLinks = false;
   bool boolExibirTelaCarregamento = false;
-  bool boolExibirItensDuasLetras = false;
-
+  bool boolExibirBotao = false;
+  List<Map<dynamic, dynamic>> linksLetrasUnir = [];
   final chaveFormulario = GlobalKey<FormState>();
   TextEditingController controllerPesquisa = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    if (widget.boolPesquisaUnica == false) {
-      boolExibirItensDuasLetras = true;
-    }
   }
 
   // metodo para realizar a pesquisa dos links
@@ -155,20 +152,76 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                             ),
                                             Visibility(
                                                 visible:
-                                                    boolExibirItensDuasLetras,
+                                                    !widget.boolPesquisaUnica,
                                                 child: Container(
-                                                  width: larguraTela,
-                                                  color: Colors.blue,
-                                                  height: alturaTela * 0.1,
-                                                )),
+                                                    width: larguraTela,
+                                                    color: Colors.blue,
+                                                    height: alturaTela * 0.2,
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: larguraTela,
+                                                          height:
+                                                              alturaTela * 0.1,
+                                                          child:
+                                                              ListView.builder(
+                                                            itemCount:
+                                                                linksLetrasUnir
+                                                                    .length,
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return ListTile(
+                                                                title: Text(linksLetrasUnir
+                                                                    .elementAt(index)[
+                                                                        Constantes
+                                                                            .paraNomeLetra]
+                                                                    .toString()),
+                                                              );
+                                                            },
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .all(10),
+                                                          width: 100,
+                                                          height: 50,
+                                                          child: ElevatedButton(
+                                                            onPressed: () {
+                                                              Map dados = {};
+                                                              dados[Constantes
+                                                                      .paramatrosTelaLetraUnir] =
+                                                                  linksLetrasUnir;
+                                                              Navigator
+                                                                  .pushReplacementNamed(
+                                                                context,
+                                                                Constantes
+                                                                    .rotaTelaListagemLetraUnir,
+                                                                arguments:
+                                                                    dados,
+                                                              );
+                                                            },
+                                                            child: Text(
+                                                                Textos.btnUsar,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 20,
+                                                                )),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ))),
                                             Container(
                                               margin: const EdgeInsets.only(
                                                 top: 10.0,
-
                                               ),
                                               color: Colors.green,
                                               width: larguraTela,
-                                              height: alturaTela * 0.5,
+                                              height: alturaTela * 0.4,
                                               child: ListView.builder(
                                                 itemCount:
                                                     resultadoLinks.length,
@@ -184,6 +237,14 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                           .elementAt(index)
                                                           .values
                                                           .toString();
+                                                  // removendo caracteres que nao sao necessarios
+                                                  nomeMusica = nomeMusica
+                                                      .replaceAll(
+                                                          '(AP7Wnd">', "")
+                                                      .replaceAll(")", "");
+                                                  linkMusica = linkMusica
+                                                      .replaceAll("(", "")
+                                                      .replaceAll(")", "");
                                                   return ListTile(
                                                     iconColor: Colors.black,
                                                     title: Row(
@@ -197,12 +258,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                               larguraTela * 0.7,
                                                           child: Text(
                                                               // removendo texto desnecessario para exibicao
-                                                              nomeMusica
-                                                                  .replaceAll(
-                                                                      '(AP7Wnd">',
-                                                                      "")
-                                                                  .replaceAll(
-                                                                      ")", ""),
+                                                              nomeMusica,
                                                               textAlign:
                                                                   TextAlign
                                                                       .center),
@@ -211,33 +267,56 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                     ),
 
                                                     onTap: () {
-                                                      // passando como argumento texto
-                                                      // e removendo texto desnecessario link da musica
-                                                      // funcionar
                                                       Map dados = {};
-                                                      dados[Constantes
-                                                              .parametrosTelaLinkLetra] =
-                                                          linkMusica
-                                                              .replaceAll(
-                                                                  "(", "")
-                                                              .replaceAll(
-                                                                  ")", "");
-                                                      List<String> vazio = [];
-                                                      dados[Constantes
-                                                              .parametrosTelaLetra] =
-                                                          vazio;
-                                                      dados[Constantes
-                                                          .paramatrosTelaNomeLetra] = "";
-                                                      dados[Constantes
-                                                              .parametrosTelaModelo] =
-                                                          Constantes.logoGeral;
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                        context,
-                                                        Constantes
-                                                            .rotaTelaListagemLetra,
-                                                        arguments: dados,
-                                                      );
+                                                      if (widget
+                                                              .boolPesquisaUnica ==
+                                                          true) {
+                                                        // passando como argumento texto
+                                                        // e removendo texto desnecessario link da musica
+                                                        // funcionar
+                                                        dados[Constantes
+                                                                .parametrosTelaLinkLetra] =
+                                                            linkMusica;
+                                                        List<String> vazio = [];
+                                                        dados[Constantes
+                                                                .parametrosTelaLetra] =
+                                                            vazio;
+                                                        dados[Constantes
+                                                            .paramatrosTelaNomeLetra] = "";
+                                                        dados[Constantes
+                                                                .parametrosTelaModelo] =
+                                                            Constantes
+                                                                .logoGeral;
+                                                        Navigator
+                                                            .pushReplacementNamed(
+                                                          context,
+                                                          Constantes
+                                                              .rotaTelaListagemLetra,
+                                                          arguments: dados,
+                                                        );
+                                                      } else {
+                                                        dados[Constantes
+                                                                .paraNomeLetra] =
+                                                            nomeMusica;
+                                                        dados[Constantes
+                                                                .paraLinkLetra] =
+                                                            linkMusica;
+                                                        if (linksLetrasUnir
+                                                                .length <
+                                                            2) {
+                                                          setState(() {
+                                                            linksLetrasUnir
+                                                                .add(dados);
+                                                          });
+                                                        } else {
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(SnackBar(
+                                                                  content: Text(
+                                                                      Textos
+                                                                          .erroNMaxLetrasUnir)));
+                                                        }
+                                                      }
                                                     }, // Handle your onTap here.
                                                   );
                                                 },

@@ -43,6 +43,11 @@ class Textos {
   static String sucessoAddSlide = "Sucesso ao adicionar slide";
   static String sucessoRemoSlide = "Sucesso ao remover slide";
 
+  // TELA DE VISUALIZACAO LETRA UNIR
+  static String ttelaVisualizacaoLetraUnir = "Visualizar Letras para Unir";
+
+  static String erroNMaxLetrasUnir =
+      "Você já selecionou o máximo de letras possiveis para unir.";
   static String erroPesquisaInvalida =
       "Infelizmente não foi possivel encontrar "
       "links para a sua pesquisa. verifique e tente novamente";
