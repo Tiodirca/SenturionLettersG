@@ -7,9 +7,11 @@ import 'package:http/http.dart' as http;
 import '../constantes.dart';
 
 class GerarArquivo {
+  String ROOT = "http://192.168.69.105:5000";
+
   Future<String> passarValoresGerarArquivo(
       List<String> letraCompleta, String tipoModelo, String nomeLetra) async {
-    String endereco = "http://192.168.69.104:5000/pegarValores";
+    String endereco = "$ROOT/pegarValores";
     var url = Uri.parse(endereco);
     try {
       // criando map para adicionar os valores da lista
@@ -44,7 +46,7 @@ class GerarArquivo {
 
   // future responsavel por abrir o navegador
   Future<void> abrirNavegador(String nomeLetra) async {
-    String endereco = "http://192.168.69.104:5000/chamarBaixarArquivo";
+    String endereco = "$ROOT/chamarBaixarArquivo";
     final Uri url = Uri.parse(endereco);
     if (await launchUrl(
       url,
@@ -62,7 +64,7 @@ class GerarArquivo {
 // metodo para excluir o arquivo criado na pasta do
 // back end que cria o arquivo de slides
   excluirArquivoDoBackEnd(nomeLetra) async {
-    String endereco = "http://192.168.69.104:5000/excluirArquivo";
+    String endereco = "$ROOT/excluirArquivo";
     final Uri linkExcluirArquivo = Uri.parse(endereco);
     try {
       await http.post(linkExcluirArquivo,

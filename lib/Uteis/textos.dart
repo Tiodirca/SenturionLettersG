@@ -44,8 +44,14 @@ class Textos {
   static String sucessoRemoSlide = "Sucesso ao remover slide";
 
   // TELA DE VISUALIZACAO LETRA UNIR
-  static String ttelaVisualizacaoLetraUnir = "Visualizar Letras para Unir";
+  static String telaVisualizacaoLetraUnir = "Visualizar Letras para Unir";
+  static String descricaoTelaVisualizacaoLetraUnir =
+      "Marque o checkBox para adicionar a estrofe a letra final";
+  static String descricaoLetrasPJuntar =
+      "Selecione as esfrofes que deseja unir";
+  static String descricaoLetraResultante = "Letra Resultante(Final)";
 
+  static String erroLetraResultanteVazia = "Adicione estrofes na letra resultante antes";
   static String erroNMaxLetrasUnir =
       "Você já selecionou o máximo de letras possiveis para unir.";
   static String erroPesquisaInvalida =
