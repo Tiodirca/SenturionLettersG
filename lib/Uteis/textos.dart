@@ -20,6 +20,8 @@ class Textos {
 
   static String txtTelaCarregamento = "Aguarde Carregando";
 
+  static String qtdSlides = "Quantidade de Slides :";
+
   // TELA DE PESQUISA DE LINKS
   static String telaPesquisa = "Pesquisa de Letras";
   static String descricaoBarraPesquisaLetra =
@@ -46,12 +48,14 @@ class Textos {
   // TELA DE VISUALIZACAO LETRA UNIR
   static String telaVisualizacaoLetraUnir = "Visualizar Letras para Unir";
   static String descricaoTelaVisualizacaoLetraUnir =
-      "Marque o checkBox para adicionar a estrofe a letra final";
+      "Marque as estrofes que deseja adicionar na letra Final,"
+      "para remover uma estrofe basta desmarcar a caixa de seleção";
   static String descricaoLetrasPJuntar =
       "Selecione as esfrofes que deseja unir";
-  static String descricaoLetraResultante = "Letra Resultante(Final)";
+  static String txtLetraFinalUnir = "Letra Final";
 
-  static String erroLetraResultanteVazia = "Adicione estrofes na letra resultante antes";
+  static String erroLetraResultanteVazia =
+      "Adicione estrofes na letra resultante antes";
   static String erroNMaxLetrasUnir =
       "Você já selecionou o máximo de letras possiveis para unir.";
   static String erroPesquisaInvalida =

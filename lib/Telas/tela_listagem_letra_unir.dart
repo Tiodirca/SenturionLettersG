@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
+import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
+import 'package:senturionlettersg/widgets/listagem_letra_widget.dart';
 
 import '../Modelo/check_box_model.dart';
 import '../Uteis/Servicos/pesquisa_letra.dart';
@@ -30,27 +34,31 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   final List<CheckBoxModel> itensCheckBoxSegundaLetra = [];
   String primeiraLetraNome = "";
   String segundaLetraNome = "";
-  List<String> letraResultante = [];
+  List<String> letraFinal = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    realizarPesquisaLetraCompleta(
-        primeiraLetraCompletaCortada,
-        primeiraLetraNome,
-        widget.linksLetrasUnir.elementAt(0)[Constantes.paraLinkLetra]);
-    realizarPesquisaLetraCompleta(segundaLetraCompletaCortada, segundaLetraNome,
-        widget.linksLetrasUnir.elementAt(1)[Constantes.paraLinkLetra]);
 
-    primeiraLetraNome = widget.linksLetrasUnir
-        .elementAt(0)[Constantes.paraNomeLetra]
-        .toString()
-        .replaceAll("- LETRAS.MUS.BR", "");
-    segundaLetraNome = widget.linksLetrasUnir
-        .elementAt(1)[Constantes.paraNomeLetra]
-        .toString()
-        .replaceAll("- LETRAS.MUS.BR", "");
+    String priLetra = "https://www.letras.mus.br/mara-lima/950724";
+    String segLetra = "https://www.letras.mus.br/ministerio-avivah/maranata";
+    //widget.linksLetrasUnir.elementAt(0)[Constantes.paraLinkLetra]
+    realizarPesquisaLetraCompleta(
+        primeiraLetraCompletaCortada, primeiraLetraNome, priLetra);
+    realizarPesquisaLetraCompleta(
+        segundaLetraCompletaCortada, segundaLetraNome, segLetra);
+
+    // primeiraLetraNome = widget.linksLetrasUnir
+    //     .elementAt(0)[Constantes.paraNomeLetra]
+    //     .toString()
+    //     .replaceAll("- LETRAS.MUS.BR", "");
+    // segundaLetraNome = widget.linksLetrasUnir
+    //     .elementAt(1)[Constantes.paraNomeLetra]
+    //     .toString()
+    //     .replaceAll("- LETRAS.MUS.BR", "");
+    primeiraLetraNome = "Divino Companheiro - Mara Lima";
+    segundaLetraNome = "Maranata - Ministério Avivah ";
   }
 
   // metodo responsavel por chamar metodo para realizar a pesquisa da letra completa
@@ -114,113 +122,17 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   }
 
   Widget checkBoxPersonalizado(
-    double larguraTela,
-    double alturaTela,
-    double tamanhoIcones,
-    double tamanhoTexto,
-    double tamanhoSlide,
     bool exibirLogo,
     CheckBoxModel checkBoxModel,
   ) =>
       CheckboxListTile(
         activeColor: PaletaCores.corCastanho,
         checkColor: PaletaCores.corVerdeCiano,
-        secondary: Text(exibirOrdem(checkBoxModel)),
-        title: Container(
-            padding: const EdgeInsets.all(10),
-            width: larguraTela,
-            height: tamanhoSlide,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/imagens/fundo_letra.png'),
-                    fit: BoxFit.cover)),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                          width: tamanhoIcones,
-                          height: tamanhoIcones,
-                          child: Visibility(
-                            visible: exibirLogo,
-                            child: Image.asset(
-                              'assets/imagens/logo_geracao_fire.png',
-                            ),
-                          )),
-                      SizedBox(
-                        width: larguraTela * 0.5,
-                        child: Text(
-                          checkBoxModel.tituloLetra,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            decorationStyle: TextDecorationStyle.solid,
-                            shadows: <Shadow>[
-                              Shadow(
-                                offset: Offset(1.0, 2.0),
-                                blurRadius: 3.0,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: tamanhoIcones,
-                        height: tamanhoIcones,
-                        child: Image.asset(
-                          'assets/imagens/logo_adtl.png',
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                      checkBoxModel.texto
-                          .substring(5)
-                          .toString()
-                          .replaceAll(
-                              RegExp(
-                                r'</p>',
-                              ),
-                              '')
-                          .replaceAll(
-                              RegExp(
-                                Constantes.stringPularLinhaSlide,
-                              ),
-                              '\n'),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        shadows: <Shadow>[
-                          Shadow(
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 10.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                          Shadow(
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 10.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                          Shadow(
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 10.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                          Shadow(
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 10.0,
-                            color: Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ],
-                      )),
-                ],
-              ),
-            )),
+        secondary: Text(exibirOrdemSlides(checkBoxModel)),
+        title: ConteudoLetraWidget(
+            exibirLogo: exibirLogo,
+            conteudoLetra: checkBoxModel.texto,
+            tituloLetra: checkBoxModel.tituloLetra),
         value: checkBoxModel.checked,
         side: const BorderSide(width: 2, color: Colors.black),
         onChanged: (value) {
@@ -229,133 +141,20 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
             checkBoxModel.checked = value!;
             if (checkBoxModel.checked == true) {
               ordemEstrofes++;
-              letraResultante.add(checkBoxModel.texto);
+              letraFinal.add(checkBoxModel.texto);
             } else {
               ordemEstrofes--;
-              letraResultante.remove(checkBoxModel.texto);
+              letraFinal.remove(checkBoxModel.texto);
             }
           });
         },
       );
 
-  Widget listagemLetra(
-          double larguraTela,
-          double alturaTela,
-          double tamanhoIcones,
-          double tamanhoTexto,
-          double tamanhoSlide,
-          List<String> letra) =>
-      SizedBox(
-        width: larguraTela,
-        height: alturaTela * 0.6,
-        child: ListView.builder(
-          itemCount: letra.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-                title: Container(
-                    padding: const EdgeInsets.all(10),
-                    width: larguraTela,
-                    height: tamanhoSlide,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/imagens/fundo_letra.png'),
-                            fit: BoxFit.cover)),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                  width: tamanhoIcones,
-                                  height: tamanhoIcones,
-                                  child: Visibility(
-                                    visible: boolExibirLogo,
-                                    child: Image.asset(
-                                      'assets/imagens/logo_geracao_fire.png',
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: larguraTela * 0.5,
-                                child: const Text(
-                                  "nomeLetra",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    decorationStyle: TextDecorationStyle.solid,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(1.0, 2.0),
-                                        blurRadius: 3.0,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: tamanhoIcones,
-                                height: tamanhoIcones,
-                                child: Image.asset(
-                                  'assets/imagens/logo_adtl.png',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                              letra[index]
-                                  .substring(5)
-                                  .toString()
-                                  .replaceAll(
-                                      RegExp(
-                                        r'</p>',
-                                      ),
-                                      '')
-                                  .replaceAll(
-                                      RegExp(
-                                        Constantes.stringPularLinhaSlide,
-                                      ),
-                                      '\n'),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: tamanhoTexto,
-                                color: Colors.white,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ),
-                    )));
-          },
-        ),
-      );
-
-  exibirOrdem(CheckBoxModel checkBoxModel) {
+  exibirOrdemSlides(CheckBoxModel checkBoxModel) {
     String valor = "";
-    for (int i = 0; i < letraResultante.length; i++) {
-      if (letraResultante[i] == checkBoxModel.texto) {
-        valor = (i - 1).toString();
+    for (int i = 0; i < letraFinal.length; i++) {
+      if (letraFinal[i] == checkBoxModel.texto) {
+        valor = i.toString();
       }
     }
     return valor.toString();
@@ -377,8 +176,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
             appBar: AppBar(
               title: Text(Textos.telaVisualizacaoLetraUnir),
             ),
-            body: Container(
-              margin: const EdgeInsets.only(right: 10.0, left: 10.0),
+            body: SizedBox(
               width: larguraTela,
               height: alturaTela,
               child: LayoutBuilder(
@@ -393,132 +191,227 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                   } else {
                     return SizedBox(
                         width: larguraTela,
-                        height: alturaTela,
+                        height: alturaTela * 0.7,
                         child: Column(
                           children: [
-                            Text(Textos.descricaoTelaVisualizacaoLetraUnir),
-                            Container(
-                              margin:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              height: alturaTela * 0.8,
-                              color: Colors.green,
-                              width: larguraTela,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(Textos.descricaoLetrasPJuntar,
-                                          style: const TextStyle(fontSize: 18)),
-                                      SizedBox(
-                                        height: alturaTela * 0.7,
-                                        width: larguraTela * 0.6,
-                                        child: Row(
+                            Expanded(
+                                flex: 1,
+                                child: SizedBox(
+                                  height: alturaTela,
+                                  width: larguraTela,
+                                  child: Text(
+                                    Textos.descricaoTelaVisualizacaoLetraUnir,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                )),
+                            Expanded(
+                                flex: 10,
+                                child: SizedBox(
+                                    width: larguraTela,
+                                    height: alturaTela,
+                                    child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        child: Wrap(
+                                          alignment: WrapAlignment.spaceEvenly,
                                           children: [
-                                            SizedBox(
-                                              width: larguraTela * 0.3,
-                                              height: alturaTela,
-                                              child: ListView(
-                                                children: [
-                                                  ...itensCheckBoxPrimeiraLetra
-                                                      .map((e) =>
-                                                          checkBoxPersonalizado(
-                                                            larguraTela * 0.3,
-                                                            alturaTela,
-                                                            35,
-                                                            20,
-                                                            200,
-                                                            boolExibirLogo,
-                                                            e,
-                                                          ))
-                                                      .toList()
-                                                ],
-                                              ),
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(primeiraLetraNome,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                    side: const BorderSide(
+                                                      color: PaletaCores
+                                                          .corAzulMagenta,
+                                                    ),
+                                                  ),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            5.0),
+                                                    width: MetodosAuxiliares
+                                                            .verificarTipoDispositivo()
+                                                        ? larguraTela * 0.9
+                                                        : 500,
+                                                    height: alturaTela * 0.6,
+                                                    child: ListView(
+                                                      children: [
+                                                        ...itensCheckBoxPrimeiraLetra
+                                                            .map((e) =>
+                                                                checkBoxPersonalizado(
+                                                                  boolExibirLogo,
+                                                                  e,
+                                                                ))
+                                                            .toList()
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                    "${Textos.qtdSlides} ${itensCheckBoxPrimeiraLetra.length}",
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                    )),
+                                              ],
                                             ),
-                                            SizedBox(
-                                              width: larguraTela * 0.3,
-                                              height: alturaTela,
-                                              child: ListView(
-                                                children: [
-                                                  ...itensCheckBoxSegundaLetra
-                                                      .map((e) =>
-                                                          checkBoxPersonalizado(
-                                                            larguraTela * 0.3,
-                                                            alturaTela,
-                                                            35,
-                                                            20,
-                                                            200,
-                                                            boolExibirLogo,
-                                                            e,
-                                                          ))
-                                                      .toList()
-                                                ],
-                                              ),
+                                            Column(
+                                              children: [
+                                                Text(segundaLetraNome,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                    side: const BorderSide(
+                                                      color: PaletaCores
+                                                          .corAzulMagenta,
+                                                    ),
+                                                  ),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            5.0),
+                                                    width: MetodosAuxiliares
+                                                            .verificarTipoDispositivo()
+                                                        ? larguraTela * 0.9
+                                                        : 500,
+                                                    height: alturaTela * 0.6,
+                                                    child: ListView(
+                                                      children: [
+                                                        ...itensCheckBoxSegundaLetra
+                                                            .map((e) =>
+                                                                checkBoxPersonalizado(
+                                                                  boolExibirLogo,
+                                                                  e,
+                                                                ))
+                                                            .toList()
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                    "${Textos.qtdSlides} ${itensCheckBoxSegundaLetra.length}",
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                    )),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                Text(Textos.txtLetraFinalUnir,
+                                                    style: const TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Card(
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20.0),
+                                                    side: const BorderSide(
+                                                      color: PaletaCores
+                                                          .corAzulMagenta,
+                                                    ),
+                                                  ),
+                                                  child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              5.0),
+                                                      width: MetodosAuxiliares
+                                                              .verificarTipoDispositivo()
+                                                          ? larguraTela * 0.9
+                                                          : 500,
+                                                      height: alturaTela * 0.6,
+                                                      child: ListView.builder(
+                                                        itemCount:
+                                                            letraFinal.length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          // return ListTile(
+                                                          //     title: conteudoLetra(
+                                                          //         false,
+                                                          //         letraFinal
+                                                          //             .elementAt(
+                                                          //                 index),
+                                                          //         "tituloLetra"));
+                                                          return ListTile(
+                                                              title:
+                                                                  ConteudoLetraWidget(
+                                                            exibirLogo: false,
+                                                            tituloLetra: "fdsf",
+                                                            conteudoLetra:
+                                                                letraFinal
+                                                                    .elementAt(
+                                                                        index),
+                                                          ));
+                                                        },
+                                                      )),
+                                                ),
+                                                Text(
+                                                    "${Textos.qtdSlides} ${letraFinal.length}",
+                                                    style: const TextStyle(
+                                                      fontSize: 16,
+                                                    )),
+                                              ],
                                             ),
                                           ],
+                                        )))),
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                color: Colors.amberAccent,
+                                height: 70,
+                                width: larguraTela,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SizedBox(
+                                      width: 110,
+                                      height: 65,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              PaletaCores.corVerdeCiano,
                                         ),
+                                        onPressed: () {
+                                          if (letraFinal.isEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(Textos
+                                                        .erroLetraResultanteVazia)));
+                                          } else {
+                                            setState(() {});
+                                          }
+                                        },
+                                        child: Text(Textos.btnGerarArquivo,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            )),
                                       ),
-                                    ],
-                                  ),
-                                  const Icon(
-                                    Icons.arrow_forward,
-                                    size: 40,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(Textos.descricaoLetraResultante,
-                                          style: const TextStyle(fontSize: 18)),
-                                      SizedBox(
-                                          width: larguraTela * 0.3,
-                                          height: alturaTela * 0.7,
-                                          child: listagemLetra(
-                                              larguraTela * 0.3,
-                                              alturaTela,
-                                              35,
-                                              20,
-                                              200,
-                                              letraResultante)),
-                                    ],
-                                  )
-                                ],
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
+                            )
                           ],
                         ));
                   }
                 },
-              ),
-            ),
-            bottomSheet: Container(
-              height: 70,
-              width: larguraTela,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SizedBox(
-                    width: 110,
-                    height: 65,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PaletaCores.corVerdeCiano,
-                      ),
-                      onPressed: () {
-                        if (letraResultante.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(Textos.erroLetraResultanteVazia)));
-                        } else {
-                          setState(() {});
-                        }
-                      },
-                      child: Text(Textos.btnGerarArquivo,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 18,
-                          )),
-                    ),
-                  )
-                ],
               ),
             ),
           ),
