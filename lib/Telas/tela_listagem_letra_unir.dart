@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
@@ -29,11 +27,13 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   List<String> primeiraLetraCompletaCortada = [];
   List<String> segundaLetraCompletaCortada = [];
   bool boolExibirTelaCarregamento = true;
+  late String tipoModelo = "";
   bool boolExibirLogo = false;
   final List<CheckBoxModel> itensCheckBoxPrimeiraLetra = [];
   final List<CheckBoxModel> itensCheckBoxSegundaLetra = [];
   String primeiraLetraNome = "";
   String segundaLetraNome = "";
+  int valorRadioButton = 0;
   List<String> letraFinal = [];
 
   @override
@@ -71,7 +71,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
         setState(() {
           //removendo primeiro index da lista pois o mesmo e vazio
           letraCompleta.removeAt(0);
-          exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+          exibicaoTela = "fsfdsf";
+          //exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
           boolExibirTelaCarregamento = false;
         });
       },
@@ -160,6 +161,27 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     return valor.toString();
   }
 
+  void mudarRadioButton(int value) {
+    //metodo para mudar o estado do radio button
+    setState(() {
+      valorRadioButton = value;
+      switch (valorRadioButton) {
+        case 0:
+          setState(() {
+            tipoModelo = Constantes.logoGeral;
+            boolExibirLogo = false;
+          });
+          break;
+        case 1:
+          setState(() {
+            tipoModelo = Constantes.logoGeracaoFire;
+            boolExibirLogo = true;
+          });
+          break;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
@@ -188,7 +210,139 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                         child: const Center(
                           child: TelaCarregamento(),
                         ));
-                  } else {
+                  }
+                  else if (exibicaoTela ==
+                      Constantes.exibicaoTelaSelecaoLogo) {
+                    return SizedBox(
+                      width: larguraTela,
+                      height: alturaTela,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 5.0, right: 5.0, top: 20.0, bottom: 20.0),
+                            width: larguraTela,
+                            child: Text(
+                              Textos.descricaoSelecaoLogo,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 30.0),
+                            child: Wrap(
+                              children: [
+                                Card(
+                                  elevation: 0,
+                                  color: valorRadioButton == 0
+                                      ? PaletaCores.corVerdeCiano
+                                      : Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: Image.asset(
+                                            'assets/imagens/logo_adtl.png',
+                                          ),
+                                        ),
+                                        Radio(
+                                            activeColor:
+                                            PaletaCores.corCastanho,
+                                            value: 0,
+                                            groupValue: valorRadioButton,
+                                            onChanged: (_) {
+                                              mudarRadioButton(0);
+                                            }),
+                                        Text(
+                                          Textos.radioButtonGeral,
+                                          style: TextStyle(
+                                            color: valorRadioButton == 0
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Card(
+                                  elevation: 0,
+                                  color: valorRadioButton == 1
+                                      ? PaletaCores.corVerdeCiano
+                                      : Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: Image.asset(
+                                            'assets/imagens/logo_geracao_fire.png',
+                                          ),
+                                        ),
+                                        Radio(
+                                            activeColor:
+                                            PaletaCores.corCastanho,
+                                            value: 1,
+                                            groupValue: valorRadioButton,
+                                            onChanged: (_) {
+                                              mudarRadioButton(1);
+                                            }),
+                                        Text(
+                                          Textos.radioButtonGeracaoFire,
+                                          style: TextStyle(
+                                            color: valorRadioButton == 1
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: PaletaCores.corVerdeCiano,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  //boolExibirBotoes = true;
+                                  exibicaoTela =
+                                      Constantes.exibicaoTelaListagemLetra;
+                                });
+                              },
+                              child: Text(Textos.btnUsar,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                   else {
                     return SizedBox(
                         width: larguraTela,
                         height: alturaTela * 0.7,
@@ -340,17 +494,11 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                             letraFinal.length,
                                                         itemBuilder:
                                                             (context, index) {
-                                                          // return ListTile(
-                                                          //     title: conteudoLetra(
-                                                          //         false,
-                                                          //         letraFinal
-                                                          //             .elementAt(
-                                                          //                 index),
-                                                          //         "tituloLetra"));
                                                           return ListTile(
                                                               title:
                                                                   ConteudoLetraWidget(
-                                                            exibirLogo: false,
+                                                            exibirLogo:
+                                                                boolExibirLogo,
                                                             tituloLetra: "fdsf",
                                                             conteudoLetra:
                                                                 letraFinal
@@ -403,7 +551,28 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                               fontSize: 18,
                                             )),
                                       ),
-                                    )
+                                    ),
+                                    SizedBox(
+                                      width: 110,
+                                      height: 65,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              PaletaCores.corAzulCiano,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            exibicaoTela = Constantes
+                                                .exibicaoTelaSelecaoLogo;
+                                          });
+                                        },
+                                        child: Text(Textos.btnTrocarModelo,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            )),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

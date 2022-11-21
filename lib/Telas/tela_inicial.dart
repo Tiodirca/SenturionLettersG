@@ -54,7 +54,6 @@ class TelaInicial extends StatelessWidget {
                       Navigator.pushReplacementNamed(
                           context, Constantes.rotaTelaPesquisa,
                           arguments: false);
-
                     },
                     child: Text(Textos.btnUnirLetras,
                         textAlign: TextAlign.center,
@@ -69,10 +68,21 @@ class TelaInicial extends StatelessWidget {
                   height: 80,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.pushReplacementNamed(
-                      //     context, Constantes.rotaTelaPesquisa);
+                      List<Map<dynamic,dynamic>> sa = [];
+                      Map dados = {};
+                      dados[Constantes
+                          .paramatrosTelaLetraUnir] =
+                          sa;
+                      Navigator
+                          .pushReplacementNamed(
+                        context,
+                        Constantes
+                            .rotaTelaListagemLetraUnir,
+                        arguments:
+                        dados,
+                      );
                     },
-                    child: Text(Textos.btnCriarLetraTexto,
+                    child: Text("fdfs",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 20,

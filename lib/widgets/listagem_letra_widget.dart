@@ -18,8 +18,6 @@ class ConteudoLetraWidget extends StatefulWidget {
 }
 
 class _ConteudoLetraWidgetState extends State<ConteudoLetraWidget> {
-  // Widget conteudoLetra(
-  //     bool exibirLogo, String conteudoLetra, String tituloLetra) =>
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,10 +36,10 @@ class _ConteudoLetraWidgetState extends State<ConteudoLetraWidget> {
                   SizedBox(
                       width: MetodosAuxiliares.verificarTipoDispositivo()
                           ? 25
-                          : 30,
+                          : 40,
                       height: MetodosAuxiliares.verificarTipoDispositivo()
                           ? 25
-                          : 30,
+                          : 40,
                       child: Visibility(
                         visible: widget.exibirLogo,
                         child: Image.asset(
@@ -71,9 +69,9 @@ class _ConteudoLetraWidgetState extends State<ConteudoLetraWidget> {
                   ),
                   SizedBox(
                     width:
-                        MetodosAuxiliares.verificarTipoDispositivo() ? 25 : 30,
+                        MetodosAuxiliares.verificarTipoDispositivo() ? 25 : 40,
                     height:
-                        MetodosAuxiliares.verificarTipoDispositivo() ? 25 : 30,
+                        MetodosAuxiliares.verificarTipoDispositivo() ? 25 : 40,
                     child: Image.asset(
                       'assets/imagens/logo_adtl.png',
                     ),

@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
+import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/paleta_cores.dart';
+import 'package:senturionlettersg/widgets/listagem_letra_widget.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 
 class TelaLisagemLetra extends StatefulWidget {
@@ -38,7 +40,6 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
   List<String> letraCompleta = [];
   List<String> letraCompletaCortada = [];
   String nomeLetra = "";
-
 
   @override
   void initState() {
@@ -73,33 +74,10 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
         });
       },
     );
+    // definindo que a variavel vai receber o valor retornado pelo metodo
+    letraCompletaCortada =
+        MetodosAuxiliares.dividirLetraEstrofes(letraCompleta);
 
-    for (var element in letraCompleta) {
-      var corte = element.split("<br>");
-      String versoConcatenado = "";
-      for (int index = 0; index < corte.length; index++) {
-        versoConcatenado =
-            "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
-        // vericficando se o index da lista e igual a algum dos valores passados para adicionar
-        // string na outra lista pegando 2 linhas por vez lembrando 0 conta
-        if (index == 1 ||
-            index == 3 ||
-            index == 5 ||
-            index == 7 ||
-            index == 9 ||
-            index == 11 ||
-            index == 13 ||
-            index == 15 ||
-            index == 17 ||
-            index == 19) {
-          letraCompletaCortada.add(versoConcatenado);
-          versoConcatenado = "";
-        } else if (index == corte.length - 1) {
-          letraCompletaCortada.add(versoConcatenado);
-          versoConcatenado = "";
-        }
-      }
-    }
     // variavel vai receber o valor retornado pelo metodo
     nomeLetra = await PesquisaLetra.exibirTituloLetra();
   }
@@ -445,7 +423,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      "Quantidade de Slides : ${letraCompletaCortada.length}",
+                                      "${Textos.qtdSlides} ${letraCompletaCortada.length}",
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontSize: 20,
@@ -453,17 +431,30 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                     ),
                                   ],
                                 )),
-                            LayoutBuilder(
-                              builder: (p0, p1) {
-                                if (Platform.isAndroid || Platform.isIOS) {
-                                  return listagemLetra(
-                                      larguraTela, alturaTela, 35, 20, 200);
-                                } else {
-                                  return listagemLetra(larguraTela * 0.7,
-                                      alturaTela, 50, 30, 200);
-                                }
-                              },
-                            )
+                            Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                                side: const BorderSide(
+                                  color: PaletaCores.corAzulMagenta,
+                                ),
+                              ),
+                              child: Container(
+                                  padding: const EdgeInsets.all(5.0),
+                                  width: larguraTela * 0.9,
+                                  height: alturaTela * 0.6,
+                                  child: ListView.builder(
+                                    itemCount: letraCompletaCortada.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                          title: ConteudoLetraWidget(
+                                        exibirLogo: boolExibirLogo,
+                                        tituloLetra: nomeLetra,
+                                        conteudoLetra: letraCompletaCortada
+                                            .elementAt(index),
+                                      ));
+                                    },
+                                  )),
+                            ),
                           ],
                         ));
                   }
@@ -553,7 +544,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
           ),
           onWillPop: () async {
             Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
-                arguments: false);
+                arguments: true);
             return false;
           },
         ));
