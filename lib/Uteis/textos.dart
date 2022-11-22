@@ -54,6 +54,9 @@ class Textos {
       "Selecione as esfrofes que deseja unir";
   static String txtLetraFinalUnir = "Letra Final";
 
+  static String erroPesquisaLetraUnir =
+      "Infelizmente não foi possivel realizar a pesquisa de uma ou mais letras.";
+
   static String erroLetraResultanteVazia =
       "Adicione estrofes na letra resultante antes";
   static String erroNMaxLetrasUnir =

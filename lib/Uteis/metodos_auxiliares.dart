@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 
 class MetodosAuxiliares {
+
   static dividirLetraEstrofes(List<String> letraCompleta) {
     List<String> letraCompletaCortada = [];
     for (var element in letraCompleta) {
@@ -11,7 +12,7 @@ class MetodosAuxiliares {
       for (int index = 0; index < corte.length; index++) {
         versoConcatenado =
             "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
-        // vericficando se o index da lista e igual a algum dos valores passados para adicionar
+        // verificando se index da lista e igual a algum dos valores passados para adicionar
         // string na outra lista pegando 2 linhas por vez lembrando 0 conta
         if (index == 1 ||
             index == 3 ||

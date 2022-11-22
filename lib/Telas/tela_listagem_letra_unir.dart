@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
 import 'package:senturionlettersg/widgets/listagem_letra_widget.dart';
@@ -23,97 +24,90 @@ class TelaListagemLetraUnir extends StatefulWidget {
 class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   Estilo estilo = Estilo();
   int ordemEstrofes = 0;
+  int valorRadioButton = 0;
   String exibicaoTela = Constantes.exibicaoTelaCarregar;
-  List<String> primeiraLetraCompletaCortada = [];
-  List<String> segundaLetraCompletaCortada = [];
+  List<String> primeiraLetraCompleta = [];
+  List<String> segundaLetraCompleta = [];
   bool boolExibirTelaCarregamento = true;
   late String tipoModelo = "";
   bool boolExibirLogo = false;
-  final List<CheckBoxModel> itensCheckBoxPrimeiraLetra = [];
-  final List<CheckBoxModel> itensCheckBoxSegundaLetra = [];
+  final List<CheckBoxModel> itensCBPrimeiraLetra = [];
+  final List<CheckBoxModel> itensCBSegundaLetra = [];
   String primeiraLetraNome = "";
   String segundaLetraNome = "";
-  int valorRadioButton = 0;
   List<String> letraFinal = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // String priLetra = "https://www.letras.mus.br/mara-lima/950724";
+    // String segLetra = "https://www.letras.mus.br/ministerio-avivah/maranata";
 
-    String priLetra = "https://www.letras.mus.br/mara-lima/950724";
-    String segLetra = "https://www.letras.mus.br/ministerio-avivah/maranata";
-    //widget.linksLetrasUnir.elementAt(0)[Constantes.paraLinkLetra]
-    realizarPesquisaLetraCompleta(
-        primeiraLetraCompletaCortada, primeiraLetraNome, priLetra);
-    realizarPesquisaLetraCompleta(
-        segundaLetraCompletaCortada, segundaLetraNome, segLetra);
-
-    // primeiraLetraNome = widget.linksLetrasUnir
-    //     .elementAt(0)[Constantes.paraNomeLetra]
-    //     .toString()
-    //     .replaceAll("- LETRAS.MUS.BR", "");
-    // segundaLetraNome = widget.linksLetrasUnir
-    //     .elementAt(1)[Constantes.paraNomeLetra]
-    //     .toString()
-    //     .replaceAll("- LETRAS.MUS.BR", "");
-    primeiraLetraNome = "Divino Companheiro - Mara Lima";
-    segundaLetraNome = "Maranata - Ministério Avivah ";
+    iniciarPesquisa();
   }
 
-  // metodo responsavel por chamar metodo para realizar a pesquisa da letra completa
-  realizarPesquisaLetraCompleta(
-      List<dynamic> letraCortada, String nomeLetra, String linkLetra) async {
+  iniciarPesquisa() async {
+    String priLetra = "https://www.letras.mus.br/mara-lima/950724";
+    String segLetra = "https://www.letras.mus.br/ministerio-avivah/maranata";
+    String primeiroLink =
+        widget.linksLetrasUnir.elementAt(0)[Constantes.paraLinkLetra];
+    String segundoLink =
+        widget.linksLetrasUnir.elementAt(1)[Constantes.paraLinkLetra];
+    widget.linksLetrasUnir.elementAt(1)[Constantes.paraLinkLetra];
+    primeiraLetraCompleta = await realizarPesquisaLetraCompleta(primeiroLink);
+    //verificando se a pesquisa retornou algum erro ou nao
+    if (primeiraLetraCompleta.first.contains(Constantes.msgErroPesquisaLetra)) {
+      exibirMensagemErro();
+    } else {
+      primeiraLetraNome = await PesquisaLetra.exibirTituloLetra();
+      adicionarLetraCheckBox(
+          itensCBPrimeiraLetra, primeiraLetraCompleta, primeiraLetraNome);
+    }
+
+    segundaLetraCompleta = await realizarPesquisaLetraCompleta(segundoLink);
+    //verificando se a pesquisa retornou algum erro ou nao
+    if (segundaLetraCompleta.first.contains(Constantes.msgErroPesquisaLetra)) {
+      exibirMensagemErro();
+    } else {
+      segundaLetraNome = await PesquisaLetra.exibirTituloLetra();
+      adicionarLetraCheckBox(
+          itensCBSegundaLetra, segundaLetraCompleta, segundaLetraNome);
+    }
+
+    setState(() {
+      exibicaoTela = "fsfdsf";
+      boolExibirTelaCarregamento = false;
+      //exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+    });
+  }
+
+  exibirMensagemErro() {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(Textos.erroPesquisaLetraUnir)));
+  }
+
+  // metodo responsavel por chamar metodo para
+  // realizar a pesquisa da letra completa
+  realizarPesquisaLetraCompleta(String linkLetra) async {
     List<String> letraCompleta = [];
     await PesquisaLetra.pesquisarLetra(linkLetra).then(
       (value) {
         letraCompleta = value;
         setState(() {
           //removendo primeiro index da lista pois o mesmo e vazio
-          letraCompleta.removeAt(0);
-          exibicaoTela = "fsfdsf";
-          //exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
-          boolExibirTelaCarregamento = false;
+          if (letraCompleta.isNotEmpty &&
+              !(letraCompleta.first
+                  .contains(Constantes.msgErroPesquisaLetra))) {
+            letraCompleta.removeAt(0);
+          }
         });
       },
     );
-
-    dividirLetraEstrofes(letraCompleta, letraCortada);
-    adicionarLetraCheckBox(itensCheckBoxPrimeiraLetra,
-        primeiraLetraCompletaCortada, primeiraLetraNome);
-    adicionarLetraCheckBox(itensCheckBoxSegundaLetra,
-        segundaLetraCompletaCortada, segundaLetraNome);
+    return MetodosAuxiliares.dividirLetraEstrofes(letraCompleta);
   }
 
-  dividirLetraEstrofes(List<String> letraCompleta, List<dynamic> letraCortada) {
-    for (var element in letraCompleta) {
-      var corte = element.split("<br>");
-      String versoConcatenado = "";
-      for (int index = 0; index < corte.length; index++) {
-        versoConcatenado =
-            "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
-        // vericficando se o index da lista e igual a algum dos valores passados para adicionar
-        // string na outra lista pegando 2 linhas por vez lembrando 0 conta
-        if (index == 1 ||
-            index == 3 ||
-            index == 5 ||
-            index == 7 ||
-            index == 9 ||
-            index == 11 ||
-            index == 13 ||
-            index == 15 ||
-            index == 17 ||
-            index == 19) {
-          letraCortada.add(versoConcatenado);
-          versoConcatenado = "";
-        } else if (index == corte.length - 1) {
-          letraCortada.add(versoConcatenado);
-          versoConcatenado = "";
-        }
-      }
-    }
-  }
-
+  // metodo para adicionar a letra devidamente cortada num check box para selecao
   adicionarLetraCheckBox(List<CheckBoxModel> itensCheckBox,
       List<dynamic> letraCortada, String tituloLetra) {
     for (int i = 0; i < letraCortada.length; i++) {
@@ -122,35 +116,31 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     }
   }
 
-  Widget checkBoxPersonalizado(
-    bool exibirLogo,
-    CheckBoxModel checkBoxModel,
-  ) =>
-      CheckboxListTile(
-        activeColor: PaletaCores.corCastanho,
-        checkColor: PaletaCores.corVerdeCiano,
-        secondary: Text(exibirOrdemSlides(checkBoxModel)),
-        title: ConteudoLetraWidget(
-            exibirLogo: exibirLogo,
-            conteudoLetra: checkBoxModel.texto,
-            tituloLetra: checkBoxModel.tituloLetra),
-        value: checkBoxModel.checked,
-        side: const BorderSide(width: 2, color: Colors.black),
-        onChanged: (value) {
-          setState(() {
-            // verificando se o balor
-            checkBoxModel.checked = value!;
-            if (checkBoxModel.checked == true) {
-              ordemEstrofes++;
-              letraFinal.add(checkBoxModel.texto);
-            } else {
-              ordemEstrofes--;
-              letraFinal.remove(checkBoxModel.texto);
-            }
-          });
-        },
-      );
+  // metodo para passar os valores para o back end
+  // para assim estar gerando o arquivo
+  passarValoresGerarArquivo() async {
+    setState(() {
+      exibicaoTela = Constantes.exibicaoTelaCarregar;
+    });
+    GerarArquivo arquivo = GerarArquivo();
+    String retornoMetodo = await arquivo.passarValoresGerarArquivo(
+        letraFinal, tipoModelo, "nomeLetra");
+    if (retornoMetodo.contains(Constantes.retornoRequesicaoSucesso)) {
+      setState(() {
+        exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+      });
+    } else {
+      setState(() {
+        exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(Textos.erroGerarArquivo + retornoMetodo.toString())));
+      debugPrint(retornoMetodo.toString());
+    }
+  }
 
+  // metodo para exibir corretamente a numeracao indicando a ordem que os itens
+  // foram selecionados
   exibirOrdemSlides(CheckBoxModel checkBoxModel) {
     String valor = "";
     for (int i = 0; i < letraFinal.length; i++) {
@@ -182,6 +172,37 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     });
   }
 
+  Widget checkBoxPersonalizado(
+    bool exibirLogo,
+    CheckBoxModel checkBoxModel,
+  ) =>
+      CheckboxListTile(
+        activeColor: PaletaCores.corAzulMagenta,
+        checkColor: Colors.white,
+        secondary: Text(exibirOrdemSlides(checkBoxModel)),
+        title: ConteudoLetraWidget(
+            exibirLogo: exibirLogo,
+            conteudoLetra: checkBoxModel.texto,
+            tituloLetra: checkBoxModel.tituloLetra),
+        value: checkBoxModel.checked,
+        side: const BorderSide(width: 2, color: Colors.black),
+        onChanged: (value) {
+          setState(() {
+            checkBoxModel.checked = value!;
+            //verificando se o valor e verdadeiro
+            if (checkBoxModel.checked == true) {
+              ordemEstrofes++;
+              letraFinal.add(checkBoxModel.texto);
+            } else {
+              ordemEstrofes--;
+              letraFinal.remove(checkBoxModel.texto);
+            }
+          });
+        },
+      );
+
+
+
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
@@ -190,8 +211,9 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
         data: estilo.estiloGeral,
         child: WillPopScope(
           onWillPop: () async {
-            Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
-                arguments: false);
+            // Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
+            //     arguments: false);
+            Navigator.pushReplacementNamed(context, Constantes.rotaTelaInicial);
             return false;
           },
           child: Scaffold(
@@ -210,8 +232,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                         child: const Center(
                           child: TelaCarregamento(),
                         ));
-                  }
-                  else if (exibicaoTela ==
+                  } else if (exibicaoTela ==
                       Constantes.exibicaoTelaSelecaoLogo) {
                     return SizedBox(
                       width: larguraTela,
@@ -254,10 +275,10 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                         ),
                                         Radio(
                                             activeColor:
-                                            PaletaCores.corCastanho,
+                                                PaletaCores.corCastanho,
                                             value: 0,
                                             groupValue: valorRadioButton,
-                                            onChanged: (_) {
+                                            onChanged: (_) async {
                                               mudarRadioButton(0);
                                             }),
                                         Text(
@@ -295,7 +316,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                         ),
                                         Radio(
                                             activeColor:
-                                            PaletaCores.corCastanho,
+                                                PaletaCores.corCastanho,
                                             value: 1,
                                             groupValue: valorRadioButton,
                                             onChanged: (_) {
@@ -341,8 +362,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                         ],
                       ),
                     );
-                  }
-                   else {
+                  } else {
                     return SizedBox(
                         width: larguraTela,
                         height: alturaTela * 0.7,
@@ -399,7 +419,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                     height: alturaTela * 0.6,
                                                     child: ListView(
                                                       children: [
-                                                        ...itensCheckBoxPrimeiraLetra
+                                                        ...itensCBPrimeiraLetra
                                                             .map((e) =>
                                                                 checkBoxPersonalizado(
                                                                   boolExibirLogo,
@@ -411,7 +431,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                   ),
                                                 ),
                                                 Text(
-                                                    "${Textos.qtdSlides} ${itensCheckBoxPrimeiraLetra.length}",
+                                                    "${Textos.qtdSlides} ${itensCBPrimeiraLetra.length}",
                                                     style: const TextStyle(
                                                       fontSize: 16,
                                                     )),
@@ -445,7 +465,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                     height: alturaTela * 0.6,
                                                     child: ListView(
                                                       children: [
-                                                        ...itensCheckBoxSegundaLetra
+                                                        ...itensCBSegundaLetra
                                                             .map((e) =>
                                                                 checkBoxPersonalizado(
                                                                   boolExibirLogo,
@@ -457,7 +477,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                   ),
                                                 ),
                                                 Text(
-                                                    "${Textos.qtdSlides} ${itensCheckBoxSegundaLetra.length}",
+                                                    "${Textos.qtdSlides} ${itensCBSegundaLetra.length}",
                                                     style: const TextStyle(
                                                       fontSize: 16,
                                                     )),
@@ -542,7 +562,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                     content: Text(Textos
                                                         .erroLetraResultanteVazia)));
                                           } else {
-                                            setState(() {});
+                                            passarValoresGerarArquivo();
                                           }
                                         },
                                         child: Text(Textos.btnGerarArquivo,

@@ -12,7 +12,7 @@ class Constantes {
   static const parametrosTelaModelo = "modelo";
   static const paramatrosTelaLetraUnir = "letraCompletaUnir";
 
-  static const paraNomeLetra= "nomeM";
+  static const paraNomeLetra = "nomeM";
   static const paraLinkLetra = "linkM";
 
   static const retornoRequesicaoSucesso = "sucesso";
@@ -25,4 +25,7 @@ class Constantes {
   static const exibicaoTelaCarregar = "carregamento";
   static const exibicaoTelaSelecaoLogo = "selecaoLogo";
   static const exibicaoTelaListagemLetra = "listagemLetra";
+
+  static const msgErroPesquisaLetra = "Erro ao pesquisar letra";
+  static const msgErroPesquisaLink = "Erro ao pesquisar link";
 }

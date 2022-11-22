@@ -45,11 +45,12 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // verificando se a lista nao e vazia
+    // para determinar qual sera a acao executada
     if (widget.linkLetra.isNotEmpty) {
       realizarPesquisaLetraCompleta(); // chamando metodo
     } else {
       letraCompletaCortada = widget.letraCompleta;
-      print("Lista$letraCompletaCortada");
       nomeLetra = widget.nomeLetra;
       exibicaoTela = Constantes.exibicaoTelaListagemLetra;
       boolExibirBotoes = true;
@@ -128,114 +129,6 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       debugPrint(retornoMetodo.toString());
     }
   }
-
-  Widget listagemLetra(double larguraTela, double alturaTela,
-          double tamanhoIcones, double tamanhoTexto, double tamanhoSlide) =>
-      SizedBox(
-        width: larguraTela,
-        height: alturaTela * 0.6,
-        child: ListView.builder(
-          itemCount: letraCompletaCortada.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-                title: Container(
-                    padding: const EdgeInsets.all(10),
-                    width: larguraTela,
-                    height: tamanhoSlide,
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/imagens/fundo_letra.png'),
-                            fit: BoxFit.cover)),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                  width: tamanhoIcones,
-                                  height: tamanhoIcones,
-                                  child: Visibility(
-                                    visible: boolExibirLogo,
-                                    child: Image.asset(
-                                      'assets/imagens/logo_geracao_fire.png',
-                                    ),
-                                  )),
-                              SizedBox(
-                                width: larguraTela * 0.5,
-                                child: Text(
-                                  nomeLetra,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    decorationStyle: TextDecorationStyle.solid,
-                                    shadows: <Shadow>[
-                                      Shadow(
-                                        offset: Offset(1.0, 2.0),
-                                        blurRadius: 3.0,
-                                        color: Color.fromARGB(255, 0, 0, 0),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: tamanhoIcones,
-                                height: tamanhoIcones,
-                                child: Image.asset(
-                                  'assets/imagens/logo_adtl.png',
-                                ),
-                              ),
-                            ],
-                          ),
-                          Text(
-                              letraCompletaCortada[index]
-                                  .substring(5)
-                                  .toString()
-                                  .replaceAll(
-                                      RegExp(
-                                        r'</p>',
-                                      ),
-                                      '')
-                                  .replaceAll(
-                                      RegExp(
-                                        Constantes.stringPularLinhaSlide,
-                                      ),
-                                      '\n'),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: tamanhoTexto,
-                                color: Colors.white,
-                                shadows: const <Shadow>[
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                  Shadow(
-                                    offset: Offset(1.0, 1.0),
-                                    blurRadius: 10.0,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ],
-                              )),
-                        ],
-                      ),
-                    )));
-          },
-        ),
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -440,7 +333,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                               ),
                               child: Container(
                                   padding: const EdgeInsets.all(5.0),
-                                  width: larguraTela * 0.9,
+                                  width: larguraTela * 0.6,
                                   height: alturaTela * 0.6,
                                   child: ListView.builder(
                                     itemCount: letraCompletaCortada.length,

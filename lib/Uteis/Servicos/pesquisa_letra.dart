@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' show parse;
+import 'package:senturionlettersg/Uteis/constantes.dart';
 
 class PesquisaLetra {
   static String tituloLetra = "";
@@ -48,10 +49,11 @@ class PesquisaLetra {
             '');
         letraCortada = letraCompleta.split("<p>");
       }
+      return letraCortada;
     } catch (e) {
       debugPrint(e.toString());
+      return [Constantes.msgErroPesquisaLetra];
     }
-    return letraCortada;
   }
 
   // future para retornar o titulo da letra da musica pesquisa
