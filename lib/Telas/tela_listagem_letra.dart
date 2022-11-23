@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
@@ -375,12 +373,20 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                 ),
                                 onPressed: () {
                                   Map dados = {};
+                                  List<dynamic> infoComplementares = [];
+                                  infoComplementares.add(nomeLetra);
+                                  infoComplementares.add(tipoModelo);
+                                  infoComplementares
+                                      .add(Constantes.listagemLetraUnica);
                                   dados[Constantes.parametrosTelaLetra] =
                                       letraCompletaCortada;
-                                  dados[Constantes.paramatrosTelaNomeLetra] =
-                                      nomeLetra;
-                                  dados[Constantes.parametrosTelaModelo] =
-                                      tipoModelo;
+                                  dados[Constantes
+                                          .parametrosInfoComplementares] =
+                                      infoComplementares;
+                                  // dados[Constantes.paramatrosTelaNomeLetra] =
+                                  //     nomeLetra;
+                                  // dados[Constantes.parametrosTelaModelo] =
+                                  //     tipoModelo;
                                   Navigator.pushReplacementNamed(
                                       context, Constantes.rotaTelaEdicaoLetra,
                                       arguments: dados);

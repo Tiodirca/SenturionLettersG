@@ -10,13 +10,18 @@ class TelaEdicaoLetra extends StatefulWidget {
   const TelaEdicaoLetra(
       {Key? key,
       required this.letraCompleta,
-      required this.nomeLetra,
-      required this.modelo})
+      required this.informacoesComplementares})
       : super(key: key);
 
   final List<String> letraCompleta;
-  final String nomeLetra;
-  final String modelo;
+
+  // index 0 = nomeLetra
+  // index 1 = tipoModelo
+  //index 2 = tipoTela
+  final List<dynamic> informacoesComplementares;
+
+  // final String nomeLetra;
+  // final String modelo;
 
   @override
   State<TelaEdicaoLetra> createState() => _TelaEdicaoLetraState();
@@ -27,7 +32,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
   bool boolExibirTelaCarregamento = true;
   bool boolExibirBotoes = false;
   bool boolExibirLogo = false;
-  late String tipoLogo = widget.modelo;
+  late String tipoLogo = widget.informacoesComplementares.elementAt(1);
   int valorRadioButton = 0;
   String exibicaoTela = Constantes.exibicaoTelaListagemLetra;
   List<String> letraCompletaEditada = [];
@@ -37,8 +42,8 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    nomeLetra = widget.nomeLetra;
-    if (widget.modelo == Constantes.logoGeral) {
+    nomeLetra = widget.informacoesComplementares.elementAt(0);
+    if (widget.informacoesComplementares.elementAt(1) == Constantes.logoGeral) {
       boolExibirLogo = false;
     } else {
       boolExibirLogo = true;
@@ -46,6 +51,39 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
     boolExibirBotoes = true;
     letraCompletaEditada = widget.letraCompleta;
   }
+
+  redirecionarTela(){
+    if(widget.informacoesComplementares.elementAt(2) == Constantes.listagemLetraUnica){
+      Map dados = {};
+      dados[Constantes.parametrosTelaLinkLetra] =
+      "";
+      dados[Constantes.parametrosTelaLetra] =
+          letraCompletaEditada;
+      dados[Constantes.paramatrosTelaNomeLetra] =
+          nomeLetra;
+      dados[Constantes.parametrosTelaModelo] =
+          tipoLogo;
+      Navigator.pushReplacementNamed(
+        context,
+        Constantes.rotaTelaListagemLetra,
+        arguments: dados,
+      );
+    }else{
+
+    }
+  }
+
+  recarregarTelaEdicao(){
+    Map dados = {};
+    dados[Constantes.parametrosTelaLetra] =
+        letraCompletaEditada;
+    dados[Constantes.parametrosInfoComplementares] = widget.informacoesComplementares;
+    Navigator.pushReplacementNamed(
+        context, Constantes.rotaTelaEdicaoLetra,
+        arguments: dados);
+  }
+
+
 
   void mudarRadioButton(int value) {
     //metodo para mudar o estado do radio button
@@ -211,16 +249,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                 ),
                                 onPressed: () {
                                   letraCompletaEditada.insert(index + 1, "");
-                                  Map dados = {};
-                                  dados[Constantes.parametrosTelaLetra] =
-                                      letraCompletaEditada;
-                                  dados[Constantes.paramatrosTelaNomeLetra] =
-                                      nomeLetra;
-                                  dados[Constantes.parametrosTelaModelo] =
-                                      tipoLogo;
-                                  Navigator.pushReplacementNamed(
-                                      context, Constantes.rotaTelaEdicaoLetra,
-                                      arguments: dados);
+                                  recarregarTelaEdicao();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content:
@@ -240,16 +269,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                           content: Text(Textos.erroUmSlide)));
                                 } else {
                                   letraCompletaEditada.removeAt(index);
-                                  Map dados = {};
-                                  dados[Constantes.parametrosTelaLetra] =
-                                      letraCompletaEditada;
-                                  dados[Constantes.paramatrosTelaNomeLetra] =
-                                      nomeLetra;
-                                  dados[Constantes.parametrosTelaModelo] =
-                                      tipoLogo;
-                                  Navigator.pushReplacementNamed(
-                                      context, Constantes.rotaTelaEdicaoLetra,
-                                      arguments: dados);
+                                  recarregarTelaEdicao();
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content:
@@ -497,31 +517,21 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                   backgroundColor: PaletaCores.corVerdeCiano,
                                 ),
                                 onPressed: () {
-                                  var slideVazio = [...letraCompletaEditada]
-                                      .every((el) =>
-                                          el.toString().isNotEmpty &&
-                                          el.toString() ==
-                                              Constantes.stringPularLinhaSlide);
-                                  if (slideVazio) {
-                                    Map dados = {};
-                                    dados[Constantes.parametrosTelaLinkLetra] =
-                                        "";
-                                    dados[Constantes.parametrosTelaLetra] =
-                                        letraCompletaEditada;
-                                    dados[Constantes.paramatrosTelaNomeLetra] =
-                                        nomeLetra;
-                                    dados[Constantes.parametrosTelaModelo] =
-                                        tipoLogo;
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      Constantes.rotaTelaListagemLetra,
-                                      arguments: dados,
-                                    );
-                                  } else {
+                                  bool slide = false;
+                                  for (var element in letraCompletaEditada) {
+                                    if (element ==
+                                            Constantes.stringPularLinhaSlide ||
+                                        element.isEmpty) {
+                                      slide = true;
+                                    }
+                                  }
+                                  if (slide) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
                                             content:
                                                 Text(Textos.erroSlideVazio)));
+                                  } else {
+                                    redirecionarTela();
                                   }
                                 },
                                 child: Text(Textos.btnSalvar,
@@ -562,7 +572,8 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
             dados[Constantes.parametrosTelaLinkLetra] = "";
             dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
             dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
-            dados[Constantes.parametrosTelaModelo] = widget.modelo;
+            dados[Constantes.parametrosTelaModelo] =
+                widget.informacoesComplementares.elementAt(1);
             Navigator.pushReplacementNamed(
               context,
               Constantes.rotaTelaListagemLetra,

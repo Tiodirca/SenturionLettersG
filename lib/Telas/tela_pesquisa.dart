@@ -136,7 +136,6 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                 Visibility(
                                     visible: boolExibirListagemLinks,
                                     child: Container(
-                                        color: Colors.amber,
                                         margin: const EdgeInsets.only(
                                           top: 20.0,
                                         ),
@@ -155,7 +154,6 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                     !widget.boolPesquisaUnica,
                                                 child: Container(
                                                     width: larguraTela,
-                                                    color: Colors.blue,
                                                     height: alturaTela * 0.2,
                                                     child: Column(
                                                       children: [
@@ -219,7 +217,6 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                               margin: const EdgeInsets.only(
                                                 top: 10.0,
                                               ),
-                                              color: Colors.green,
                                               width: larguraTela,
                                               height: alturaTela * 0.4,
                                               child: ListView.builder(

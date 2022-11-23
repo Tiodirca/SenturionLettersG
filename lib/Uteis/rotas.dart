@@ -56,8 +56,9 @@ class Rotas {
           return MaterialPageRoute(
             builder: (_) => TelaEdicaoLetra(
               letraCompleta: args[Constantes.parametrosTelaLetra],
-              nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
-              modelo: args[Constantes.parametrosTelaModelo],
+              informacoesComplementares: args[Constantes.parametrosInfoComplementares],
+              // nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
+              // modelo: args[Constantes.parametrosTelaModelo],
             ),
           );
         } else {

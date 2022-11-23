@@ -201,8 +201,6 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
         },
       );
 
-
-
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
@@ -540,7 +538,6 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                             Expanded(
                               flex: 1,
                               child: Container(
-                                color: Colors.amberAccent,
                                 height: 70,
                                 width: larguraTela,
                                 child: Row(
