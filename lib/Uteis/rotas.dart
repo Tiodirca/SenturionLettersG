@@ -20,7 +20,6 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => TelaInicial());
       case Constantes.rotaTelaPesquisa:
         if (args is bool) {
-
           return MaterialPageRoute(
               builder: (_) => TelaPesquisa(
                     boolPesquisaUnica: args,
@@ -45,7 +44,8 @@ class Rotas {
         if (args is Map) {
           return MaterialPageRoute(
             builder: (_) => TelaListagemLetraUnir(
-              linksLetrasUnir: args[Constantes.paramatrosTelaLetraUnir],
+              linksLetraLetrasUnir: args[Constantes.paramatrosTelaLetraUnir],
+              infoComplementares: args[Constantes.parametrosInfoComplementares],
             ),
           );
         } else {
@@ -56,7 +56,8 @@ class Rotas {
           return MaterialPageRoute(
             builder: (_) => TelaEdicaoLetra(
               letraCompleta: args[Constantes.parametrosTelaLetra],
-              informacoesComplementares: args[Constantes.parametrosInfoComplementares],
+              informacoesComplementares:
+                  args[Constantes.parametrosInfoComplementares],
               // nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
               // modelo: args[Constantes.parametrosTelaModelo],
             ),

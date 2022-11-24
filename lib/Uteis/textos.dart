@@ -57,7 +57,10 @@ class Textos {
   static String erroPesquisaLetraUnir =
       "Infelizmente não foi possivel realizar a pesquisa de uma ou mais letras.";
 
-  static String erroLetraResultanteVazia =
+  static String erroSelecaoLetraUnir =
+      "Selecione 2 letras para poder estar unindo elas.";
+
+  static String erroLetraFinalVazia =
       "Adicione estrofes na letra resultante antes";
   static String erroNMaxLetrasUnir =
       "Você já selecionou o máximo de letras possiveis para unir.";

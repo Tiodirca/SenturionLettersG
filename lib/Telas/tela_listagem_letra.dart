@@ -383,10 +383,6 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                   dados[Constantes
                                           .parametrosInfoComplementares] =
                                       infoComplementares;
-                                  // dados[Constantes.paramatrosTelaNomeLetra] =
-                                  //     nomeLetra;
-                                  // dados[Constantes.parametrosTelaModelo] =
-                                  //     tipoModelo;
                                   Navigator.pushReplacementNamed(
                                       context, Constantes.rotaTelaEdicaoLetra,
                                       arguments: dados);

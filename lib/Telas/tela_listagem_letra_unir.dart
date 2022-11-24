@@ -12,10 +12,14 @@ import '../Uteis/textos.dart';
 import '../widgets/tela_carregamento.dart';
 
 class TelaListagemLetraUnir extends StatefulWidget {
-  const TelaListagemLetraUnir({Key? key, required this.linksLetrasUnir})
+  const TelaListagemLetraUnir(
+      {Key? key,
+      required this.linksLetraLetrasUnir,
+      required this.infoComplementares})
       : super(key: key);
 
-  final List<Map<dynamic, dynamic>> linksLetrasUnir;
+  final List<String> linksLetraLetrasUnir;
+  final List<dynamic> infoComplementares;
 
   @override
   State<TelaListagemLetraUnir> createState() => _TelaListagemLetraUnirState();
@@ -29,7 +33,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   List<String> primeiraLetraCompleta = [];
   List<String> segundaLetraCompleta = [];
   bool boolExibirTelaCarregamento = true;
-  late String tipoModelo = "";
+  late String tipoModelo = Constantes.logoGeral;
   bool boolExibirLogo = false;
   final List<CheckBoxModel> itensCBPrimeiraLetra = [];
   final List<CheckBoxModel> itensCBSegundaLetra = [];
@@ -41,20 +45,37 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // String priLetra = "https://www.letras.mus.br/mara-lima/950724";
-    // String segLetra = "https://www.letras.mus.br/ministerio-avivah/maranata";
-
     iniciarPesquisa();
   }
 
   iniciarPesquisa() async {
-    String priLetra = "https://www.letras.mus.br/mara-lima/950724";
-    String segLetra = "https://www.letras.mus.br/ministerio-avivah/maranata";
-    String primeiroLink =
-        widget.linksLetrasUnir.elementAt(0)[Constantes.paraLinkLetra];
-    String segundoLink =
-        widget.linksLetrasUnir.elementAt(1)[Constantes.paraLinkLetra];
-    widget.linksLetrasUnir.elementAt(1)[Constantes.paraLinkLetra];
+    String primeiroLink = "";
+    String segundoLink = "";
+    // caso a variavel seja vazia quer dizer
+    // que e a tela esta vindo da tela de pesquisa
+    // caso contrario esta vindo da tela de edicao
+    if (widget.infoComplementares.isEmpty) {
+      // index 0 e 1 corresponde aos links passados para a lista
+      // na tela de pesquisa
+      primeiroLink = widget.linksLetraLetrasUnir.elementAt(0);
+      segundoLink = widget.linksLetraLetrasUnir.elementAt(1);
+    } else {
+      // index 0 e 1 corresponde aos links passados a lista
+      // na tela de edicao
+      primeiroLink = widget.infoComplementares.elementAt(0);
+      segundoLink = widget.infoComplementares.elementAt(1);
+      letraFinal = widget.linksLetraLetrasUnir;
+      // verificando se qual o tipo de logo foi
+      // passado no index 2 da lista para exibir logo
+      if (widget.infoComplementares
+          .elementAt(2)
+          .toString()
+          .contains(Constantes.logoGeral)) {
+        boolExibirLogo = false;
+      } else {
+        boolExibirLogo = true;
+      }
+    }
     primeiraLetraCompleta = await realizarPesquisaLetraCompleta(primeiroLink);
     //verificando se a pesquisa retornou algum erro ou nao
     if (primeiraLetraCompleta.first.contains(Constantes.msgErroPesquisaLetra)) {
@@ -76,12 +97,18 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     }
 
     setState(() {
-      exibicaoTela = "fsfdsf";
+      exibicaoTela = "";
       boolExibirTelaCarregamento = false;
-      //exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+      // verificando se a variavel e vazia para alterar valor da variavel
+      // exibindo tela correspondente
+      if (widget.infoComplementares.isEmpty) {
+        exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+      }
     });
   }
 
+  // metodo responsavel por exibir mensagem de erro caso a pesquisa
+  // de erro
   exibirMensagemErro() {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(Textos.erroPesquisaLetraUnir)));
@@ -146,6 +173,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     for (int i = 0; i < letraFinal.length; i++) {
       if (letraFinal[i] == checkBoxModel.texto) {
         valor = i.toString();
+        checkBoxModel.checked = true;
       }
     }
     return valor.toString();
@@ -209,9 +237,9 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
         data: estilo.estiloGeral,
         child: WillPopScope(
           onWillPop: () async {
-            // Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
-            //     arguments: false);
-            Navigator.pushReplacementNamed(context, Constantes.rotaTelaInicial);
+            Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
+                arguments: false);
+            //Navigator.pushReplacementNamed(context, Constantes.rotaTelaInicial);
             return false;
           },
           child: Scaffold(
@@ -550,6 +578,69 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor:
+                                              PaletaCores.corCastanho,
+                                        ),
+                                        onPressed: () {
+                                          if (letraFinal.isEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                                    content: Text(Textos
+                                                        .erroLetraFinalVazia)));
+                                          } else {
+                                            Map dados = {};
+                                            List<dynamic>
+                                                infoComplementaresBtn = [];
+                                            //adicionando informacoes
+                                            infoComplementaresBtn
+                                                .add("nomeLetra"); // index 0
+                                            infoComplementaresBtn
+                                                .add(tipoModelo); // index 1
+                                            infoComplementaresBtn.add(Constantes
+                                                .listagemLetraUnir); // index 2
+                                            // verificando se a variavel possui
+                                            // algum valor dentro para definir quais
+                                            // informacoes serao adicionadas
+                                            if (widget
+                                                .infoComplementares.isEmpty) {
+                                              infoComplementaresBtn.add(widget
+                                                  .linksLetraLetrasUnir
+                                                  .elementAt(0)); // index 3
+                                              infoComplementaresBtn.add(widget
+                                                  .linksLetraLetrasUnir
+                                                  .elementAt(1)); // index 4
+                                            } else {
+                                              infoComplementaresBtn.add(widget
+                                                  .infoComplementares
+                                                  .elementAt(0)); // index 3
+                                              infoComplementaresBtn.add(widget
+                                                  .infoComplementares
+                                                  .elementAt(1)); // index 4
+                                            }
+                                            dados[Constantes
+                                                    .parametrosInfoComplementares] =
+                                                infoComplementaresBtn;
+                                            dados[Constantes
+                                                    .parametrosTelaLetra] =
+                                                letraFinal;
+                                            Navigator.pushReplacementNamed(
+                                                context,
+                                                Constantes.rotaTelaEdicaoLetra,
+                                                arguments: dados);
+                                          }
+                                        },
+                                        child: Text(Textos.btnEditar,
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            )),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 110,
+                                      height: 65,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
                                               PaletaCores.corVerdeCiano,
                                         ),
                                         onPressed: () {
@@ -557,7 +648,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
                                                     content: Text(Textos
-                                                        .erroLetraResultanteVazia)));
+                                                        .erroLetraFinalVazia)));
                                           } else {
                                             passarValoresGerarArquivo();
                                           }

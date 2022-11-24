@@ -43,7 +43,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
     // TODO: implement initState
     super.initState();
     nomeLetra = widget.informacoesComplementares.elementAt(0);
-    if (widget.informacoesComplementares.elementAt(1) == Constantes.logoGeral) {
+    if (tipoLogo == Constantes.logoGeral) {
       boolExibirLogo = false;
     } else {
       boolExibirLogo = true;
@@ -52,38 +52,50 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
     letraCompletaEditada = widget.letraCompleta;
   }
 
-  redirecionarTela(){
-    if(widget.informacoesComplementares.elementAt(2) == Constantes.listagemLetraUnica){
+  // metodo responsavel por redirecionar o usuario para outra tela
+  redirecionarTela() {
+    if (widget.informacoesComplementares.elementAt(2) ==
+        Constantes.listagemLetraUnica) {
       Map dados = {};
-      dados[Constantes.parametrosTelaLinkLetra] =
-      "";
-      dados[Constantes.parametrosTelaLetra] =
-          letraCompletaEditada;
-      dados[Constantes.paramatrosTelaNomeLetra] =
-          nomeLetra;
-      dados[Constantes.parametrosTelaModelo] =
-          tipoLogo;
+      dados[Constantes.parametrosTelaLinkLetra] = "";
+      dados[Constantes.parametrosTelaLetra] = letraCompletaEditada;
+      dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+      dados[Constantes.parametrosTelaModelo] = tipoLogo;
       Navigator.pushReplacementNamed(
         context,
         Constantes.rotaTelaListagemLetra,
         arguments: dados,
       );
-    }else{
-
+    } else {
+      List<dynamic> infoComplementaresLetraUnir = [];
+      // adicionando informacoes a lista
+      // 3 e  4 index corresponde aos links
+      // passados na lista
+      infoComplementaresLetraUnir
+          .add(widget.informacoesComplementares.elementAt(3));
+      infoComplementaresLetraUnir
+          .add(widget.informacoesComplementares.elementAt(4));
+      infoComplementaresLetraUnir.add(tipoLogo);
+      Map dados = {};
+      dados[Constantes.parametrosInfoComplementares] =
+          infoComplementaresLetraUnir;
+      dados[Constantes.paramatrosTelaLetraUnir] = letraCompletaEditada;
+      Navigator.pushReplacementNamed(
+        context,
+        Constantes.rotaTelaListagemLetraUnir,
+        arguments: dados,
+      );
     }
   }
 
-  recarregarTelaEdicao(){
+  recarregarTelaEdicao() {
     Map dados = {};
-    dados[Constantes.parametrosTelaLetra] =
-        letraCompletaEditada;
-    dados[Constantes.parametrosInfoComplementares] = widget.informacoesComplementares;
-    Navigator.pushReplacementNamed(
-        context, Constantes.rotaTelaEdicaoLetra,
+    dados[Constantes.parametrosTelaLetra] = letraCompletaEditada;
+    dados[Constantes.parametrosInfoComplementares] =
+        widget.informacoesComplementares;
+    Navigator.pushReplacementNamed(context, Constantes.rotaTelaEdicaoLetra,
         arguments: dados);
   }
-
-
 
   void mudarRadioButton(int value) {
     //metodo para mudar o estado do radio button
@@ -192,10 +204,8 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                   ),
                                   '\n'),
                           onChanged: (value) {
-                            print(value);
                             String valor =
                                 " ${Constantes.stringPularLinhaSlide} $value";
-                            print(valor);
                             letraCompletaEditada[index] = valor;
                           },
                           maxLines: 10,
@@ -568,17 +578,36 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                     ))),
           ),
           onWillPop: () async {
-            Map dados = {};
-            dados[Constantes.parametrosTelaLinkLetra] = "";
-            dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
-            dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
-            dados[Constantes.parametrosTelaModelo] =
-                widget.informacoesComplementares.elementAt(1);
-            Navigator.pushReplacementNamed(
-              context,
-              Constantes.rotaTelaListagemLetra,
-              arguments: dados,
-            );
+            if (widget.informacoesComplementares.isEmpty) {
+              Map dados = {};
+              dados[Constantes.parametrosTelaLinkLetra] = "";
+              dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
+              dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+              dados[Constantes.parametrosTelaModelo] =
+                  widget.informacoesComplementares.elementAt(1);
+              Navigator.pushReplacementNamed(
+                context,
+                Constantes.rotaTelaListagemLetra,
+                arguments: dados,
+              );
+            } else {
+              List<dynamic> infoComplementaresLetraUnir = [];
+              infoComplementaresLetraUnir
+                  .add(widget.informacoesComplementares.elementAt(3));
+              infoComplementaresLetraUnir
+                  .add(widget.informacoesComplementares.elementAt(4));
+              infoComplementaresLetraUnir.add(tipoLogo);
+              Map dados = {};
+              dados[Constantes.parametrosInfoComplementares] =
+                  infoComplementaresLetraUnir;
+              dados[Constantes.paramatrosTelaLetraUnir] = letraCompletaEditada;
+              Navigator.pushReplacementNamed(
+                context,
+                Constantes.rotaTelaListagemLetraUnir,
+                arguments: dados,
+              );
+            }
+
             return false;
           },
         ));

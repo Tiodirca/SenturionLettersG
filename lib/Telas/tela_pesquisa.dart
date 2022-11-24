@@ -187,18 +187,42 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                           height: 50,
                                                           child: ElevatedButton(
                                                             onPressed: () {
-                                                              Map dados = {};
-                                                              dados[Constantes
-                                                                      .paramatrosTelaLetraUnir] =
-                                                                  linksLetrasUnir;
-                                                              Navigator
-                                                                  .pushReplacementNamed(
-                                                                context,
-                                                                Constantes
-                                                                    .rotaTelaListagemLetraUnir,
-                                                                arguments:
-                                                                    dados,
-                                                              );
+                                                              if (linksLetrasUnir
+                                                                      .isEmpty ||
+                                                                  linksLetrasUnir
+                                                                          .length <
+                                                                      2) {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(SnackBar(
+                                                                        content:
+                                                                            Text(Textos.erroSelecaoLetraUnir)));
+                                                              } else {
+                                                                List<String>
+                                                                    links = [];
+                                                                links.add(linksLetrasUnir
+                                                                    .elementAt(
+                                                                        0)[Constantes
+                                                                    .paraLinkLetra]);
+                                                                links.add(linksLetrasUnir
+                                                                    .elementAt(
+                                                                        1)[Constantes
+                                                                    .paraLinkLetra]);
+                                                                Map dados = {};
+                                                                dados[Constantes
+                                                                    .parametrosInfoComplementares] = [];
+                                                                dados[Constantes
+                                                                        .paramatrosTelaLetraUnir] =
+                                                                    links;
+                                                                Navigator
+                                                                    .pushReplacementNamed(
+                                                                  context,
+                                                                  Constantes
+                                                                      .rotaTelaListagemLetraUnir,
+                                                                  arguments:
+                                                                      dados,
+                                                                );
+                                                              }
                                                             },
                                                             child: Text(
                                                                 Textos.btnUsar,
