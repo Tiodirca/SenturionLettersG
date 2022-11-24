@@ -40,6 +40,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   String primeiraLetraNome = "";
   String segundaLetraNome = "";
   List<String> letraFinal = [];
+  TextEditingController controllerNomeLetraFinal = TextEditingController();
+  final chaveFormulario = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -364,6 +366,24 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                               ],
                             ),
                           ),
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  left: 10.0, right: 10.0, bottom: 10.0),
+                              width: larguraTela * 0.3,
+                              child: Form(
+                                key: chaveFormulario,
+                                child: TextFormField(
+                                  controller: controllerNomeLetraFinal,
+                                  decoration: InputDecoration(
+                                      hintText: Textos.hintTextFieldNomeLetra),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return Textos.erroCampoVazio;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )),
                           SizedBox(
                             width: 150,
                             height: 50,
@@ -372,11 +392,16 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                 backgroundColor: PaletaCores.corVerdeCiano,
                               ),
                               onPressed: () {
-                                setState(() {
-                                  //boolExibirBotoes = true;
-                                  exibicaoTela =
-                                      Constantes.exibicaoTelaListagemLetra;
-                                });
+                                if (chaveFormulario.currentState!
+                                    .validate()) {
+                                  setState(() {
+                                    //boolExibirBotoes = true;
+
+                                    exibicaoTela =
+                                        Constantes.exibicaoTelaListagemLetra;
+                                  });
+                                }
+
                               },
                               child: Text(Textos.btnUsar,
                                   textAlign: TextAlign.center,
@@ -545,7 +570,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                                   ConteudoLetraWidget(
                                                             exibirLogo:
                                                                 boolExibirLogo,
-                                                            tituloLetra: "fdsf",
+                                                            tituloLetra: controllerNomeLetraFinal.text,
                                                             conteudoLetra:
                                                                 letraFinal
                                                                     .elementAt(
@@ -592,7 +617,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                 infoComplementaresBtn = [];
                                             //adicionando informacoes
                                             infoComplementaresBtn
-                                                .add("nomeLetra"); // index 0
+                                                .add(controllerNomeLetraFinal.text); // index 0
                                             infoComplementaresBtn
                                                 .add(tipoModelo); // index 1
                                             infoComplementaresBtn.add(Constantes

@@ -152,7 +152,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                             Visibility(
                                                 visible:
                                                     !widget.boolPesquisaUnica,
-                                                child: Container(
+                                                child: SizedBox(
                                                     width: larguraTela,
                                                     height: alturaTela * 0.2,
                                                     child: Column(
