@@ -143,11 +143,25 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                         height: alturaTela * 0.7,
                                         child: Column(
                                           children: [
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              Textos.descricaoListagemLinks,
-                                              style:
-                                                  const TextStyle(fontSize: 20),
+                                            Visibility(
+                                              visible: widget.boolPesquisaUnica,
+                                              child: Text(
+                                                textAlign: TextAlign.center,
+                                                Textos.descricaoListagemLinks,
+                                                style: const TextStyle(
+                                                    fontSize: 20),
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible:
+                                                  !widget.boolPesquisaUnica,
+                                              child: Text(
+                                                textAlign: TextAlign.center,
+                                                Textos
+                                                    .descricaoListagemLinksLetraUnir,
+                                                style: const TextStyle(
+                                                    fontSize: 20),
+                                              ),
                                             ),
                                             Visibility(
                                                 visible:
@@ -170,12 +184,46 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                 (context,
                                                                     index) {
                                                               return ListTile(
-                                                                title: Text(linksLetrasUnir
-                                                                    .elementAt(index)[
-                                                                        Constantes
-                                                                            .parametrosMapNomeLetra]
-                                                                    .toString()),
-                                                              );
+                                                                  title: Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Text(linksLetrasUnir
+                                                                      .elementAt(index)[
+                                                                          Constantes
+                                                                              .parametrosMapNomeLetra]
+                                                                      .toString()),
+                                                                  Container(
+                                                                    margin: const EdgeInsets
+                                                                            .symmetric(
+                                                                        horizontal:
+                                                                            10.0),
+                                                                    width: 30,
+                                                                    height: 30,
+                                                                    child:
+                                                                        FloatingActionButton(
+                                                                      heroTag:
+                                                                          "btnExcluir$index",
+                                                                      child:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .close,
+                                                                        size:
+                                                                            20,
+                                                                      ),
+                                                                      onPressed:
+                                                                          () {
+                                                                        setState(
+                                                                            () {
+                                                                          linksLetrasUnir
+                                                                              .removeAt(index);
+                                                                        });
+                                                                      },
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              ));
                                                             },
                                                           ),
                                                         ),

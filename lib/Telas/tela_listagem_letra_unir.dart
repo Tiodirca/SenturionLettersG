@@ -92,7 +92,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     });
   }
 
-  // metodo responsavel por exibir mensagem de erro caso a pesquisa
+  // metodo responsavel por exibir mensagem
+  // de erro caso a pesquisa
   // de erro
   exibirMensagemErro() {
     ScaffoldMessenger.of(context)
@@ -107,7 +108,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
       (value) {
         letraCompleta = value;
         setState(() {
-          //removendo primeiro index da lista pois o mesmo e vazio
+          //removendo primeiro index da
+          // lista pois o mesmo e vazio
           if (letraCompleta.isNotEmpty &&
               !(letraCompleta.first
                   .contains(Constantes.msgErroPesquisaLetra))) {
@@ -136,7 +138,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     });
     GerarArquivo arquivo = GerarArquivo();
     String retornoMetodo = await arquivo.passarValoresGerarArquivo(
-        letraFinal, tipoModelo, "nomeLetra");
+        letraFinal, tipoModelo, nomeLetraFinal);
     if (retornoMetodo.contains(Constantes.retornoRequesicaoSucesso)) {
       setState(() {
         exibicaoTela = Constantes.exibicaoTelaListagemLetra;
@@ -224,7 +226,6 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
           onWillPop: () async {
             Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
                 arguments: false);
-            //Navigator.pushReplacementNamed(context, Constantes.rotaTelaInicial);
             return false;
           },
           child: Scaffold(
@@ -352,13 +353,14 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                           Text(
                             Textos.nomeLetra,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontSize: 20),
                           ),
                           Container(
                               margin: const EdgeInsets.only(
-                                  left: 10.0, right: 10.0, bottom: 10.0),
+                                  left: 10.0,
+                                  right: 10.0,
+                                  bottom: 10.0,
+                                  top: 10.0),
                               width: larguraTela * 0.3,
                               child: Form(
                                 key: chaveFormulario,
@@ -409,7 +411,9 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                           children: [
                             Expanded(
                                 flex: 1,
-                                child: SizedBox(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 10.0),
                                   height: alturaTela,
                                   width: larguraTela,
                                   child: Text(
@@ -525,7 +529,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                             Column(
                                               children: [
                                                 Text(
-                                                    "${Textos.txtLetraFinalUnir} : $nomeLetraFinal",
+                                                    "${Textos.nomeLetraFinalUnir} : $nomeLetraFinal",
                                                     style: const TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -663,12 +667,14 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            controllerNomeLetraFinal.text = nomeLetraFinal;
+                                            controllerNomeLetraFinal.text =
+                                                nomeLetraFinal;
                                             exibicaoTela = Constantes
                                                 .exibicaoTelaSelecaoLogo;
                                           });
                                         },
-                                        child: Text("${Textos.btnTrocarModelo}/${Textos.txtLetraFinalUnir}",
+                                        child: Text(
+                                            "${Textos.btnTrocarModelo}/${Textos.nomeLetraFinalUnir}",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               fontSize: 18,

@@ -2,17 +2,19 @@ class Textos {
   static String nomeApp = "Senturion Letters";
 
   static String telaInicial = "";
+  static String descricaoTelaInicial =
+      "Selecione uma das opções abaixo para poder estar "
+      "criando um arquvio de Power Point contendo a letra";
 
   // string com o nome dos botoes
-  static String btnTelaPesquisaInternet = "Pesquisar Letra na internet";
-  static String btnUnirLetras = "Unir 2 letras em uma só";
-  static String btnCriarLetraTexto = "Criar Letra apartir de um texto";
+  static String btnTelaPesquisaInternet = "Unica buscada na Internet";
+  static String btnUnirLetras = "Apartir de duas musicas";
+  static String btnCriarLetraTexto = "Apartir de um texto";
 
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";
   static String btnUsar = "Usar";
   static String btnTrocarModelo = "Trocar de Modelo";
-  static String btnTrocarModeloNomeLetraFinal = "Trocar de Modelo";
   static String btnSalvar = "Salvar";
 
   // string com o nome dos radio button
@@ -23,6 +25,9 @@ class Textos {
 
   static String qtdSlides = "Quantidade de Slides :";
 
+  // VARIAVEIS GLOBAIS
+  static String nomeLetra = "Nome da Letra ";
+
   // TELA DE PESQUISA DE LINKS
   static String telaPesquisa = "Pesquisa de Letras";
   static String descricaoBarraPesquisaLetra =
@@ -30,6 +35,8 @@ class Textos {
   static String hintBarraPesquisaLetra = "nome da musica e cantor";
   static String descricaoListagemLinks =
       "Selecione um dos links para carregar a letra da musica";
+  static String descricaoListagemLinksLetraUnir =
+      "Adicione 2 Links na lista para poder estar unindo as letras das musicas";
 
   // TELA DE VISUALIZACAO DE LETRA
   static String telaVisualizacaoLetra = "Visualizar Letra Completa";
@@ -43,8 +50,6 @@ class Textos {
   static String telaEdicaoLetra = "Edição da Letra da musica";
   static String descricaoTelaEdicaoLetra =
       "Aqui você pode editar a letra, adicionar e/ou remover estrofes da música";
-  static String nomeLetra = "Nome da Letra ";
-
   static String sucessoAddSlide = "Sucesso ao adicionar slide";
   static String sucessoRemoSlide = "Sucesso ao remover slide";
 
@@ -53,22 +58,20 @@ class Textos {
   static String descricaoTelaVisualizacaoLetraUnir =
       "Marque as estrofes que deseja adicionar na letra Final,"
       "para remover uma estrofe basta desmarcar a caixa de seleção";
-  static String descricaoLetrasPJuntar =
-      "Selecione as esfrofes que deseja unir";
 
-  static String txtLetraFinalUnir = "Nome Letra Final";
+  static String nomeLetraFinalUnir = "Nome Letra Final";
   static String hintTextFieldNomeLetra = "Digite o nome da letra Final.";
 
   static String erroPesquisaLetraUnir =
       "Infelizmente não foi possivel realizar a pesquisa de uma ou mais letras.";
 
+  // ERROS
   static String erroSelecaoLetraUnir =
-      "Selecione 2 letras para poder estar unindo elas.";
-
-  static String erroLetraFinalVazia =
-      "Adicione estrofes na letra resultante antes";
+      "Selecione pelo menos 2 links para poder estar prosseguindo ";
+  static String erroLetraFinalVazia = "Adicione estrofes na letra final antes";
   static String erroNMaxLetrasUnir =
-      "Você já selecionou o máximo de letras possiveis para unir.";
+      "Você já selecionou o máximo de links possiveis, remova "
+      "um deles para adicionar outro no lugar";
   static String erroPesquisaInvalida =
       "Infelizmente não foi possivel encontrar "
       "links para a sua pesquisa. verifique e tente novamente";

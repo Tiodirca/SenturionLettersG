@@ -12,8 +12,6 @@ class TelaInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
     double larguraTela = MediaQuery.of(context).size.width;
-    double alturaBarraStatus = MediaQuery.of(context).padding.top;
-    double alturaAppBar = AppBar().preferredSize.height;
 
     return Theme(
         data: estilo.estiloGeral,
@@ -26,69 +24,82 @@ class TelaInicial extends StatelessWidget {
             width: larguraTela,
             height: alturaTela,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  margin: const EdgeInsets.all(10),
-                  width: 200,
-                  height: 80,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, Constantes.rotaTelaPesquisa,
-                          arguments: true);
-                    },
-                    child: Text(Textos.btnTelaPesquisaInternet,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        )),
+                    margin: const EdgeInsets.only(
+                        bottom: 20.0, top: 10.0),
+                    width: larguraTela,
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      Textos.descricaoTelaInicial,
+                      style: const TextStyle(fontSize: 20),
+                    )),
+              Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    width: 200,
+                    height: 80,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, Constantes.rotaTelaPesquisa,
+                            arguments: true);
+                      },
+                      child: Text(Textos.btnTelaPesquisaInternet,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 20,
+                          )),
+                    ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  width: 200,
-                  height: 80,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(
-                          context, Constantes.rotaTelaPesquisa,
-                          arguments: false);
-                    },
-                    child: Text(Textos.btnUnirLetras,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        )),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    width: 200,
+                    height: 80,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, Constantes.rotaTelaPesquisa,
+                            arguments: false);
+                      },
+                      child: Text(Textos.btnUnirLetras,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 20,
+                          )),
+                    ),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  width: 200,
-                  height: 80,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      List<Map<dynamic,dynamic>> sa = [];
-                      Map dados = {};
-                      dados[Constantes
-                          .paramatrosTelaLetraUnir] =
-                          sa;
-                      Navigator
-                          .pushReplacementNamed(
-                        context,
-                        Constantes
-                            .rotaTelaListagemLetraUnir,
-                        arguments:
-                        dados,
-                      );
-                    },
-                    child: Text("fdfs",
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 20,
-                        )),
-                  ),
-                )
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    width: 200,
+                    height: 80,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // List<Map<dynamic,dynamic>> sa = [];
+                        // Map dados = {};
+                        // dados[Constantes
+                        //     .paramatrosTelaLetraUnir] =
+                        //     sa;
+                        // Navigator
+                        //     .pushReplacementNamed(
+                        //   context,
+                        //   Constantes
+                        //       .rotaTelaListagemLetraUnir,
+                        //   arguments:
+                        //   dados,
+                        // );
+                      },
+                      child: Text(Textos.btnCriarLetraTexto,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 20,
+                          )),
+                    ),
+                  )
+                ],
+              )
               ],
             ),
           ),
