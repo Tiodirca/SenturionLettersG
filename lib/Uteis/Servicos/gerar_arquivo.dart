@@ -10,7 +10,7 @@ class GerarArquivo {
   String ROOT = "http://192.168.69.105:5000";
 
   Future<String> passarValoresGerarArquivo(
-      List<String> letraCompleta, String tipoModelo, String nomeLetra) async {
+      List<dynamic> letraCompleta, String tipoModelo, String nomeLetra) async {
     String endereco = "$ROOT/pegarValores";
     var url = Uri.parse(endereco);
     try {

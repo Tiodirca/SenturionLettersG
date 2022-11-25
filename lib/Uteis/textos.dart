@@ -12,6 +12,7 @@ class Textos {
   static String btnGerarArquivo = "Gerar Arquivo";
   static String btnUsar = "Usar";
   static String btnTrocarModelo = "Trocar de Modelo";
+  static String btnTrocarModeloNomeLetraFinal = "Trocar de Modelo";
   static String btnSalvar = "Salvar";
 
   // string com o nome dos radio button
@@ -38,9 +39,11 @@ class Textos {
   static String descricaoSelecaoLogo =
       "Selecione um modelo antes de visualizar a letra ";
 
+  // TELA EDICAO DE LETRA
   static String telaEdicaoLetra = "Edição da Letra da musica";
   static String descricaoTelaEdicaoLetra =
       "Aqui você pode editar a letra, adicionar e/ou remover estrofes da música";
+  static String nomeLetra = "Nome da Letra ";
 
   static String sucessoAddSlide = "Sucesso ao adicionar slide";
   static String sucessoRemoSlide = "Sucesso ao remover slide";
@@ -52,10 +55,9 @@ class Textos {
       "para remover uma estrofe basta desmarcar a caixa de seleção";
   static String descricaoLetrasPJuntar =
       "Selecione as esfrofes que deseja unir";
-  static String txtLetraFinalUnir = "Letra Final";
 
+  static String txtLetraFinalUnir = "Nome Letra Final";
   static String hintTextFieldNomeLetra = "Digite o nome da letra Final.";
-
 
   static String erroPesquisaLetraUnir =
       "Infelizmente não foi possivel realizar a pesquisa de uma ou mais letras.";

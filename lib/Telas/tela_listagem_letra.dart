@@ -307,7 +307,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
-                                      nomeLetra,
+                                      "${Textos.nomeLetra} : $nomeLetra",
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 20,
@@ -373,16 +373,14 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                 ),
                                 onPressed: () {
                                   Map dados = {};
-                                  List<dynamic> infoComplementares = [];
-                                  infoComplementares.add(nomeLetra);
-                                  infoComplementares.add(tipoModelo);
-                                  infoComplementares
-                                      .add(Constantes.listagemLetraUnica);
                                   dados[Constantes.parametrosTelaLetra] =
                                       letraCompletaCortada;
-                                  dados[Constantes
-                                          .parametrosInfoComplementares] =
-                                      infoComplementares;
+                                  dados[Constantes.paramatrosTelaNomeLetra] =
+                                      nomeLetra;
+                                  dados[Constantes.parametrosTelaModelo] =
+                                      tipoModelo;
+                                  dados[Constantes.parametrosTelaLinkLetra] =
+                                      [];
                                   Navigator.pushReplacementNamed(
                                       context, Constantes.rotaTelaEdicaoLetra,
                                       arguments: dados);

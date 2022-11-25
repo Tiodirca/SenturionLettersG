@@ -44,8 +44,10 @@ class Rotas {
         if (args is Map) {
           return MaterialPageRoute(
             builder: (_) => TelaListagemLetraUnir(
-              linksLetraLetrasUnir: args[Constantes.paramatrosTelaLetraUnir],
-              infoComplementares: args[Constantes.parametrosInfoComplementares],
+              linksLetrasUnirPesquisa: args[Constantes.parametrosTelaLinkLetra],
+              letraEditada: args[Constantes.parametrosTelaLetraEditada],
+              nomeLetraFinal: args[Constantes.paramatrosTelaNomeLetra],
+              tipoModelo: args[Constantes.parametrosTelaModelo],
             ),
           );
         } else {
@@ -56,10 +58,9 @@ class Rotas {
           return MaterialPageRoute(
             builder: (_) => TelaEdicaoLetra(
               letraCompleta: args[Constantes.parametrosTelaLetra],
-              informacoesComplementares:
-                  args[Constantes.parametrosInfoComplementares],
-              // nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
-              // modelo: args[Constantes.parametrosTelaModelo],
+              nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
+              tipoModelo: args[Constantes.parametrosTelaModelo],
+              linksLetras: args[Constantes.parametrosTelaLinkLetra],
             ),
           );
         } else {

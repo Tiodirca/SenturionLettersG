@@ -10,18 +10,15 @@ class TelaEdicaoLetra extends StatefulWidget {
   const TelaEdicaoLetra(
       {Key? key,
       required this.letraCompleta,
-      required this.informacoesComplementares})
+      required this.nomeLetra,
+      required this.tipoModelo,
+      required this.linksLetras})
       : super(key: key);
 
-  final List<String> letraCompleta;
-
-  // index 0 = nomeLetra
-  // index 1 = tipoModelo
-  //index 2 = tipoTela
-  final List<dynamic> informacoesComplementares;
-
-  // final String nomeLetra;
-  // final String modelo;
+  final List<dynamic> letraCompleta;
+  final String nomeLetra;
+  final String tipoModelo;
+  final List<dynamic> linksLetras;
 
   @override
   State<TelaEdicaoLetra> createState() => _TelaEdicaoLetraState();
@@ -32,17 +29,17 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
   bool boolExibirTelaCarregamento = true;
   bool boolExibirBotoes = false;
   bool boolExibirLogo = false;
-  late String tipoLogo = widget.informacoesComplementares.elementAt(1);
+  late String tipoLogo = widget.tipoModelo;
   int valorRadioButton = 0;
   String exibicaoTela = Constantes.exibicaoTelaListagemLetra;
-  List<String> letraCompletaEditada = [];
+  List<dynamic> letraCompletaEditada = [];
   String nomeLetra = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    nomeLetra = widget.informacoesComplementares.elementAt(0);
+    nomeLetra = widget.nomeLetra;
     if (tipoLogo == Constantes.logoGeral) {
       boolExibirLogo = false;
     } else {
@@ -54,8 +51,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
 
   // metodo responsavel por redirecionar o usuario para outra tela
   redirecionarTela() {
-    if (widget.informacoesComplementares.elementAt(2) ==
-        Constantes.listagemLetraUnica) {
+    if (widget.linksLetras.isEmpty) {
       Map dados = {};
       dados[Constantes.parametrosTelaLinkLetra] = "";
       dados[Constantes.parametrosTelaLetra] = letraCompletaEditada;
@@ -67,19 +63,11 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
         arguments: dados,
       );
     } else {
-      List<dynamic> infoComplementaresLetraUnir = [];
-      // adicionando informacoes a lista
-      // 3 e  4 index corresponde aos links
-      // passados na lista
-      infoComplementaresLetraUnir
-          .add(widget.informacoesComplementares.elementAt(3));
-      infoComplementaresLetraUnir
-          .add(widget.informacoesComplementares.elementAt(4));
-      infoComplementaresLetraUnir.add(tipoLogo);
       Map dados = {};
-      dados[Constantes.parametrosInfoComplementares] =
-          infoComplementaresLetraUnir;
-      dados[Constantes.paramatrosTelaLetraUnir] = letraCompletaEditada;
+      dados[Constantes.parametrosTelaLinkLetra] = widget.linksLetras;
+      dados[Constantes.parametrosTelaLetraEditada] = letraCompletaEditada;
+      dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+      dados[Constantes.parametrosTelaModelo] = tipoLogo;
       Navigator.pushReplacementNamed(
         context,
         Constantes.rotaTelaListagemLetraUnir,
@@ -91,8 +79,9 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
   recarregarTelaEdicao() {
     Map dados = {};
     dados[Constantes.parametrosTelaLetra] = letraCompletaEditada;
-    dados[Constantes.parametrosInfoComplementares] =
-        widget.informacoesComplementares;
+    dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+    dados[Constantes.parametrosTelaModelo] = tipoLogo;
+    dados[Constantes.parametrosTelaLinkLetra] = widget.linksLetras;
     Navigator.pushReplacementNamed(context, Constantes.rotaTelaEdicaoLetra,
         arguments: dados);
   }
@@ -475,7 +464,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Text(
-                                      nomeLetra,
+                                      "${Textos.nomeLetra} : $nomeLetra",
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                           fontSize: 20,
@@ -578,36 +567,20 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
                     ))),
           ),
           onWillPop: () async {
-            if (widget.informacoesComplementares.isEmpty) {
-              Map dados = {};
-              dados[Constantes.parametrosTelaLinkLetra] = "";
-              dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
-              dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
-              dados[Constantes.parametrosTelaModelo] =
-                  widget.informacoesComplementares.elementAt(1);
-              Navigator.pushReplacementNamed(
-                context,
-                Constantes.rotaTelaListagemLetra,
-                arguments: dados,
-              );
-            } else {
-              List<dynamic> infoComplementaresLetraUnir = [];
-              infoComplementaresLetraUnir
-                  .add(widget.informacoesComplementares.elementAt(3));
-              infoComplementaresLetraUnir
-                  .add(widget.informacoesComplementares.elementAt(4));
-              infoComplementaresLetraUnir.add(tipoLogo);
-              Map dados = {};
-              dados[Constantes.parametrosInfoComplementares] =
-                  infoComplementaresLetraUnir;
-              dados[Constantes.paramatrosTelaLetraUnir] = letraCompletaEditada;
-              Navigator.pushReplacementNamed(
-                context,
-                Constantes.rotaTelaListagemLetraUnir,
-                arguments: dados,
-              );
-            }
-
+            redirecionarTela();
+            // if (widget.linksLetras.isEmpty) {
+            //   Map dados = {};
+            //   dados[Constantes.parametrosTelaLinkLetra] = "";
+            //   dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
+            //   dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+            //   Navigator.pushReplacementNamed(
+            //     context,
+            //     Constantes.rotaTelaListagemLetra,
+            //     arguments: dados,
+            //   );
+            // } else {
+            //
+            // }
             return false;
           },
         ));

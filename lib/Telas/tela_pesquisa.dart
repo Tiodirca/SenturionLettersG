@@ -173,7 +173,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                 title: Text(linksLetrasUnir
                                                                     .elementAt(index)[
                                                                         Constantes
-                                                                            .paraNomeLetra]
+                                                                            .parametrosMapNomeLetra]
                                                                     .toString()),
                                                               );
                                                             },
@@ -198,22 +198,28 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                         content:
                                                                             Text(Textos.erroSelecaoLetraUnir)));
                                                               } else {
-                                                                List<String>
+                                                                List<dynamic>
                                                                     links = [];
+                                                                Map dados = {};
+                                                                // adicionando os links a uma lista
                                                                 links.add(linksLetrasUnir
                                                                     .elementAt(
                                                                         0)[Constantes
-                                                                    .paraLinkLetra]);
+                                                                    .parametrosMapLinkLetra]);
                                                                 links.add(linksLetrasUnir
                                                                     .elementAt(
                                                                         1)[Constantes
-                                                                    .paraLinkLetra]);
-                                                                Map dados = {};
+                                                                    .parametrosMapLinkLetra]);
+
                                                                 dados[Constantes
-                                                                    .parametrosInfoComplementares] = [];
-                                                                dados[Constantes
-                                                                        .paramatrosTelaLetraUnir] =
+                                                                        .parametrosTelaLinkLetra] =
                                                                     links;
+                                                                dados[Constantes
+                                                                    .parametrosTelaLetraEditada] = [];
+                                                                dados[Constantes
+                                                                    .paramatrosTelaNomeLetra] = "";
+                                                                dados[Constantes
+                                                                    .parametrosTelaModelo] = "";
                                                                 Navigator
                                                                     .pushReplacementNamed(
                                                                   context,
@@ -289,12 +295,11 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
 
                                                     onTap: () {
                                                       Map dados = {};
+                                                      // caso a pesquisa for unica redirecionar o
+                                                      // usuario passando as seguintes informacoes
                                                       if (widget
                                                               .boolPesquisaUnica ==
                                                           true) {
-                                                        // passando como argumento texto
-                                                        // e removendo texto desnecessario link da musica
-                                                        // funcionar
                                                         dados[Constantes
                                                                 .parametrosTelaLinkLetra] =
                                                             linkMusica;
@@ -317,10 +322,10 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                         );
                                                       } else {
                                                         dados[Constantes
-                                                                .paraNomeLetra] =
+                                                                .parametrosMapNomeLetra] =
                                                             nomeMusica;
                                                         dados[Constantes
-                                                                .paraLinkLetra] =
+                                                                .parametrosMapLinkLetra] =
                                                             linkMusica;
                                                         if (linksLetrasUnir
                                                                 .length <

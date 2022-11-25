@@ -14,12 +14,16 @@ import '../widgets/tela_carregamento.dart';
 class TelaListagemLetraUnir extends StatefulWidget {
   const TelaListagemLetraUnir(
       {Key? key,
-      required this.linksLetraLetrasUnir,
-      required this.infoComplementares})
+      required this.linksLetrasUnirPesquisa,
+      required this.letraEditada,
+      required this.nomeLetraFinal,
+      required this.tipoModelo})
       : super(key: key);
 
-  final List<String> linksLetraLetrasUnir;
-  final List<dynamic> infoComplementares;
+  final List<dynamic> linksLetrasUnirPesquisa;
+  final List<dynamic> letraEditada;
+  final String nomeLetraFinal;
+  final String tipoModelo;
 
   @override
   State<TelaListagemLetraUnir> createState() => _TelaListagemLetraUnirState();
@@ -39,7 +43,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   final List<CheckBoxModel> itensCBSegundaLetra = [];
   String primeiraLetraNome = "";
   String segundaLetraNome = "";
-  List<String> letraFinal = [];
+  String nomeLetraFinal = "";
+  List<dynamic> letraFinal = [];
   TextEditingController controllerNomeLetraFinal = TextEditingController();
   final chaveFormulario = GlobalKey<FormState>();
 
@@ -51,33 +56,9 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   }
 
   iniciarPesquisa() async {
-    String primeiroLink = "";
-    String segundoLink = "";
-    // caso a variavel seja vazia quer dizer
-    // que e a tela esta vindo da tela de pesquisa
-    // caso contrario esta vindo da tela de edicao
-    if (widget.infoComplementares.isEmpty) {
-      // index 0 e 1 corresponde aos links passados para a lista
-      // na tela de pesquisa
-      primeiroLink = widget.linksLetraLetrasUnir.elementAt(0);
-      segundoLink = widget.linksLetraLetrasUnir.elementAt(1);
-    } else {
-      // index 0 e 1 corresponde aos links passados a lista
-      // na tela de edicao
-      primeiroLink = widget.infoComplementares.elementAt(0);
-      segundoLink = widget.infoComplementares.elementAt(1);
-      letraFinal = widget.linksLetraLetrasUnir;
-      // verificando se qual o tipo de logo foi
-      // passado no index 2 da lista para exibir logo
-      if (widget.infoComplementares
-          .elementAt(2)
-          .toString()
-          .contains(Constantes.logoGeral)) {
-        boolExibirLogo = false;
-      } else {
-        boolExibirLogo = true;
-      }
-    }
+    String primeiroLink = widget.linksLetrasUnirPesquisa.elementAt(0);
+    String segundoLink = widget.linksLetrasUnirPesquisa.elementAt(1);
+
     primeiraLetraCompleta = await realizarPesquisaLetraCompleta(primeiroLink);
     //verificando se a pesquisa retornou algum erro ou nao
     if (primeiraLetraCompleta.first.contains(Constantes.msgErroPesquisaLetra)) {
@@ -101,10 +82,12 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     setState(() {
       exibicaoTela = "";
       boolExibirTelaCarregamento = false;
-      // verificando se a variavel e vazia para alterar valor da variavel
-      // exibindo tela correspondente
-      if (widget.infoComplementares.isEmpty) {
+      if (widget.letraEditada.isEmpty) {
         exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+      } else {
+        nomeLetraFinal = widget.nomeLetraFinal;
+        letraFinal = widget.letraEditada;
+        tipoModelo = widget.tipoModelo;
       }
     });
   }
@@ -138,7 +121,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
 
   // metodo para adicionar a letra devidamente cortada num check box para selecao
   adicionarLetraCheckBox(List<CheckBoxModel> itensCheckBox,
-      List<dynamic> letraCortada, String tituloLetra) {
+      List<String> letraCortada, String tituloLetra) {
     for (int i = 0; i < letraCortada.length; i++) {
       itensCheckBox
           .add(CheckBoxModel(texto: letraCortada[i], tituloLetra: tituloLetra));
@@ -366,6 +349,13 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                               ],
                             ),
                           ),
+                          Text(
+                            Textos.nomeLetra,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
                           Container(
                               margin: const EdgeInsets.only(
                                   left: 10.0, right: 10.0, bottom: 10.0),
@@ -392,16 +382,14 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                 backgroundColor: PaletaCores.corVerdeCiano,
                               ),
                               onPressed: () {
-                                if (chaveFormulario.currentState!
-                                    .validate()) {
+                                if (chaveFormulario.currentState!.validate()) {
                                   setState(() {
-                                    //boolExibirBotoes = true;
-
+                                    nomeLetraFinal =
+                                        controllerNomeLetraFinal.text;
                                     exibicaoTela =
                                         Constantes.exibicaoTelaListagemLetra;
                                   });
                                 }
-
                               },
                               child: Text(Textos.btnUsar,
                                   textAlign: TextAlign.center,
@@ -536,7 +524,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                             ),
                                             Column(
                                               children: [
-                                                Text(Textos.txtLetraFinalUnir,
+                                                Text(
+                                                    "${Textos.txtLetraFinalUnir} : $nomeLetraFinal",
                                                     style: const TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
@@ -570,7 +559,8 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                                   ConteudoLetraWidget(
                                                             exibirLogo:
                                                                 boolExibirLogo,
-                                                            tituloLetra: controllerNomeLetraFinal.text,
+                                                            tituloLetra:
+                                                                nomeLetraFinal,
                                                             conteudoLetra:
                                                                 letraFinal
                                                                     .elementAt(
@@ -590,7 +580,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                         )))),
                             Expanded(
                               flex: 1,
-                              child: Container(
+                              child: SizedBox(
                                 height: 70,
                                 width: larguraTela,
                                 child: Row(
@@ -613,40 +603,18 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                                         .erroLetraFinalVazia)));
                                           } else {
                                             Map dados = {};
-                                            List<dynamic>
-                                                infoComplementaresBtn = [];
-                                            //adicionando informacoes
-                                            infoComplementaresBtn
-                                                .add(controllerNomeLetraFinal.text); // index 0
-                                            infoComplementaresBtn
-                                                .add(tipoModelo); // index 1
-                                            infoComplementaresBtn.add(Constantes
-                                                .listagemLetraUnir); // index 2
-                                            // verificando se a variavel possui
-                                            // algum valor dentro para definir quais
-                                            // informacoes serao adicionadas
-                                            if (widget
-                                                .infoComplementares.isEmpty) {
-                                              infoComplementaresBtn.add(widget
-                                                  .linksLetraLetrasUnir
-                                                  .elementAt(0)); // index 3
-                                              infoComplementaresBtn.add(widget
-                                                  .linksLetraLetrasUnir
-                                                  .elementAt(1)); // index 4
-                                            } else {
-                                              infoComplementaresBtn.add(widget
-                                                  .infoComplementares
-                                                  .elementAt(0)); // index 3
-                                              infoComplementaresBtn.add(widget
-                                                  .infoComplementares
-                                                  .elementAt(1)); // index 4
-                                            }
-                                            dados[Constantes
-                                                    .parametrosInfoComplementares] =
-                                                infoComplementaresBtn;
                                             dados[Constantes
                                                     .parametrosTelaLetra] =
                                                 letraFinal;
+                                            dados[Constantes
+                                                    .paramatrosTelaNomeLetra] =
+                                                nomeLetraFinal;
+                                            dados[Constantes
+                                                    .parametrosTelaModelo] =
+                                                tipoModelo;
+                                            dados[Constantes
+                                                    .parametrosTelaLinkLetra] =
+                                                widget.linksLetrasUnirPesquisa;
                                             Navigator.pushReplacementNamed(
                                                 context,
                                                 Constantes.rotaTelaEdicaoLetra,
@@ -686,7 +654,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 110,
+                                      width: 200,
                                       height: 65,
                                       child: ElevatedButton(
                                         style: ElevatedButton.styleFrom(
@@ -695,11 +663,12 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                         ),
                                         onPressed: () {
                                           setState(() {
+                                            controllerNomeLetraFinal.text = nomeLetraFinal;
                                             exibicaoTela = Constantes
                                                 .exibicaoTelaSelecaoLogo;
                                           });
                                         },
-                                        child: Text(Textos.btnTrocarModelo,
+                                        child: Text("${Textos.btnTrocarModelo}/${Textos.txtLetraFinalUnir}",
                                             textAlign: TextAlign.center,
                                             style: const TextStyle(
                                               fontSize: 18,

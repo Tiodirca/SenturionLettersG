@@ -13,8 +13,10 @@ class Constantes {
   static const paramatrosTelaLetraUnir = "letraCompletaUnir";
   static const parametrosInfoComplementares = "parametrosAuxiliares";
 
-  static const paraNomeLetra = "nomeM";
-  static const paraLinkLetra = "linkM";
+  static const parametrosTelaLetraEditada = "letraEditada";
+
+  static const parametrosMapNomeLetra = "nomeM";
+  static const parametrosMapLinkLetra = "linkM";
 
   static const listagemLetraUnica = "ListagemLetraUnica";
   static const listagemLetraUnir = "ListagemLetraUnir";
