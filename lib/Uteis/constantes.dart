@@ -5,6 +5,7 @@ class Constantes {
   static const rotaTelaListagemLetra = "/telaListagemLetra";
   static const rotaTelaEdicaoLetra = "/telaEdicaoLetra";
   static const rotaTelaListagemLetraUnir = "/telaListagemLetraUnir";
+  static const rotaTelaDividirTexto = "/telaDividirTexto";
 
   static const parametrosTelaLinkLetra = "linkLetra";
   static const parametrosTelaLetra = "letraCompleta";

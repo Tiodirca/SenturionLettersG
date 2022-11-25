@@ -37,8 +37,10 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   List<String> primeiraLetraCompleta = [];
   List<String> segundaLetraCompleta = [];
   bool boolExibirTelaCarregamento = true;
-  late String tipoModelo = Constantes.logoGeral;
+  bool boolExibirBotoes = false;
   bool boolExibirLogo = false;
+  late String tipoModelo = Constantes.logoGeral;
+
   final List<CheckBoxModel> itensCBPrimeiraLetra = [];
   final List<CheckBoxModel> itensCBSegundaLetra = [];
   String primeiraLetraNome = "";
@@ -85,6 +87,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
       if (widget.letraEditada.isEmpty) {
         exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
       } else {
+        boolExibirBotoes = true;
         nomeLetraFinal = widget.nomeLetraFinal;
         letraFinal = widget.letraEditada;
         tipoModelo = widget.tipoModelo;
@@ -135,6 +138,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
   passarValoresGerarArquivo() async {
     setState(() {
       exibicaoTela = Constantes.exibicaoTelaCarregar;
+      boolExibirBotoes = false;
     });
     GerarArquivo arquivo = GerarArquivo();
     String retornoMetodo = await arquivo.passarValoresGerarArquivo(
@@ -142,10 +146,12 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
     if (retornoMetodo.contains(Constantes.retornoRequesicaoSucesso)) {
       setState(() {
         exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+        boolExibirBotoes = true;
       });
     } else {
       setState(() {
         exibicaoTela = Constantes.exibicaoTelaListagemLetra;
+        boolExibirBotoes = true;
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(Textos.erroGerarArquivo + retornoMetodo.toString())));
@@ -247,162 +253,169 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                   } else if (exibicaoTela ==
                       Constantes.exibicaoTelaSelecaoLogo) {
                     return SizedBox(
-                      width: larguraTela,
-                      height: alturaTela,
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                left: 5.0, right: 5.0, top: 20.0, bottom: 20.0),
-                            width: larguraTela,
-                            child: Text(
-                              Textos.descricaoSelecaoLogo,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 20),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 30.0),
-                            child: Wrap(
-                              children: [
-                                Card(
-                                  elevation: 0,
-                                  color: valorRadioButton == 0
-                                      ? PaletaCores.corVerdeCiano
-                                      : Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    width: 300,
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: Image.asset(
-                                            'assets/imagens/logo_adtl.png',
-                                          ),
-                                        ),
-                                        Radio(
-                                            activeColor:
-                                                PaletaCores.corCastanho,
-                                            value: 0,
-                                            groupValue: valorRadioButton,
-                                            onChanged: (_) async {
-                                              mudarRadioButton(0);
-                                            }),
-                                        Text(
-                                          Textos.radioButtonGeral,
-                                          style: TextStyle(
-                                            color: valorRadioButton == 0
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Card(
-                                  elevation: 0,
-                                  color: valorRadioButton == 1
-                                      ? PaletaCores.corVerdeCiano
-                                      : Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    width: 300,
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: Image.asset(
-                                            'assets/imagens/logo_geracao_fire.png',
-                                          ),
-                                        ),
-                                        Radio(
-                                            activeColor:
-                                                PaletaCores.corCastanho,
-                                            value: 1,
-                                            groupValue: valorRadioButton,
-                                            onChanged: (_) {
-                                              mudarRadioButton(1);
-                                            }),
-                                        Text(
-                                          Textos.radioButtonGeracaoFire,
-                                          style: TextStyle(
-                                            color: valorRadioButton == 1
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Text(
-                            Textos.nomeLetra,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          Container(
-                              margin: const EdgeInsets.only(
-                                  left: 10.0,
-                                  right: 10.0,
-                                  bottom: 10.0,
-                                  top: 10.0),
-                              width: larguraTela * 0.3,
-                              child: Form(
-                                key: chaveFormulario,
-                                child: TextFormField(
-                                  controller: controllerNomeLetraFinal,
-                                  decoration: InputDecoration(
-                                      hintText: Textos.hintTextFieldNomeLetra),
-                                  validator: (value) {
-                                    if (value!.isEmpty) {
-                                      return Textos.erroCampoVazio;
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              )),
-                          SizedBox(
-                            width: 150,
-                            height: 50,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: PaletaCores.corVerdeCiano,
-                              ),
-                              onPressed: () {
-                                if (chaveFormulario.currentState!.validate()) {
-                                  setState(() {
-                                    nomeLetraFinal =
-                                        controllerNomeLetraFinal.text;
-                                    exibicaoTela =
-                                        Constantes.exibicaoTelaListagemLetra;
-                                  });
-                                }
-                              },
-                              child: Text(Textos.btnUsar,
+                        width: larguraTela,
+                        height: alturaTela,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    left: 5.0,
+                                    right: 5.0,
+                                    top: 20.0,
+                                    bottom: 20.0),
+                                width: larguraTela,
+                                child: Text(
+                                  Textos.descricaoSelecaoLogo,
                                   textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 18,
+                                  style: const TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 30.0),
+                                child: Wrap(
+                                  children: [
+                                    Card(
+                                      elevation: 0,
+                                      color: valorRadioButton == 0
+                                          ? PaletaCores.corVerdeCiano
+                                          : Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(5),
+                                        width: 300,
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: Image.asset(
+                                                'assets/imagens/logo_adtl.png',
+                                              ),
+                                            ),
+                                            Radio(
+                                                activeColor:
+                                                    PaletaCores.corCastanho,
+                                                value: 0,
+                                                groupValue: valorRadioButton,
+                                                onChanged: (_) async {
+                                                  mudarRadioButton(0);
+                                                }),
+                                            Text(
+                                              Textos.radioButtonGeral,
+                                              style: TextStyle(
+                                                color: valorRadioButton == 0
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Card(
+                                      elevation: 0,
+                                      color: valorRadioButton == 1
+                                          ? PaletaCores.corVerdeCiano
+                                          : Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(30))),
+                                      child: Container(
+                                        margin: const EdgeInsets.all(5),
+                                        width: 300,
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: Image.asset(
+                                                'assets/imagens/logo_geracao_fire.png',
+                                              ),
+                                            ),
+                                            Radio(
+                                                activeColor:
+                                                    PaletaCores.corCastanho,
+                                                value: 1,
+                                                groupValue: valorRadioButton,
+                                                onChanged: (_) {
+                                                  mudarRadioButton(1);
+                                                }),
+                                            Text(
+                                              Textos.radioButtonGeracaoFire,
+                                              style: TextStyle(
+                                                color: valorRadioButton == 1
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                fontSize: 18.0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                Textos.nomeLetra,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              Container(
+                                  margin: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                      bottom: 10.0,
+                                      top: 10.0),
+                                  width: larguraTela * 0.4,
+                                  child: Form(
+                                    key: chaveFormulario,
+                                    child: TextFormField(
+                                      controller: controllerNomeLetraFinal,
+                                      decoration: InputDecoration(
+                                          hintText:
+                                              Textos.hintTextFieldNomeLetra),
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return Textos.erroCampoVazio;
+                                        }
+                                        return null;
+                                      },
+                                    ),
                                   )),
-                            ),
+                              SizedBox(
+                                width: 150,
+                                height: 50,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: PaletaCores.corVerdeCiano,
+                                  ),
+                                  onPressed: () {
+                                    if (chaveFormulario.currentState!
+                                        .validate()) {
+                                      setState(() {
+                                        nomeLetraFinal =
+                                            controllerNomeLetraFinal.text;
+                                        exibicaoTela = Constantes
+                                            .exibicaoTelaListagemLetra;
+                                        boolExibirBotoes = true;
+                                      });
+                                    }
+                                  },
+                                  child: Text(Textos.btnUsar,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                      )),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
+                        ));
                   } else {
                     return SizedBox(
                         width: larguraTela,
@@ -412,21 +425,23 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                             Expanded(
                                 flex: 1,
                                 child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  height: alturaTela,
-                                  width: larguraTela,
-                                  child: Text(
-                                    Textos.descricaoTelaVisualizacaoLetraUnir,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                )),
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    height: alturaTela,
+                                    width: larguraTela,
+                                    child: SingleChildScrollView(
+                                      child: Text(
+                                        Textos
+                                            .descricaoTelaVisualizacaoLetraUnir,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(fontSize: 18),
+                                      ),
+                                    ))),
                             Expanded(
                                 flex: 10,
                                 child: SizedBox(
                                     width: larguraTela,
-                                    height: alturaTela,
+                                    height: alturaTela * 0.6,
                                     child: SingleChildScrollView(
                                         scrollDirection: Axis.vertical,
                                         child: Wrap(
@@ -582,115 +597,103 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                                             ),
                                           ],
                                         )))),
-                            Expanded(
-                              flex: 1,
-                              child: SizedBox(
-                                height: 70,
-                                width: larguraTela,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    SizedBox(
-                                      width: 110,
-                                      height: 65,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              PaletaCores.corCastanho,
-                                        ),
-                                        onPressed: () {
-                                          if (letraFinal.isEmpty) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(Textos
-                                                        .erroLetraFinalVazia)));
-                                          } else {
-                                            Map dados = {};
-                                            dados[Constantes
-                                                    .parametrosTelaLetra] =
-                                                letraFinal;
-                                            dados[Constantes
-                                                    .paramatrosTelaNomeLetra] =
-                                                nomeLetraFinal;
-                                            dados[Constantes
-                                                    .parametrosTelaModelo] =
-                                                tipoModelo;
-                                            dados[Constantes
-                                                    .parametrosTelaLinkLetra] =
-                                                widget.linksLetrasUnirPesquisa;
-                                            Navigator.pushReplacementNamed(
-                                                context,
-                                                Constantes.rotaTelaEdicaoLetra,
-                                                arguments: dados);
-                                          }
-                                        },
-                                        child: Text(Textos.btnEditar,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            )),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 110,
-                                      height: 65,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              PaletaCores.corVerdeCiano,
-                                        ),
-                                        onPressed: () {
-                                          if (letraFinal.isEmpty) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(Textos
-                                                        .erroLetraFinalVazia)));
-                                          } else {
-                                            passarValoresGerarArquivo();
-                                          }
-                                        },
-                                        child: Text(Textos.btnGerarArquivo,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            )),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 200,
-                                      height: 65,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              PaletaCores.corAzulCiano,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            controllerNomeLetraFinal.text =
-                                                nomeLetraFinal;
-                                            exibicaoTela = Constantes
-                                                .exibicaoTelaSelecaoLogo;
-                                          });
-                                        },
-                                        child: Text(
-                                            "${Textos.btnTrocarModelo}/${Textos.nomeLetraFinalUnir}",
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                            )),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
                           ],
                         ));
                   }
                 },
               ),
             ),
+            bottomNavigationBar: SizedBox(
+                height: alturaTela * 0.1,
+                width: larguraTela,
+                child: Visibility(
+                  visible: boolExibirBotoes,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 110,
+                        height: 65,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: PaletaCores.corCastanho,
+                          ),
+                          onPressed: () {
+                            if (letraFinal.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(Textos.erroLetraFinalVazia)));
+                            } else {
+                              Map dados = {};
+                              dados[Constantes.parametrosTelaLetra] =
+                                  letraFinal;
+                              dados[Constantes.paramatrosTelaNomeLetra] =
+                                  nomeLetraFinal;
+                              dados[Constantes.parametrosTelaModelo] =
+                                  tipoModelo;
+                              dados[Constantes.parametrosTelaLinkLetra] =
+                                  widget.linksLetrasUnirPesquisa;
+                              Navigator.pushReplacementNamed(
+                                  context, Constantes.rotaTelaEdicaoLetra,
+                                  arguments: dados);
+                            }
+                          },
+                          child: Text(Textos.btnEditar,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 18,
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 110,
+                        height: 65,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: PaletaCores.corVerdeCiano,
+                          ),
+                          onPressed: () {
+                            if (letraFinal.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content:
+                                          Text(Textos.erroLetraFinalVazia)));
+                            } else {
+                              passarValoresGerarArquivo();
+                            }
+                          },
+                          child: Text(Textos.btnGerarArquivo,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 18,
+                              )),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MetodosAuxiliares.verificarTipoDispositivo() ? 150: 200,
+                        height: 65,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: PaletaCores.corAzulCiano,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              controllerNomeLetraFinal.text = nomeLetraFinal;
+                              exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+                              boolExibirBotoes = false;
+                            });
+                          },
+                          child: Text(Textos.btnTrocarModeloNome,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 18,
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                )),
           ),
         ));
   }

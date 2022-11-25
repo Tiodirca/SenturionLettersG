@@ -15,6 +15,7 @@ class Textos {
   static String btnGerarArquivo = "Gerar Arquivo";
   static String btnUsar = "Usar";
   static String btnTrocarModelo = "Trocar de Modelo";
+  static String btnTrocarModeloNome = "Trocar de Modelo/Nome Letra";
   static String btnSalvar = "Salvar";
 
   // string com o nome dos radio button

@@ -50,7 +50,7 @@ class GerarArquivo {
     final Uri url = Uri.parse(endereco);
     if (await launchUrl(
       url,
-      mode: LaunchMode.inAppWebView,
+      mode: LaunchMode.externalNonBrowserApplication,
     )) {
       // definindo timer para executar comando apos determinado tempo
       Timer(const Duration(seconds: 2), () async {

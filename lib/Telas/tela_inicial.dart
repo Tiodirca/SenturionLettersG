@@ -27,8 +27,7 @@ class TelaInicial extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 20.0, top: 10.0),
+                    margin: const EdgeInsets.all(10),
                     width: larguraTela,
                     child: Text(
                       textAlign: TextAlign.center,
@@ -77,19 +76,8 @@ class TelaInicial extends StatelessWidget {
                     height: 80,
                     child: ElevatedButton(
                       onPressed: () {
-                        // List<Map<dynamic,dynamic>> sa = [];
-                        // Map dados = {};
-                        // dados[Constantes
-                        //     .paramatrosTelaLetraUnir] =
-                        //     sa;
-                        // Navigator
-                        //     .pushReplacementNamed(
-                        //   context,
-                        //   Constantes
-                        //       .rotaTelaListagemLetraUnir,
-                        //   arguments:
-                        //   dados,
-                        // );
+                        Navigator.pushReplacementNamed(
+                            context, Constantes.rotaTelaDividirTexto,);
                       },
                       child: Text(Textos.btnCriarLetraTexto,
                           textAlign: TextAlign.center,

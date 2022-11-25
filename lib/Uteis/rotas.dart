@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Telas/tela_dividir_texto.dart';
 import 'package:senturionlettersg/Telas/tela_edicao_letra.dart';
 import 'package:senturionlettersg/Telas/tela_inicial.dart';
 import 'package:senturionlettersg/Telas/tela_listagem_letra.dart';
@@ -18,6 +19,8 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => const TelaSplashScreen());
       case Constantes.rotaTelaInicial:
         return MaterialPageRoute(builder: (_) => TelaInicial());
+      case Constantes.rotaTelaDividirTexto:
+        return MaterialPageRoute(builder: (_) => const TelaDividirTexto());
       case Constantes.rotaTelaPesquisa:
         if (args is bool) {
           return MaterialPageRoute(

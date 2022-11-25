@@ -331,7 +331,10 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                               ),
                               child: Container(
                                   padding: const EdgeInsets.all(5.0),
-                                  width: larguraTela * 0.6,
+                                  width: MetodosAuxiliares
+                                          .verificarTipoDispositivo()
+                                      ? larguraTela * 0.8
+                                      : larguraTela * 0.6,
                                   height: alturaTela * 0.6,
                                   child: ListView.builder(
                                     itemCount: letraCompletaCortada.length,

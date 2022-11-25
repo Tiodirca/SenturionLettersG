@@ -189,11 +189,14 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                     MainAxisAlignment
                                                                         .center,
                                                                 children: [
-                                                                  Text(linksLetrasUnir
-                                                                      .elementAt(index)[
-                                                                          Constantes
-                                                                              .parametrosMapNomeLetra]
-                                                                      .toString()),
+                                                                  SizedBox(
+                                                                    width: larguraTela*0.7,
+                                                                    child: Text(linksLetrasUnir
+                                                                        .elementAt(index)[
+                                                                    Constantes
+                                                                        .parametrosMapNomeLetra]
+                                                                        .toString()),
+                                                                  ),
                                                                   Container(
                                                                     margin: const EdgeInsets
                                                                             .symmetric(
