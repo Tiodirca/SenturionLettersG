@@ -1,10 +1,10 @@
 class Textos {
-  static String nomeApp = "Senturion Letters";
+  static String nomeApp = "Senturion Letters G";
 
   static String telaInicial = "";
   static String descricaoTelaInicial =
       "Selecione uma das opções abaixo para poder estar "
-      "criando um arquvio de Power Point contendo a letra";
+      "criando um arquivo de Power Point contendo a letra";
 
   // string com o nome dos botoes
   static String btnTelaPesquisaInternet = "Unica buscada na Internet";

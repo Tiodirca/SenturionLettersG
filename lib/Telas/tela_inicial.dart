@@ -18,13 +18,12 @@ class TelaInicial extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text(Textos.nomeApp),
-            leading: const Icon(Icons.add, color: Colors.blueAccent),
+            leading: const Image(image:  AssetImage('assets/imagens/logo_programa.png'),width: 40,height: 40,),
           ),
           body: SizedBox(
             width: larguraTela,
             height: alturaTela,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                     margin: const EdgeInsets.all(10),
@@ -34,60 +33,67 @@ class TelaInicial extends StatelessWidget {
                       Textos.descricaoTelaInicial,
                       style: const TextStyle(fontSize: 20),
                     )),
-              Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    width: 200,
-                    height: 80,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, Constantes.rotaTelaPesquisa,
-                            arguments: true);
-                      },
-                      child: Text(Textos.btnTelaPesquisaInternet,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          )),
-                    ),
+                SizedBox(
+                  height: alturaTela*0.8,
+                  width: larguraTela,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        width: 200,
+                        height: 80,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, Constantes.rotaTelaPesquisa,
+                                arguments: true);
+                          },
+                          child: Text(Textos.btnTelaPesquisaInternet,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        width: 200,
+                        height: 80,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, Constantes.rotaTelaPesquisa,
+                                arguments: false);
+                          },
+                          child: Text(Textos.btnUnirLetras,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(10),
+                        width: 200,
+                        height: 80,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              Constantes.rotaTelaDividirTexto,
+                            );
+                          },
+                          child: Text(Textos.btnCriarLetraTexto,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 20,
+                              )),
+                        ),
+                      )
+                    ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    width: 200,
-                    height: 80,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, Constantes.rotaTelaPesquisa,
-                            arguments: false);
-                      },
-                      child: Text(Textos.btnUnirLetras,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          )),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    width: 200,
-                    height: 80,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, Constantes.rotaTelaDividirTexto,);
-                      },
-                      child: Text(Textos.btnCriarLetraTexto,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 20,
-                          )),
-                    ),
-                  )
-                ],
-              )
+                )
               ],
             ),
           ),

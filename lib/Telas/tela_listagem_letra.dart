@@ -81,7 +81,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     nomeLetra = await PesquisaLetra.exibirTituloLetra();
   }
 
-  void mudarRadioButton(int value) {
+  mudarRadioButton(int value) {
     //metodo para mudar o estado do radio button
     setState(() {
       valorRadioButton = value;
@@ -101,6 +101,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       }
     });
   }
+
 
   // metodo para passar os valores para o back end
   // para assim estar gerando o arquivo
