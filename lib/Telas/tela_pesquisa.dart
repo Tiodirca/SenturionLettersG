@@ -97,6 +97,18 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                         child: Form(
                                           key: chaveFormulario,
                                           child: TextFormField(
+                                            onFieldSubmitted: (value) {
+                                              if (chaveFormulario.currentState!
+                                                  .validate()) {
+                                                setState(() {
+                                                  boolExibirListagemLinks =
+                                                      false;
+                                                  boolExibirTelaCarregamento =
+                                                      true;
+                                                });
+                                                realizarPesquisaLinks();
+                                              }
+                                            },
                                             controller: controllerPesquisa,
                                             decoration: InputDecoration(
                                                 hintText: Textos
@@ -190,11 +202,12 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                         .center,
                                                                 children: [
                                                                   SizedBox(
-                                                                    width: larguraTela*0.7,
+                                                                    width:
+                                                                        larguraTela *
+                                                                            0.7,
                                                                     child: Text(linksLetrasUnir
-                                                                        .elementAt(index)[
-                                                                    Constantes
-                                                                        .parametrosMapNomeLetra]
+                                                                        .elementAt(
+                                                                            index)[Constantes.parametrosMapNomeLetra]
                                                                         .toString()),
                                                                   ),
                                                                   Container(

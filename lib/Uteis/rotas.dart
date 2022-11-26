@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Telas/Listagem/tela_listagem_letra_unir.dart';
 import 'package:senturionlettersg/Telas/tela_dividir_texto.dart';
 import 'package:senturionlettersg/Telas/tela_edicao_letra.dart';
 import 'package:senturionlettersg/Telas/tela_inicial.dart';
-import 'package:senturionlettersg/Telas/tela_listagem_letra.dart';
-import 'package:senturionlettersg/Telas/tela_listagem_letra_unir.dart';
+import 'package:senturionlettersg/Telas/Listagem/tela_listagem_letra.dart';
+
 import 'package:senturionlettersg/Telas/tela_pesquisa.dart';
 import '../Telas/tela_splash_screen.dart';
 import 'constantes.dart';

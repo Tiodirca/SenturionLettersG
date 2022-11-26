@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Modelo/check_box_model.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
+import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
+import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
+import 'package:senturionlettersg/Uteis/paleta_cores.dart';
+import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/widgets/listagem_letra_widget.dart';
+import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 
-import '../Modelo/check_box_model.dart';
-import '../Uteis/Servicos/pesquisa_letra.dart';
-import '../Uteis/constantes.dart';
-import '../Uteis/paleta_cores.dart';
-import '../Uteis/textos.dart';
-import '../widgets/tela_carregamento.dart';
+
 
 class TelaListagemLetraUnir extends StatefulWidget {
   const TelaListagemLetraUnir(
