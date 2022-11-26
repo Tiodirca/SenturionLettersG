@@ -73,24 +73,24 @@ class TelaInicial extends StatelessWidget {
                               )),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        width: 200,
-                        height: 80,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              Constantes.rotaTelaDividirTexto,
-                            );
-                          },
-                          child: Text(Textos.btnCriarLetraTexto,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 20,
-                              )),
-                        ),
-                      )
+                      // Container(
+                      //   margin: const EdgeInsets.all(10),
+                      //   width: 200,
+                      //   height: 80,
+                      //   child: ElevatedButton(
+                      //     onPressed: () {
+                      //       Navigator.pushReplacementNamed(
+                      //         context,
+                      //         Constantes.rotaTelaDividirTexto,
+                      //       );
+                      //     },
+                      //     child: Text(Textos.btnCriarLetraTexto,
+                      //         textAlign: TextAlign.center,
+                      //         style: const TextStyle(
+                      //           fontSize: 20,
+                      //         )),
+                      //   ),
+                      // )
                     ],
                   ),
                 )
