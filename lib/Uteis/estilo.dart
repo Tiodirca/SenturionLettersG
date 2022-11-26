@@ -37,21 +37,8 @@ class Estilo {
       // estilo dos botoes
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.lightBlue,
+          backgroundColor: PaletaCores.corAzulMagenta,
           elevation: 10,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-        ),
-      ));
-
-  ThemeData get botoesGerais => ThemeData(
-          // estilo dos botoes
-          elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          elevation: 10,
-          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-          shadowColor: Colors.grey,
-
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(20))),
         ),

@@ -219,10 +219,15 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                     height: 30,
                                                                     child:
                                                                         FloatingActionButton(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .white,
                                                                       heroTag:
                                                                           "btnExcluir$index",
                                                                       child:
                                                                           const Icon(
+                                                                        color: Colors
+                                                                            .black,
                                                                         Icons
                                                                             .close,
                                                                         size:
