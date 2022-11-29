@@ -629,7 +629,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                               Map dados = {};
                               dados[Constantes.parametrosTelaLetra] =
                                   letraFinal;
-                              dados[Constantes.paramatrosTelaNomeLetra] =
+                              dados[Constantes.parametrosTelaNomeLetra] =
                                   nomeLetraFinal;
                               dados[Constantes.parametrosTelaModelo] =
                                   tipoModelo;

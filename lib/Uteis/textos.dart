@@ -7,9 +7,10 @@ class Textos {
       "criando um arquivo de Power Point contendo a letra";
 
   // string com o nome dos botoes
-  static String btnTelaPesquisaInternet = "Unica buscada na Internet";
-  static String btnUnirLetras = "Apartir de duas musicas";
-  static String btnCriarLetraTexto = "Apartir de um texto";
+  static String btnLetraUnica = "Criar letra única buscada na internet";
+  static String btnUnirLetras = "Criar letra a partir da letra de duas musicas";
+  static String btnCriarLetraTexto = "Criar letra a partir de um texto";
+  static String btnCriarLetraVideoAudio = "Criar letra a partir de um vídeo ou audio";
 
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";
@@ -61,12 +62,18 @@ class Textos {
       "para remover uma estrofe basta desmarcar a caixa de seleção";
 
   static String nomeLetraFinalUnir = "Nome Letra Final";
-  static String hintTextFieldNomeLetra = "Digite o nome da letra Final.";
+  static String hintTextFieldNomeLetra = "Digite o nome que a letra terá";
 
-  static String erroPesquisaLetraUnir =
-      "Infelizmente não foi possivel realizar a pesquisa de uma ou mais letras.";
+  // TELA DE Colocar Letra
+
+  static String telaDividirLetraTexto = "";
+  static String descricaoTelaInserirLetraTexto =
+      "Copie e cole a mensagem de texto contendo a letra que deseja,"
+      "gerar o arquivo para avançar";
 
   // ERROS
+  static String erroPesquisaLetraUnir =
+      "Infelizmente não foi possivel realizar a pesquisa de uma ou mais letras.";
   static String erroSelecaoLetraUnir =
       "Selecione pelo menos 2 links para poder estar prosseguindo ";
   static String erroLetraFinalVazia = "Adicione estrofes na letra final antes";

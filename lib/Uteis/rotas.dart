@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Telas/Listagem/tela_listagem_letra_unir.dart';
-import 'package:senturionlettersg/Telas/tela_dividir_texto.dart';
+import 'package:senturionlettersg/Telas/tela_dividir_letra_texto.dart';
 import 'package:senturionlettersg/Telas/tela_edicao_letra.dart';
 import 'package:senturionlettersg/Telas/tela_inicial.dart';
 import 'package:senturionlettersg/Telas/Listagem/tela_listagem_letra.dart';
@@ -20,8 +20,8 @@ class Rotas {
         return MaterialPageRoute(builder: (_) => const TelaSplashScreen());
       case Constantes.rotaTelaInicial:
         return MaterialPageRoute(builder: (_) => TelaInicial());
-      case Constantes.rotaTelaDividirTexto:
-        return MaterialPageRoute(builder: (_) => const TelaDividirTexto());
+      case Constantes.rotaTelaDividirLetraTexto:
+        return MaterialPageRoute(builder: (_) => const TelaDividirLetraTexto());
       case Constantes.rotaTelaPesquisa:
         if (args is bool) {
           return MaterialPageRoute(
@@ -36,8 +36,10 @@ class Rotas {
           return MaterialPageRoute(
             builder: (_) => TelaLisagemLetra(
               linkLetra: args[Constantes.parametrosTelaLinkLetra],
+              parametroDividirLetraTexto:
+                  args[Constantes.parametroTelaDividirLetraTexto],
               letraCompleta: args[Constantes.parametrosTelaLetra],
-              nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
+              nomeLetra: args[Constantes.parametrosTelaNomeLetra],
               modelo: args[Constantes.parametrosTelaModelo],
             ),
           );
@@ -50,7 +52,7 @@ class Rotas {
             builder: (_) => TelaListagemLetraUnir(
               linksLetrasUnirPesquisa: args[Constantes.parametrosTelaLinkLetra],
               letraEditada: args[Constantes.parametrosTelaLetraEditada],
-              nomeLetraFinal: args[Constantes.paramatrosTelaNomeLetra],
+              nomeLetraFinal: args[Constantes.parametrosTelaNomeLetra],
               tipoModelo: args[Constantes.parametrosTelaModelo],
             ),
           );
@@ -62,7 +64,7 @@ class Rotas {
           return MaterialPageRoute(
             builder: (_) => TelaEdicaoLetra(
               letraCompleta: args[Constantes.parametrosTelaLetra],
-              nomeLetra: args[Constantes.paramatrosTelaNomeLetra],
+              nomeLetra: args[Constantes.parametrosTelaNomeLetra],
               tipoModelo: args[Constantes.parametrosTelaModelo],
               linksLetras: args[Constantes.parametrosTelaLinkLetra],
             ),

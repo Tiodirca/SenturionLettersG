@@ -54,8 +54,9 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
     if (widget.linksLetras.isEmpty) {
       Map dados = {};
       dados[Constantes.parametrosTelaLinkLetra] = "";
+      dados[Constantes.parametroTelaDividirLetraTexto] = "";
       dados[Constantes.parametrosTelaLetra] = letraCompletaEditada;
-      dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+      dados[Constantes.parametrosTelaNomeLetra] = nomeLetra;
       dados[Constantes.parametrosTelaModelo] = tipoLogo;
       Navigator.pushReplacementNamed(
         context,
@@ -66,7 +67,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
       Map dados = {};
       dados[Constantes.parametrosTelaLinkLetra] = widget.linksLetras;
       dados[Constantes.parametrosTelaLetraEditada] = letraCompletaEditada;
-      dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+      dados[Constantes.parametrosTelaNomeLetra] = nomeLetra;
       dados[Constantes.parametrosTelaModelo] = tipoLogo;
       Navigator.pushReplacementNamed(
         context,
@@ -79,7 +80,7 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
   recarregarTelaEdicao() {
     Map dados = {};
     dados[Constantes.parametrosTelaLetra] = letraCompletaEditada;
-    dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
+    dados[Constantes.parametrosTelaNomeLetra] = nomeLetra;
     dados[Constantes.parametrosTelaModelo] = tipoLogo;
     dados[Constantes.parametrosTelaLinkLetra] = widget.linksLetras;
     Navigator.pushReplacementNamed(context, Constantes.rotaTelaEdicaoLetra,

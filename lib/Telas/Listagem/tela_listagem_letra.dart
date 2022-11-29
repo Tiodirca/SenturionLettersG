@@ -13,12 +13,14 @@ class TelaLisagemLetra extends StatefulWidget {
   const TelaLisagemLetra(
       {Key? key,
       required this.linkLetra,
+      required this.parametroDividirLetraTexto,
       required this.letraCompleta,
       required this.nomeLetra,
       required this.modelo})
       : super(key: key);
 
   final String linkLetra;
+  final String parametroDividirLetraTexto;
   final List<String> letraCompleta;
   final String nomeLetra;
   final String modelo;
@@ -47,6 +49,11 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
     // para determinar qual sera a acao executada
     if (widget.linkLetra.isNotEmpty) {
       realizarPesquisaLetraCompleta(); // chamando metodo
+    } else if (widget.parametroDividirLetraTexto
+        .contains(Constantes.parametroTelaDividirLetraTexto)) {
+      letraCompletaCortada = widget.letraCompleta;
+      nomeLetra = widget.nomeLetra;
+      exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
     } else {
       letraCompletaCortada = widget.letraCompleta;
       nomeLetra = widget.nomeLetra;
@@ -101,7 +108,6 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       }
     });
   }
-
 
   // metodo para passar os valores para o back end
   // para assim estar gerando o arquivo
@@ -379,7 +385,7 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                                   Map dados = {};
                                   dados[Constantes.parametrosTelaLetra] =
                                       letraCompletaCortada;
-                                  dados[Constantes.paramatrosTelaNomeLetra] =
+                                  dados[Constantes.parametrosTelaNomeLetra] =
                                       nomeLetra;
                                   dados[Constantes.parametrosTelaModelo] =
                                       tipoModelo;
@@ -440,8 +446,14 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                     ))),
           ),
           onWillPop: () async {
-            Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
-                arguments: true);
+            if (widget.parametroDividirLetraTexto.isEmpty) {
+              Navigator.pushReplacementNamed(
+                  context, Constantes.rotaTelaPesquisa,
+                  arguments: true);
+            } else {
+              Navigator.pushReplacementNamed(
+                  context, Constantes.rotaTelaDividirLetraTexto);
+            }
             return false;
           },
         ));

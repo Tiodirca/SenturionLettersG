@@ -7,7 +7,8 @@ import 'package:http/http.dart' as http;
 import '../constantes.dart';
 
 class GerarArquivo {
-  String ROOT = "https://backendsenturionlettersg.herokuapp.com";
+  //String ROOT = "https://backendsenturionlettersg.herokuapp.com";
+  String ROOT = "http://192.168.69.105:5000";
 
   Future<String> passarValoresGerarArquivo(
       List<dynamic> letraCompleta, String tipoModelo, String nomeLetra) async {

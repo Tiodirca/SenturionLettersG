@@ -286,7 +286,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                 dados[Constantes
                                                                     .parametrosTelaLetraEditada] = [];
                                                                 dados[Constantes
-                                                                    .paramatrosTelaNomeLetra] = "";
+                                                                    .parametrosTelaNomeLetra] = "";
                                                                 dados[Constantes
                                                                     .parametrosTelaModelo] = "";
                                                                 Navigator
@@ -377,7 +377,9 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                                 .parametrosTelaLetra] =
                                                             vazio;
                                                         dados[Constantes
-                                                            .paramatrosTelaNomeLetra] = "";
+                                                            .parametroTelaDividirLetraTexto] = "";
+                                                        dados[Constantes
+                                                            .parametrosTelaNomeLetra] = "";
                                                         dados[Constantes
                                                                 .parametrosTelaModelo] =
                                                             Constantes
