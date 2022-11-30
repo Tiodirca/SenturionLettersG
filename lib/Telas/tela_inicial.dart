@@ -8,14 +8,11 @@ class TelaInicial extends StatelessWidget {
 
   Estilo estilo = Estilo();
 
-
-
   Widget botoesHome(BuildContext context, String tituloBtn) => Container(
         margin: const EdgeInsets.all(10),
         width: 250,
         height: 100,
         child: ElevatedButton(
-
           onPressed: () {
             if (tituloBtn == Textos.btnLetraUnica) {
               Navigator.pushReplacementNamed(
@@ -52,15 +49,7 @@ class TelaInicial extends StatelessWidget {
         data: estilo.estiloGeral,
         child: Scaffold(
           appBar: AppBar(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               children: [
-                 Text(Textos.nomeApp),
-                 const Text("Versão : ${Constantes.versaoApp}",style: TextStyle(
-                   fontSize: 13,
-                 ),)
-               ],
-            ),
+            title: Text(Textos.nomeApp),
             leading: const Image(
               image: AssetImage('assets/imagens/logo_programa.png'),
               width: 40,
@@ -83,18 +72,29 @@ class TelaInicial extends StatelessWidget {
                   height: alturaTela * 0.6,
                   width: larguraTela * 0.6,
                   child: Center(
-                     child: Wrap(
-                       alignment: WrapAlignment.spaceAround,
-                       children: [
-                         botoesHome(context, Textos.btnLetraUnica),
-                         botoesHome(context, Textos.btnUnirLetras),
-                         botoesHome(context, Textos.btnCriarLetraTexto),
-                         botoesHome(context, Textos.btnCriarLetraVideoAudio),
-                       ],
-                     ),
+                    child: Wrap(
+                      alignment: WrapAlignment.spaceAround,
+                      children: [
+                        botoesHome(context, Textos.btnLetraUnica),
+                        botoesHome(context, Textos.btnUnirLetras),
+                        botoesHome(context, Textos.btnCriarLetraTexto),
+                        botoesHome(context, Textos.btnCriarLetraVideoAudio),
+                      ],
+                    ),
                   ))
             ]),
           ),
+          bottomSheet: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(10),
+              width: larguraTela,
+              child: const Text(
+                "Versão : ${Constantes.versaoApp}",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 13,
+                ),
+              )),
         ));
   }
 }

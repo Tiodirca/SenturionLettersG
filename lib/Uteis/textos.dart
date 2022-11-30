@@ -10,7 +10,8 @@ class Textos {
   static String btnLetraUnica = "Criar letra única buscada na internet";
   static String btnUnirLetras = "Criar letra a partir da letra de duas musicas";
   static String btnCriarLetraTexto = "Criar letra a partir de um texto";
-  static String btnCriarLetraVideoAudio = "Criar letra a partir de um vídeo ou audio";
+  static String btnCriarLetraVideoAudio =
+      "Criar letra a partir de um vídeo ou audio";
 
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";
@@ -67,9 +68,13 @@ class Textos {
   // TELA DE Colocar Letra
 
   static String telaDividirLetraTexto = "";
-  static String descricaoTelaInserirLetraTexto =
+  static String hintDividirLetraTexto = "Cole ou digite a letra aqui";
+  static String descricaoDividirLetraTexto =
       "Copie e cole a mensagem de texto contendo a letra que deseja,"
       "gerar o arquivo para avançar";
+  static String descricaoDividirLetraTextoAddEstrofe =
+      "Para colocar o texto na linha de baixo pule para a proxima linha, para adicionar uma "
+      "estrofe nova pule a linha duas vezes,deixando um espaço entre uma estrofe e outra";
 
   // ERROS
   static String erroPesquisaLetraUnir =
