@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
@@ -66,6 +68,8 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       }
     }
   }
+
+
 
   // metodo responsavel por chamar metodo para realizar a pesquisa da letra completa
   realizarPesquisaLetraCompleta() async {

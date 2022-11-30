@@ -8,6 +8,8 @@ class TelaInicial extends StatelessWidget {
 
   Estilo estilo = Estilo();
 
+
+
   Widget botoesHome(BuildContext context, String tituloBtn) => Container(
         margin: const EdgeInsets.all(10),
         width: 250,
@@ -50,7 +52,15 @@ class TelaInicial extends StatelessWidget {
         data: estilo.estiloGeral,
         child: Scaffold(
           appBar: AppBar(
-            title: Text(Textos.nomeApp),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: [
+                 Text(Textos.nomeApp),
+                 const Text("Versão : ${Constantes.versaoApp}",style: TextStyle(
+                   fontSize: 13,
+                 ),)
+               ],
+            ),
             leading: const Image(
               image: AssetImage('assets/imagens/logo_programa.png'),
               width: 40,

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 
 class MetodosAuxiliares {
-
   static dividirLetraEstrofes(List<String> letraCompleta) {
     List<String> letraCompletaCortada = [];
     for (var element in letraCompleta) {
@@ -44,5 +43,18 @@ class MetodosAuxiliares {
     } else {
       return false;
     }
+  }
+
+  static pegarIpMaquina() async {
+    String ip = "";
+    for (var interface in await NetworkInterface.list()) {
+      print('== Interface: ${interface.name} ==');
+      for (var addr in interface.addresses) {
+        ip = addr.address;
+      }
+    }
+    ip = "http://$ip:8080";
+    print(ip);
+    return ip;
   }
 }
