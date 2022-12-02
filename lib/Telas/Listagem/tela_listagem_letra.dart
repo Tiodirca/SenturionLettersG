@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
@@ -45,7 +44,6 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // verificando se a lista nao e vazia
     // para determinar qual sera a acao executada

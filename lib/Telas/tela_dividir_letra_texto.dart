@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
-import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
-import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 
 class TelaDividirLetraTexto extends StatefulWidget {
   const TelaDividirLetraTexto({Key? key}) : super(key: key);

@@ -10,7 +10,6 @@ import 'package:flutter/foundation.dart';
 
 class GerarArquivo {
   //String ROOT = "https://backendsenturionlettersg.herokuapp.com";
-  //String root = "http://192.168.69.105:8080";
 
   Future<String> passarValoresGerarArquivo(
       List<dynamic> letraCompleta, String tipoModelo, String nomeLetra) async {

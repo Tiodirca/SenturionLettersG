@@ -48,7 +48,6 @@ class MetodosAuxiliares {
   static pegarIpMaquina() async {
     String ip = "";
     for (var interface in await NetworkInterface.list()) {
-      print('== Interface: ${interface.name} ==');
       for (var addr in interface.addresses) {
         ip = addr.address;
       }
