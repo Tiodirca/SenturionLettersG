@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
@@ -27,9 +28,6 @@ class TelaInicial extends StatelessWidget {
                 context,
                 Constantes.rotaTelaDividirLetraTexto,
               );
-            } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text("Em contrução.")));
             }
           },
           child: Text(tituloBtn,
@@ -68,7 +66,7 @@ class TelaInicial extends StatelessWidget {
                     Textos.descricaoTelaInicial,
                     style: const TextStyle(fontSize: 20),
                   )),
-              Container(
+              SizedBox(
                   height: alturaTela * 0.6,
                   width: larguraTela * 0.6,
                   child: Center(
@@ -78,22 +76,40 @@ class TelaInicial extends StatelessWidget {
                         botoesHome(context, Textos.btnLetraUnica),
                         botoesHome(context, Textos.btnUnirLetras),
                         botoesHome(context, Textos.btnCriarLetraTexto),
-                        botoesHome(context, Textos.btnCriarLetraVideoAudio),
                       ],
                     ),
                   ))
             ]),
           ),
           bottomSheet: Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(10),
+              color: Colors.white,
+              padding: const EdgeInsets.all(10),
               width: larguraTela,
-              child: const Text(
-                "Versão : ${Constantes.versaoApp}",
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  fontSize: 13,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // Row(
+                  //   children: [
+                  //     const Text("Back-end Local"),
+                  //     Switch(
+                  //         value: false,
+                  //         activeColor: PaletaCores.corAzulMagenta,
+                  //         onChanged: (bool valorServirCeia) {
+                  //           setState(() {
+                  //             _boleanoServirCeia =
+                  //                 valorServirCeia;
+                  //           });
+                  //         }),
+                  //   ],
+                  // ),
+                  const Text(
+                    "Versão : ${Constantes.versaoApp}",
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 13,
+                    ),
+                  )
+                ],
               )),
         ));
   }

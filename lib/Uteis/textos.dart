@@ -10,8 +10,6 @@ class Textos {
   static String btnLetraUnica = "Criar letra única buscada na internet";
   static String btnUnirLetras = "Criar letra a partir da letra de duas musicas";
   static String btnCriarLetraTexto = "Criar letra a partir de um texto";
-  static String btnCriarLetraVideoAudio =
-      "Criar letra a partir de um vídeo ou audio";
 
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";

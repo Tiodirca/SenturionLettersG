@@ -101,7 +101,6 @@ class PesquisaLetra {
           linksNome.add(dados);
         }
       });
-
       return linksNome;
     } catch (e) {
       List<String> retornoErro = [];
