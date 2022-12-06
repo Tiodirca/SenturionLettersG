@@ -11,13 +11,14 @@ class PesquisaLetra {
   static Future<List<String>> pesquisarLetra(String linkLetra) async {
     var root = Uri.parse(linkLetra);
     List<String> letraCortada = [];
+    String parametroClasseSite = "cnt-letra";
     try {
       final response =
           await http.get(root).timeout(const Duration(seconds: 20));
       var document = parse(response.body);
       //for para pegar todos os indexs
       for (int i = 0;
-          i < document.getElementsByClassName("cnt-letra p402_premium").length;
+          i < document.getElementsByClassName(parametroClasseSite).length;
           i++) {
         //pegando o titulo e cantores da musica da musica apartir dos parametros passados para o SUB STRING
         //parametros passados para os GET ELEMENTS BY CLASS NAME pegados no site do letras.mus.com.br
@@ -39,7 +40,7 @@ class PesquisaLetra {
             .replaceAll(RegExp(r'[-,/]'), ' ');
         //pegando a letra completa apartir dos parametros passados para o SUB STRING
         var resultadoTagLetra = document
-            .getElementsByClassName("cnt-letra p402_premium")[i]
+            .getElementsByClassName(parametroClasseSite)[i]
             .outerHtml
             .substring(36);
         var letraCompleta = resultadoTagLetra.replaceAll(

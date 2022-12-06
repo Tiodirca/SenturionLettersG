@@ -9,10 +9,10 @@ import '../constantes.dart';
 import 'package:flutter/foundation.dart';
 
 class GerarArquivo {
-  String root = "https://backendsenturionlettersg.onrender.com";
+  //String root = "https://backendsenturionlettersg.onrender.com";
   Future<String> passarValoresGerarArquivo(
       List<dynamic> letraCompleta, String tipoModelo, String nomeLetra) async {
-    //String root = await MetodosAuxiliares.pegarIpMaquina();
+    String root = await MetodosAuxiliares.pegarIpMaquina();
     String endereco = "$root/pegarValores";
 
     var url = Uri.parse(endereco);
@@ -49,7 +49,7 @@ class GerarArquivo {
 
   // future responsavel por abrir o navegador
   Future<void> abrirNavegador(String nomeLetra) async {
-    //String root = await MetodosAuxiliares.pegarIpMaquina();
+    String root = await MetodosAuxiliares.pegarIpMaquina();
 
     String endereco = "$root/chamarBaixarArquivo";
     final Uri url = Uri.parse(endereco);
@@ -59,7 +59,7 @@ class GerarArquivo {
     )) {
       // definindo timer para executar comando apos determinado tempo
       Timer(const Duration(seconds: 2), () async {
-        //excluirArquivoDoBackEnd(nomeLetra);
+        excluirArquivoDoBackEnd(nomeLetra);
       });
     } else {
       throw 'Could not launch $url';
@@ -69,7 +69,7 @@ class GerarArquivo {
 // metodo para excluir o arquivo criado na pasta do
 // back end que cria o arquivo de slides
   excluirArquivoDoBackEnd(nomeLetra) async {
-    //String root = await MetodosAuxiliares.pegarIpMaquina();
+    String root = await MetodosAuxiliares.pegarIpMaquina();
     String endereco = "$root/excluirArquivo";
     final Uri linkExcluirArquivo = Uri.parse(endereco);
     try {
