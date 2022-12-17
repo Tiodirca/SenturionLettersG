@@ -103,8 +103,9 @@ class _TelaDividirLetraTextoState extends State<TelaDividirLetraTexto> {
                                 if (chaveFormulario.currentState!.validate()) {
                                   String letraFormadata = controllerPesquisa
                                       .text
-                                      .replaceAll("\n\n", "<p>")
+                                      .replaceAll("\r\r", "<p>")
                                       .replaceAll("\n", "<br>");
+                                  print(letraFormadata);
                                   List<String> letraCompleta =
                                       MetodosAuxiliares.dividirLetraEstrofes(
                                           letraFormadata.split("<p>"));

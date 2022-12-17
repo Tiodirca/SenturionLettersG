@@ -10,9 +10,12 @@ class MetodosAuxiliares {
       String versoConcatenado = "";
       for (int index = 0; index < corte.length; index++) {
         versoConcatenado =
-            "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte.elementAt(index)}";
+        "$versoConcatenado ${Constantes.stringPularLinhaSlide} ${corte
+            .elementAt(index)}";
+
         // verificando se index da lista e igual a algum dos valores passados para adicionar
         // string na outra lista pegando 2 linhas por vez lembrando 0 conta
+        print("s@$index");
         if (index == 1 ||
             index == 3 ||
             index == 5 ||
@@ -22,7 +25,18 @@ class MetodosAuxiliares {
             index == 13 ||
             index == 15 ||
             index == 17 ||
-            index == 19) {
+            index == 19 ||
+            index == 21 ||
+            index == 23 ||
+            index == 25 ||
+            index == 27 ||
+            index == 29 ||
+            index == 31 ||
+            index == 33 ||
+            index == 35 ||
+            index == 37 ||
+            index == 39 ||
+            index == 41) {
           letraCompletaCortada.add(versoConcatenado);
           versoConcatenado = "";
         } else if (index == corte.length - 1) {
