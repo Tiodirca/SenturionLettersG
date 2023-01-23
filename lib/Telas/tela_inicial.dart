@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
@@ -85,31 +84,12 @@ class TelaInicial extends StatelessWidget {
               color: Colors.white,
               padding: const EdgeInsets.all(10),
               width: larguraTela,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // Row(
-                  //   children: [
-                  //     const Text("Back-end Local"),
-                  //     Switch(
-                  //         value: false,
-                  //         activeColor: PaletaCores.corAzulMagenta,
-                  //         onChanged: (bool valorServirCeia) {
-                  //           setState(() {
-                  //             _boleanoServirCeia =
-                  //                 valorServirCeia;
-                  //           });
-                  //         }),
-                  //   ],
-                  // ),
-                  const Text(
-                    "Versão : ${Constantes.versaoApp}",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: 13,
-                    ),
-                  )
-                ],
+              child: const Text(
+                "Versão : ${Constantes.versaoApp}",
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontSize: 13,
+                ),
               )),
         ));
   }

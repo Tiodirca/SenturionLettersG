@@ -6,7 +6,6 @@ import 'package:senturionlettersg/Telas/tela_inicial.dart';
 import 'package:senturionlettersg/Telas/Listagem/tela_listagem_letra.dart';
 
 import 'package:senturionlettersg/Telas/tela_pesquisa.dart';
-import '../Telas/tela_splash_screen.dart';
 import 'constantes.dart';
 
 class Rotas {
@@ -16,8 +15,6 @@ class Rotas {
     // Recebe os parâmetros na chamada do Navigator.
     final args = settings.arguments;
     switch (settings.name) {
-      case Constantes.rotaTelaSplashScreen:
-        return MaterialPageRoute(builder: (_) => const TelaSplashScreen());
       case Constantes.rotaTelaInicial:
         return MaterialPageRoute(builder: (_) => TelaInicial());
       case Constantes.rotaTelaDividirLetraTexto:
@@ -88,7 +85,7 @@ class Rotas {
         body: Container(
           color: Colors.red,
           child: const Center(
-            child: Text("Telas não encontrada."),
+            child: Text("Erro de Rota"),
           ),
         ),
       );

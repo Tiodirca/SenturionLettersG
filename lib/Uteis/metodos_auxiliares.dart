@@ -6,7 +6,9 @@ class MetodosAuxiliares {
   static dividirLetraEstrofes(List<String> letraCompleta) {
     List<String> letraCompletaCortada = [];
     for (var element in letraCompleta) {
+      print("SA${letraCompleta.toString()}");
       var corte = element.split("<br>");
+      print("SAX:${corte.toString()}");
       String versoConcatenado = "";
       for (int index = 0; index < corte.length; index++) {
         versoConcatenado =
@@ -15,7 +17,8 @@ class MetodosAuxiliares {
 
         // verificando se index da lista e igual a algum dos valores passados para adicionar
         // string na outra lista pegando 2 linhas por vez lembrando 0 conta
-        print("s@$index");
+        //print("s@${corte.elementAt(index)}");
+        //print("#$versoConcatenado");
         if (index == 1 ||
             index == 3 ||
             index == 5 ||

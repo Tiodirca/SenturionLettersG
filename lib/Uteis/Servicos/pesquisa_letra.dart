@@ -39,10 +39,11 @@ class PesquisaLetra {
                 '')
             .replaceAll(RegExp(r'[-,/]'), ' ');
         //pegando a letra completa apartir dos parametros passados para o SUB STRING
+        // 23 pois corresponde ao numero de caracters <div class="cnt-letra">
         var resultadoTagLetra = document
             .getElementsByClassName(parametroClasseSite)[i]
             .outerHtml
-            .substring(36);
+            .substring(23);
         var letraCompleta = resultadoTagLetra.replaceAll(
             RegExp(
               r'</div>',

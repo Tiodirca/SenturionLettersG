@@ -105,7 +105,6 @@ class _TelaDividirLetraTextoState extends State<TelaDividirLetraTexto> {
                                       .text
                                       .replaceAll("\r\r", "<p>")
                                       .replaceAll("\n", "<br>");
-                                  print(letraFormadata);
                                   List<String> letraCompleta =
                                       MetodosAuxiliares.dividirLetraEstrofes(
                                           letraFormadata.split("<p>"));

@@ -1,6 +1,6 @@
 class Constantes {
 
-  static const versaoApp = "1.1.2";
+  static const versaoApp = "1.1.3";
 
   static const rotaTelaSplashScreen = "/telaSplashScreen";
   static const rotaTelaInicial = "/telaInicial";
