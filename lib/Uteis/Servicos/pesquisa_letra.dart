@@ -109,4 +109,44 @@ class PesquisaLetra {
       return retornoErro;
     }
   }
+
+  static Future pesquisarLinksVideos(String itemDigitado) async {
+    var linkPesquisa =
+        Uri.parse("https://www.google.com/search?q=$itemDigitado&tbm=vid");
+    try {
+      final resposta = await http.get(
+        linkPesquisa,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers":
+              "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
+        },
+      ).timeout(const Duration(seconds: 20));
+      var retornoResposta = parse(resposta.body);
+      List<Map<String, String>> linksNome = [];
+
+      retornoResposta.getElementsByTagName("a").forEach((elemento) {
+        // pegando o conteudo contido dentro do item da lista
+        String linksResposta = elemento.outerHtml;
+
+        if (linksResposta.contains("www.youtube.com") && linksResposta.contains("DnJfK")) {
+          print("SE${linksResposta.toString()}");
+          String nomeLink = linksResposta.substring(
+              linksResposta.indexOf('AP7Wnd">'), linksResposta.indexOf("</div>"));
+          String link =
+              linksResposta.substring(52, linksResposta.indexOf("&amp"));
+          print(nomeLink);
+          link = "https://www.youtube.com/watch?v=$link";
+          print(link);
+
+        }
+      });
+      return linksNome;
+    } catch (e) {
+      List<String> retornoErro = [];
+      return retornoErro;
+    }
+  }
 }

@@ -1,6 +1,6 @@
 class Constantes {
 
-  static const versaoApp = "1.1.3";
+  static const versaoApp = "1.2.5";
 
   static const rotaTelaSplashScreen = "/telaSplashScreen";
   static const rotaTelaInicial = "/telaInicial";
@@ -9,6 +9,11 @@ class Constantes {
   static const rotaTelaEdicaoLetra = "/telaEdicaoLetra";
   static const rotaTelaListagemLetraUnir = "/telaListagemLetraUnir";
   static const rotaTelaDividirLetraTexto = "/telaDividirLetraTexto";
+
+
+  static const tipoPesquisaUnica = "pesquisaUnica";
+  static const tipoPesquisaDupla = "pesquisaDupla";
+  static const tipoPesquisaVideo = "pesquisaVideo";
 
   static const parametrosTelaLinkLetra = "linkLetra";
   static const parametrosTelaLetra = "letraCompleta";

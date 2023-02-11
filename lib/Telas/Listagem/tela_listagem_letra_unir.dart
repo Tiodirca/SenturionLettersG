@@ -10,8 +10,6 @@ import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/widgets/listagem_letra_widget.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 
-
-
 class TelaListagemLetraUnir extends StatefulWidget {
   const TelaListagemLetraUnir(
       {Key? key,
@@ -232,7 +230,7 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
         child: WillPopScope(
           onWillPop: () async {
             Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
-                arguments: false);
+                arguments: Constantes.tipoPesquisaDupla);
             return false;
           },
           child: Scaffold(
@@ -672,7 +670,9 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                         ),
                       ),
                       SizedBox(
-                        width: MetodosAuxiliares.verificarTipoDispositivo() ? 150: 200,
+                        width: MetodosAuxiliares.verificarTipoDispositivo()
+                            ? 150
+                            : 200,
                         height: 65,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(

@@ -20,10 +20,10 @@ class Rotas {
       case Constantes.rotaTelaDividirLetraTexto:
         return MaterialPageRoute(builder: (_) => const TelaDividirLetraTexto());
       case Constantes.rotaTelaPesquisa:
-        if (args is bool) {
+        if (args is String) {
           return MaterialPageRoute(
               builder: (_) => TelaPesquisa(
-                    boolPesquisaUnica: args,
+                    tipoPesquisa: args,
                   ));
         } else {
           return erroRota(settings);

@@ -4,12 +4,12 @@ import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
+import 'package:senturionlettersg/widgets/widget_listagem_links_selecionados.dart';
 
 class TelaPesquisa extends StatefulWidget {
-  const TelaPesquisa({Key? key, required this.boolPesquisaUnica})
-      : super(key: key);
+  const TelaPesquisa({Key? key, required this.tipoPesquisa}) : super(key: key);
 
-  final bool boolPesquisaUnica;
+  final String tipoPesquisa;
 
   @override
   State<TelaPesquisa> createState() => _TelaPesquisaState();
@@ -32,7 +32,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
 
   // metodo para realizar a pesquisa dos links
   // que contem o conteudo digitado na barra de pesquisa pelo usuario
-  realizarPesquisaLinks() async {
+  realizarPesquisaLinksLetraTexto() async {
     await PesquisaLetra.pesquisarLinks(controllerPesquisa.text)
         .then((value) => setState(() {
               resultadoLinks = value;
@@ -45,6 +45,76 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
               }
             }));
   }
+
+  realizarPesquisaLinksVideos() async {
+    await PesquisaLetra.pesquisarLinksVideos(controllerPesquisa.text).then((value) => {
+
+    });
+    setState(() {
+      boolExibirTelaCarregamento = false;
+      boolExibirListagemLinks = true;
+      print("dfsfd");
+    });
+  }
+
+  Widget listagemLinksSelecaoLetraTexto(double larguraTela) => ListView.builder(
+        itemCount: resultadoLinks.length,
+        itemBuilder: (context, index) {
+          // variaveis vao receber o valor do map
+          String nomeMusica = resultadoLinks.elementAt(index).keys.toString();
+          String linkMusica = resultadoLinks.elementAt(index).values.toString();
+          // removendo caracteres que nao sao necessarios
+          nomeMusica =
+              nomeMusica.replaceAll('(AP7Wnd">', "").replaceAll(")", "");
+          linkMusica = linkMusica.replaceAll("(", "").replaceAll(")", "");
+          return ListTile(
+            iconColor: Colors.black,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Icon(Icons.link),
+                SizedBox(
+                  width: larguraTela * 0.7,
+                  child: Text(
+                      // removendo texto desnecessario para exibicao
+                      nomeMusica,
+                      textAlign: TextAlign.center),
+                )
+              ],
+            ),
+
+            onTap: () {
+              Map dados = {};
+              // caso a pesquisa for unica redirecionar o
+              // usuario passando as seguintes informacoes
+              if (widget.tipoPesquisa == Constantes.tipoPesquisaUnica) {
+                dados[Constantes.parametrosTelaLinkLetra] = linkMusica;
+                List<String> vazio = [];
+                dados[Constantes.parametrosTelaLetra] = vazio;
+                dados[Constantes.parametroTelaDividirLetraTexto] = "";
+                dados[Constantes.parametrosTelaNomeLetra] = "";
+                dados[Constantes.parametrosTelaModelo] = Constantes.logoGeral;
+                Navigator.pushReplacementNamed(
+                  context,
+                  Constantes.rotaTelaListagemLetra,
+                  arguments: dados,
+                );
+              } else {
+                dados[Constantes.parametrosMapNomeLetra] = nomeMusica;
+                dados[Constantes.parametrosMapLinkLetra] = linkMusica;
+                if (linksLetrasUnir.length < 2) {
+                  setState(() {
+                    linksLetrasUnir.add(dados);
+                  });
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(Textos.erroNMaxLetrasUnir)));
+                }
+              }
+            }, // Handle your onTap here.
+          );
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +176,17 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                   boolExibirTelaCarregamento =
                                                       true;
                                                 });
-                                                realizarPesquisaLinks();
+                                                if (widget.tipoPesquisa ==
+                                                        Constantes
+                                                            .listagemLetraUnica ||
+                                                    widget.tipoPesquisa ==
+                                                        Constantes
+                                                            .tipoPesquisaDupla) {
+                                                  realizarPesquisaLinksLetraTexto();
+                                                } else {
+                                                  realizarPesquisaLinksVideos();
+                                                  print("FDAFSFS");
+                                                }
                                               }
                                             },
                                             controller: controllerPesquisa,
@@ -134,7 +214,17 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                 boolExibirTelaCarregamento =
                                                     true;
                                               });
-                                              realizarPesquisaLinks();
+                                              if (widget.tipoPesquisa ==
+                                                      Constantes
+                                                          .listagemLetraUnica ||
+                                                  widget.tipoPesquisa ==
+                                                      Constantes
+                                                          .tipoPesquisaDupla) {
+                                                realizarPesquisaLinksLetraTexto();
+                                              } else {
+                                                realizarPesquisaLinksVideos();
+                                                print("FDAFSFS");
+                                              }
                                             }
                                           },
                                           child: const Icon(
@@ -156,7 +246,11 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                         child: Column(
                                           children: [
                                             Visibility(
-                                              visible: widget.boolPesquisaUnica,
+                                              visible: widget.tipoPesquisa ==
+                                                      Constantes
+                                                          .tipoPesquisaUnica
+                                                  ? true
+                                                  : false,
                                               child: Text(
                                                 textAlign: TextAlign.center,
                                                 Textos.descricaoListagemLinks,
@@ -165,260 +259,28 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                               ),
                                             ),
                                             Visibility(
-                                              visible:
-                                                  !widget.boolPesquisaUnica,
-                                              child: Text(
-                                                textAlign: TextAlign.center,
-                                                Textos
-                                                    .descricaoListagemLinksLetraUnir,
-                                                style: const TextStyle(
-                                                    fontSize: 20),
-                                              ),
-                                            ),
-                                            Visibility(
-                                                visible:
-                                                    !widget.boolPesquisaUnica,
-                                                child: SizedBox(
-                                                    width: larguraTela,
-                                                    height: alturaTela * 0.2,
-                                                    child: Column(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: larguraTela,
-                                                          height:
-                                                              alturaTela * 0.1,
-                                                          child:
-                                                              ListView.builder(
-                                                            itemCount:
-                                                                linksLetrasUnir
-                                                                    .length,
-                                                            itemBuilder:
-                                                                (context,
-                                                                    index) {
-                                                              return ListTile(
-                                                                  title: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  SizedBox(
-                                                                    width:
-                                                                        larguraTela *
-                                                                            0.7,
-                                                                    child: Text(linksLetrasUnir
-                                                                        .elementAt(
-                                                                            index)[Constantes.parametrosMapNomeLetra]
-                                                                        .toString()),
-                                                                  ),
-                                                                  Container(
-                                                                    margin: const EdgeInsets
-                                                                            .symmetric(
-                                                                        horizontal:
-                                                                            10.0),
-                                                                    width: 30,
-                                                                    height: 30,
-                                                                    child:
-                                                                        FloatingActionButton(
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .white,
-                                                                      heroTag:
-                                                                          "btnExcluir$index",
-                                                                      child:
-                                                                          const Icon(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        Icons
-                                                                            .close,
-                                                                        size:
-                                                                            20,
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        setState(
-                                                                            () {
-                                                                          linksLetrasUnir
-                                                                              .removeAt(index);
-                                                                        });
-                                                                      },
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ));
-                                                            },
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .all(10),
-                                                          width: 100,
-                                                          height: 50,
-                                                          child: ElevatedButton(
-                                                            onPressed: () {
-                                                              if (linksLetrasUnir
-                                                                      .isEmpty ||
-                                                                  linksLetrasUnir
-                                                                          .length <
-                                                                      2) {
-                                                                ScaffoldMessenger.of(
-                                                                        context)
-                                                                    .showSnackBar(SnackBar(
-                                                                        content:
-                                                                            Text(Textos.erroSelecaoLetraUnir)));
-                                                              } else {
-                                                                List<dynamic>
-                                                                    links = [];
-                                                                Map dados = {};
-                                                                // adicionando os links a uma lista
-                                                                links.add(linksLetrasUnir
-                                                                    .elementAt(
-                                                                        0)[Constantes
-                                                                    .parametrosMapLinkLetra]);
-                                                                links.add(linksLetrasUnir
-                                                                    .elementAt(
-                                                                        1)[Constantes
-                                                                    .parametrosMapLinkLetra]);
-
-                                                                dados[Constantes
-                                                                        .parametrosTelaLinkLetra] =
-                                                                    links;
-                                                                dados[Constantes
-                                                                    .parametrosTelaLetraEditada] = [];
-                                                                dados[Constantes
-                                                                    .parametrosTelaNomeLetra] = "";
-                                                                dados[Constantes
-                                                                    .parametrosTelaModelo] = "";
-                                                                Navigator
-                                                                    .pushReplacementNamed(
-                                                                  context,
-                                                                  Constantes
-                                                                      .rotaTelaListagemLetraUnir,
-                                                                  arguments:
-                                                                      dados,
-                                                                );
-                                                              }
-                                                            },
-                                                            child: Text(
-                                                                Textos.btnUsar,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontSize: 20,
-                                                                )),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ))),
+                                                visible: widget.tipoPesquisa ==
+                                                        Constantes
+                                                            .tipoPesquisaDupla
+                                                    ? true
+                                                    : false,
+                                                child:
+                                                    WidgetListagemLinksSeleLetraTexto(
+                                                  linksLetrasUnir:
+                                                      linksLetrasUnir,
+                                                )),
                                             Container(
-                                              margin: const EdgeInsets.only(
-                                                top: 10.0,
-                                              ),
-                                              width: larguraTela,
-                                              height: alturaTela * 0.4,
-                                              child: ListView.builder(
-                                                itemCount:
-                                                    resultadoLinks.length,
-                                                itemBuilder: (context, index) {
-                                                  // variaveis vao receber o valor do map
-                                                  String nomeMusica =
-                                                      resultadoLinks
-                                                          .elementAt(index)
-                                                          .keys
-                                                          .toString();
-                                                  String linkMusica =
-                                                      resultadoLinks
-                                                          .elementAt(index)
-                                                          .values
-                                                          .toString();
-                                                  // removendo caracteres que nao sao necessarios
-                                                  nomeMusica = nomeMusica
-                                                      .replaceAll(
-                                                          '(AP7Wnd">', "")
-                                                      .replaceAll(")", "");
-                                                  linkMusica = linkMusica
-                                                      .replaceAll("(", "")
-                                                      .replaceAll(")", "");
-                                                  return ListTile(
-                                                    iconColor: Colors.black,
-                                                    title: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      children: [
-                                                        const Icon(Icons.link),
-                                                        SizedBox(
-                                                          width:
-                                                              larguraTela * 0.7,
-                                                          child: Text(
-                                                              // removendo texto desnecessario para exibicao
-                                                              nomeMusica,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center),
-                                                        )
-                                                      ],
-                                                    ),
-
-                                                    onTap: () {
-                                                      Map dados = {};
-                                                      // caso a pesquisa for unica redirecionar o
-                                                      // usuario passando as seguintes informacoes
-                                                      if (widget
-                                                              .boolPesquisaUnica ==
-                                                          true) {
-                                                        dados[Constantes
-                                                                .parametrosTelaLinkLetra] =
-                                                            linkMusica;
-                                                        List<String> vazio = [];
-                                                        dados[Constantes
-                                                                .parametrosTelaLetra] =
-                                                            vazio;
-                                                        dados[Constantes
-                                                            .parametroTelaDividirLetraTexto] = "";
-                                                        dados[Constantes
-                                                            .parametrosTelaNomeLetra] = "";
-                                                        dados[Constantes
-                                                                .parametrosTelaModelo] =
-                                                            Constantes
-                                                                .logoGeral;
-                                                        Navigator
-                                                            .pushReplacementNamed(
-                                                          context,
-                                                          Constantes
-                                                              .rotaTelaListagemLetra,
-                                                          arguments: dados,
-                                                        );
-                                                      } else {
-                                                        dados[Constantes
-                                                                .parametrosMapNomeLetra] =
-                                                            nomeMusica;
-                                                        dados[Constantes
-                                                                .parametrosMapLinkLetra] =
-                                                            linkMusica;
-                                                        if (linksLetrasUnir
-                                                                .length <
-                                                            2) {
-                                                          setState(() {
-                                                            linksLetrasUnir
-                                                                .add(dados);
-                                                          });
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(SnackBar(
-                                                                  content: Text(
-                                                                      Textos
-                                                                          .erroNMaxLetrasUnir)));
-                                                        }
-                                                      }
-                                                    }, // Handle your onTap here.
-                                                  );
-                                                },
-                                              ),
-                                            )
+                                                margin: const EdgeInsets.only(
+                                                  top: 10.0,
+                                                ),
+                                                width: larguraTela,
+                                                height: alturaTela * 0.3,
+                                                child: widget.tipoPesquisa ==
+                                                        Constantes
+                                                            .tipoPesquisaVideo
+                                                    ? Container()
+                                                    : listagemLinksSelecaoLetraTexto(
+                                                        larguraTela))
                                           ],
                                         ))),
                               ],
