@@ -6,9 +6,7 @@ class MetodosAuxiliares {
   static dividirLetraEstrofes(List<String> letraCompleta) {
     List<String> letraCompletaCortada = [];
     for (var element in letraCompleta) {
-      print("SA${letraCompleta.toString()}");
       var corte = element.split("<br>");
-      print("SAX:${corte.toString()}");
       String versoConcatenado = "";
       for (int index = 0; index < corte.length; index++) {
         versoConcatenado =
@@ -70,7 +68,7 @@ class MetodosAuxiliares {
       }
     }
     ip = "http://$ip:5000";
-    print(ip);
+    //print(ip);
     return ip;
   }
 }

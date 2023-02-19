@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-
 import '../constantes.dart';
 import 'package:flutter/foundation.dart';
 
 class GerarArquivo {
-  //String root = "https://backendsenturionlettersg.onrender.com";
   Future<String> passarValoresGerarArquivo(
       List<dynamic> letraCompleta, String tipoModelo, String nomeLetra) async {
     String root = await MetodosAuxiliares.pegarIpMaquina();
-    String endereco = "$root/pegarValores";
+    String endereco = "$root${Constantes.parametroBackPegarValores}";
 
     var url = Uri.parse(endereco);
     try {
@@ -51,7 +49,7 @@ class GerarArquivo {
   Future<void> abrirNavegador(String nomeLetra) async {
     String root = await MetodosAuxiliares.pegarIpMaquina();
 
-    String endereco = "$root/chamarBaixarArquivo";
+    String endereco = "$root${Constantes.parametroBackChamarBaixarArquivo}";
     final Uri url = Uri.parse(endereco);
     if (await launchUrl(
       url,
@@ -70,7 +68,7 @@ class GerarArquivo {
 // back end que cria o arquivo de slides
   excluirArquivoDoBackEnd(nomeLetra) async {
     String root = await MetodosAuxiliares.pegarIpMaquina();
-    String endereco = "$root/excluirArquivo";
+    String endereco = "$root${Constantes.parametroBackExcluirArquivo}";
     final Uri linkExcluirArquivo = Uri.parse(endereco);
     try {
       await http.post(linkExcluirArquivo,

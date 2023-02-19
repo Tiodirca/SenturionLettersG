@@ -5,6 +5,7 @@ import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 import 'package:senturionlettersg/widgets/widget_listagem_links_selecionados.dart';
+import 'package:senturionlettersg/widgets/widget_listagem_videos.dart';
 
 class TelaPesquisa extends StatefulWidget {
   const TelaPesquisa({Key? key, required this.tipoPesquisa}) : super(key: key);
@@ -47,14 +48,22 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
   }
 
   realizarPesquisaLinksVideos() async {
-    await PesquisaLetra.pesquisarLinksVideos(controllerPesquisa.text).then((value) => {
+    await PesquisaLetra.pesquisarLinksVideos(controllerPesquisa.text)
+        .then((value) => setState(() {
+              boolExibirTelaCarregamento = false;
+              boolExibirListagemLinks = true;
+              resultadoLinks = value;
+              print("dfsfd");
+            }));
+  }
 
-    });
-    setState(() {
-      boolExibirTelaCarregamento = false;
-      boolExibirListagemLinks = true;
-      print("dfsfd");
-    });
+  chamarRealizarPesquisas() {
+    if (widget.tipoPesquisa == Constantes.tipoPesquisaUnica ||
+        widget.tipoPesquisa == Constantes.tipoPesquisaDupla) {
+      realizarPesquisaLinksLetraTexto();
+    } else {
+      realizarPesquisaLinksVideos();
+    }
   }
 
   Widget listagemLinksSelecaoLetraTexto(double larguraTela) => ListView.builder(
@@ -176,17 +185,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                   boolExibirTelaCarregamento =
                                                       true;
                                                 });
-                                                if (widget.tipoPesquisa ==
-                                                        Constantes
-                                                            .listagemLetraUnica ||
-                                                    widget.tipoPesquisa ==
-                                                        Constantes
-                                                            .tipoPesquisaDupla) {
-                                                  realizarPesquisaLinksLetraTexto();
-                                                } else {
-                                                  realizarPesquisaLinksVideos();
-                                                  print("FDAFSFS");
-                                                }
+                                                chamarRealizarPesquisas();
                                               }
                                             },
                                             controller: controllerPesquisa,
@@ -214,17 +213,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                 boolExibirTelaCarregamento =
                                                     true;
                                               });
-                                              if (widget.tipoPesquisa ==
-                                                      Constantes
-                                                          .listagemLetraUnica ||
-                                                  widget.tipoPesquisa ==
-                                                      Constantes
-                                                          .tipoPesquisaDupla) {
-                                                realizarPesquisaLinksLetraTexto();
-                                              } else {
-                                                realizarPesquisaLinksVideos();
-                                                print("FDAFSFS");
-                                              }
+                                              chamarRealizarPesquisas();
                                             }
                                           },
                                           child: const Icon(
@@ -245,42 +234,52 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                         height: alturaTela * 0.7,
                                         child: Column(
                                           children: [
+                                            Text(
+                                              textAlign: TextAlign.center,
+                                              Textos.descricaoListagemLinks,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
                                             Visibility(
                                               visible: widget.tipoPesquisa ==
                                                       Constantes
-                                                          .tipoPesquisaUnica
+                                                          .tipoPesquisaDupla
                                                   ? true
                                                   : false,
-                                              child: Text(
-                                                textAlign: TextAlign.center,
-                                                Textos.descricaoListagemLinks,
-                                                style: const TextStyle(
-                                                    fontSize: 20),
-                                              ),
-                                            ),
-                                            Visibility(
-                                                visible: widget.tipoPesquisa ==
-                                                        Constantes
-                                                            .tipoPesquisaDupla
-                                                    ? true
-                                                    : false,
+                                              child: SizedBox(
+                                                width: larguraTela,
+                                                height: alturaTela * 0.35,
                                                 child:
                                                     WidgetListagemLinksSeleLetraTexto(
-                                                  linksLetrasUnir:
-                                                      linksLetrasUnir,
-                                                )),
-                                            Container(
-                                                margin: const EdgeInsets.only(
-                                                  top: 10.0,
-                                                ),
-                                                width: larguraTela,
-                                                height: alturaTela * 0.3,
-                                                child: widget.tipoPesquisa ==
-                                                        Constantes
-                                                            .tipoPesquisaVideo
-                                                    ? Container()
-                                                    : listagemLinksSelecaoLetraTexto(
-                                                        larguraTela))
+                                                        linksLetrasUnir:
+                                                            linksLetrasUnir),
+                                              ),
+                                            ),
+                                            LayoutBuilder(
+                                              builder: (p0, p1) {
+                                                if (widget.tipoPesquisa ==
+                                                    Constantes
+                                                        .tipoPesquisaVideo) {
+                                                  return Container(
+                                                    width: larguraTela,
+                                                    height: alturaTela * 0.4,
+                                                    color: Colors.red,
+                                                    child: WidgetListagemVideos(
+                                                      resultadoLinks:
+                                                          resultadoLinks,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return SizedBox(
+                                                    width: larguraTela,
+                                                    height: alturaTela * 0.3,
+                                                    child:
+                                                        listagemLinksSelecaoLetraTexto(
+                                                            larguraTela),
+                                                  );
+                                                }
+                                              },
+                                            )
                                           ],
                                         ))),
                               ],

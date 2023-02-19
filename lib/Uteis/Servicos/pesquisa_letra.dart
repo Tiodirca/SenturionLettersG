@@ -133,6 +133,7 @@ class PesquisaLetra {
 
         if (linksResposta.contains("www.youtube.com") && linksResposta.contains("DnJfK")) {
           print("SE${linksResposta.toString()}");
+          Map<String, String> dados = {};
           String nomeLink = linksResposta.substring(
               linksResposta.indexOf('AP7Wnd">'), linksResposta.indexOf("</div>"));
           String link =
@@ -140,7 +141,8 @@ class PesquisaLetra {
           print(nomeLink);
           link = "https://www.youtube.com/watch?v=$link";
           print(link);
-
+          dados[nomeLink] = link;
+          linksNome.add(dados);
         }
       });
       return linksNome;

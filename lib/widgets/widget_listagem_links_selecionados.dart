@@ -11,10 +11,12 @@ class WidgetListagemLinksSeleLetraTexto extends StatefulWidget {
   List<Map<dynamic, dynamic>> linksLetrasUnir;
 
   @override
-  State<WidgetListagemLinksSeleLetraTexto> createState() => _WidgetListagemLinksSeleLetraTextoState();
+  State<WidgetListagemLinksSeleLetraTexto> createState() =>
+      _WidgetListagemLinksSeleLetraTextoState();
 }
 
-class _WidgetListagemLinksSeleLetraTextoState extends State<WidgetListagemLinksSeleLetraTexto> {
+class _WidgetListagemLinksSeleLetraTextoState
+    extends State<WidgetListagemLinksSeleLetraTexto> {
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
@@ -31,7 +33,7 @@ class _WidgetListagemLinksSeleLetraTextoState extends State<WidgetListagemLinksS
             height: alturaTela * 0.3,
             child: Column(
               children: [
-                Container(
+                SizedBox(
                   width: larguraTela,
                   height: alturaTela * 0.15,
                   child: ListView.builder(
