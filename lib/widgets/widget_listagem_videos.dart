@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Uteis/Servicos/passar_link_video.dart';
 
 class WidgetListagemVideos extends StatefulWidget {
   WidgetListagemVideos({Key? key, required this.resultadoLinks})
@@ -19,11 +20,13 @@ class _WidgetListagemVideosState extends State<WidgetListagemVideos> {
       itemCount: widget.resultadoLinks.length,
       itemBuilder: (context, index) {
         // variaveis vao receber o valor do map
-        String nomeMusica = widget.resultadoLinks.elementAt(index).keys.toString();
-        String linkMusica = widget.resultadoLinks.elementAt(index).values.toString();
+        String nomeMusica =
+            widget.resultadoLinks.elementAt(index).keys.toString();
+        String linkVideo =
+            widget.resultadoLinks.elementAt(index).values.toString();
         // removendo caracteres que nao sao necessarios
         nomeMusica = nomeMusica.replaceAll('(AP7Wnd">', "").replaceAll(")", "");
-        linkMusica = linkMusica.replaceAll("(", "").replaceAll(")", "");
+        linkVideo = linkVideo.replaceAll("(", "").replaceAll(")", "");
         return ListTile(
           iconColor: Colors.greenAccent,
           title: Row(
@@ -43,7 +46,8 @@ class _WidgetListagemVideosState extends State<WidgetListagemVideos> {
           onTap: () {
             Map dados = {};
             print(nomeMusica);
-            print(linkMusica);
+            print(linkVideo);
+            PassarLinkVideo.passarLink(linkVideo);
           }, // Handle your onTap here.
         );
       },

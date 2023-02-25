@@ -68,7 +68,7 @@ class MetodosAuxiliares {
       }
     }
     ip = "http://$ip:5000";
-    //print(ip);
+    print(ip);
     return ip;
   }
 }
