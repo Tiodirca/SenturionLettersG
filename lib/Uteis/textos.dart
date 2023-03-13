@@ -4,16 +4,12 @@ class Textos {
   static String telaInicial = "";
   static String descricaoTelaInicial =
       "Selecione uma das opções abaixo para poder estar "
-      "criando um arquivo de Power Point contendo a letra";
+      "criando um arquivo de Power Point contendo a letra de uma música.";
 
   // string com o nome dos botoes
-  static String btnLetraUnica = "Criar letra única buscada na internet";
-  static String btnUnirLetras = "Criar letra a partir união de duas músicas";
+  static String btnLetraUnica = "Criar letra a partir de uma música";
+  static String btnUnirLetras = "Criar letra a partir da união de duas músicas";
   static String btnCriarLetraTexto = "Criar letra a partir de um texto";
-  static String btnCriarLetraVideoAudio = "Criar letra a partir de um vídeo";
-
-  static String btnCLetraVideoAudioArquivo = "Adiocionar Arquivo";
-  static String btnCLetraVideoAudioInternet = "Pesquisar Video na internet";
 
   static String btnEditar = "Editar";
   static String btnGerarArquivo = "Gerar Arquivo";
@@ -37,7 +33,8 @@ class Textos {
   static String telaPesquisa = "Pesquisa de Letras";
   static String descricaoBarraPesquisaLetra =
       "Digite o nome da música que deseja pesquisar";
-  static String hintBarraPesquisaLetra = "nome da musica e cantor";
+  static String labelBarraPesquisaLetra = "Digite o nome e o cantor da musica";
+  static String hintBarraPesquisaLetra = "Ex: Divino Companheiro Mara Lima";
   static String descricaoListagemLinks =
       "Selecione um dos links para carregar a letra da musica";
   static String descricaoListagemLinksLetraUnir =
@@ -67,16 +64,15 @@ class Textos {
   static String nomeLetraFinalUnir = "Nome Letra Final";
   static String hintTextFieldNomeLetra = "Digite o nome que a letra terá";
 
-  // TELA DE Colocar Letra
-
+  // TELA DE LETRA TEXTO
   static String telaDividirLetraTexto = "";
   static String hintDividirLetraTexto = "Cole ou digite a letra aqui";
   static String descricaoDividirLetraTexto =
-      "Copie e cole a mensagem de texto contendo a letra que deseja,"
-      "gerar o arquivo para avançar";
+      "Copie e cole a mensagem de texto contendo a letra da música que deseja"
+      "gerar o arquivo em Power Point para avançar";
   static String descricaoDividirLetraTextoAddEstrofe =
       "Para colocar o texto na linha de baixo pule para a proxima linha, para adicionar uma "
-      "estrofe nova pule a linha duas vezes,deixando um espaço entre uma estrofe e outra";
+      "estrofe nova, pule a linha duas vezes,deixando um espaço entre uma estrofe e outra";
 
   // ERROS
   static String erroPesquisaLetraUnir =

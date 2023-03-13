@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
+import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
 import 'package:senturionlettersg/widgets/tela_carregamento.dart';
 import 'package:senturionlettersg/widgets/widget_listagem_links_selecionados.dart';
-import 'package:senturionlettersg/widgets/widget_listagem_videos.dart';
 
 class TelaPesquisa extends StatefulWidget {
   const TelaPesquisa({Key? key, required this.tipoPesquisa}) : super(key: key);
@@ -47,24 +47,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
             }));
   }
 
-  realizarPesquisaLinksVideos() async {
-    await PesquisaLetra.pesquisarLinksVideos(controllerPesquisa.text)
-        .then((value) => setState(() {
-              boolExibirTelaCarregamento = false;
-              boolExibirListagemLinks = true;
-              resultadoLinks = value;
-              print("dfsfd");
-            }));
-  }
 
-  chamarRealizarPesquisas() {
-    if (widget.tipoPesquisa == Constantes.tipoPesquisaUnica ||
-        widget.tipoPesquisa == Constantes.tipoPesquisaDupla) {
-      realizarPesquisaLinksLetraTexto();
-    } else {
-      realizarPesquisaLinksVideos();
-    }
-  }
 
   Widget listagemLinksSelecaoLetraTexto(double larguraTela) => ListView.builder(
         itemCount: resultadoLinks.length,
@@ -185,11 +168,15 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                   boolExibirTelaCarregamento =
                                                       true;
                                                 });
-                                                chamarRealizarPesquisas();
+                                                realizarPesquisaLinksLetraTexto();
                                               }
                                             },
                                             controller: controllerPesquisa,
                                             decoration: InputDecoration(
+                                              labelStyle: const TextStyle(
+                                                color: PaletaCores.corAzulMagenta
+                                              ),
+                                              labelText: Textos.labelBarraPesquisaLetra,
                                                 hintText: Textos
                                                     .hintBarraPesquisaLetra),
                                             validator: (value) {
@@ -213,7 +200,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                 boolExibirTelaCarregamento =
                                                     true;
                                               });
-                                              chamarRealizarPesquisas();
+                                              realizarPesquisaLinksLetraTexto();
                                             }
                                           },
                                           child: const Icon(
@@ -255,30 +242,12 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
                                                             linksLetrasUnir),
                                               ),
                                             ),
-                                            LayoutBuilder(
-                                              builder: (p0, p1) {
-                                                if (widget.tipoPesquisa ==
-                                                    Constantes
-                                                        .tipoPesquisaVideo) {
-                                                  return Container(
-                                                    width: larguraTela,
-                                                    height: alturaTela * 0.4,
-                                                    color: Colors.red,
-                                                    child: WidgetListagemVideos(
-                                                      resultadoLinks:
-                                                          resultadoLinks,
-                                                    ),
-                                                  );
-                                                } else {
-                                                  return SizedBox(
-                                                    width: larguraTela,
-                                                    height: alturaTela * 0.3,
-                                                    child:
-                                                        listagemLinksSelecaoLetraTexto(
-                                                            larguraTela),
-                                                  );
-                                                }
-                                              },
+                                            SizedBox(
+                                              width: larguraTela,
+                                              height: alturaTela * 0.3,
+                                              child:
+                                                  listagemLinksSelecaoLetraTexto(
+                                                      larguraTela),
                                             )
                                           ],
                                         ))),

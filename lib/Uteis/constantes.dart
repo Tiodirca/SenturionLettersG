@@ -9,8 +9,6 @@ class Constantes {
   static const rotaTelaListagemLetraUnir = "/telaListagemLetraUnir";
   static const rotaTelaDividirLetraTexto = "/telaDividirLetraTexto";
 
-  static const parametroBackLinkVideo = "linkVideo";
-  static const parametroBackPassarLinkVideo = "/passarLinkVideo";
 
   static const parametroBackPegarValores = "/pegarValores";
   static const parametroBackExcluirArquivo = "/excluirArquivo";
