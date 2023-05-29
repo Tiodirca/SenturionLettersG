@@ -36,6 +36,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
   realizarPesquisaLinksLetraTexto() async {
     await PesquisaLetra.pesquisarLinks(controllerPesquisa.text)
         .then((value) => setState(() {
+          print("Sads" + value.toString());
               resultadoLinks = value;
               boolExibirTelaCarregamento = false;
               if (resultadoLinks.isNotEmpty) {

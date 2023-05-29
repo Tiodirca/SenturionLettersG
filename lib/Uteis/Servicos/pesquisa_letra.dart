@@ -11,50 +11,79 @@ class PesquisaLetra {
   static Future<List<String>> pesquisarLetra(String linkLetra) async {
     var root = Uri.parse(linkLetra);
     List<String> letraCortada = [];
-    String parametroClasseSite = "cnt-letra";
+
+    print(linkLetra.toString());
     try {
       final response =
           await http.get(root).timeout(const Duration(seconds: 20));
       var document = parse(response.body);
       //for para pegar todos os indexs
-      for (int i = 0;
-          i < document.getElementsByClassName(parametroClasseSite).length;
-          i++) {
-        //pegando o titulo e cantores da musica da musica apartir dos parametros passados para o SUB STRING
-        //parametros passados para os GET ELEMENTS BY CLASS NAME pegados no site do letras.mus.com.br
-        // usando o inspecionar
-        var limiteTagTitulo = document
-            .getElementsByClassName("cnt-head_title")[i]
-            .outerHtml
-            .lastIndexOf('/">');
-        var resultadoTagTitulo = document
-            .getElementsByClassName("cnt-head_title")[i]
-            .outerHtml
-            .substring(33, limiteTagTitulo);
-        tituloLetra = resultadoTagTitulo
-            .replaceAll(
-                RegExp(
-                  r'</h1> <h2> <a href="',
-                ),
-                '')
-            .replaceAll(RegExp(r'[-,/]'), ' ');
-        //pegando a letra completa apartir dos parametros passados para o SUB STRING
-        // 23 pois corresponde ao numero de caracters <div class="cnt-letra">
-        var resultadoTagLetra = document
-            .getElementsByClassName(parametroClasseSite)[i]
-            .outerHtml
-            .substring(23);
-        var letraCompleta = resultadoTagLetra.replaceAll(
-            RegExp(
-              r'</div>',
-            ),
-            '');
-        letraCortada = letraCompleta.split("<p>");
+      if (linkLetra.contains("www.letras.mus.br")) {
+        String parametroClasseSite = "cnt-letra";
+        String parametroClasseTituloMusica = "cnt-head_title";
+        letraCortada = pegarLetraCompleta(
+            parametroClasseSite, parametroClasseTituloMusica, document);
+      } else {
+        String parametroClasseSite = "lyric-cnt g-1";
+        String parametroClasseTituloMusica = "lyric-title g-1";
+        letraCortada = pegarLetraCompleta(
+            parametroClasseSite, parametroClasseTituloMusica, document);
       }
+
       return letraCortada;
     } catch (e) {
       debugPrint(e.toString());
       return [Constantes.msgErroPesquisaLetra];
+    }
+  }
+
+  static pegarLetraCompleta(
+      String parametroLetra, String paremetroTitulo, var document) {
+    for (int i = 0;
+        i < document.getElementsByClassName(parametroLetra).length;
+        i++) {
+      //pegando o titulo e cantores da musica da musica apartir dos parametros passados para o SUB STRING
+      //parametros passados para os GET ELEMENTS BY CLASS NAME pegados no site do letras.mus.com.br
+      // usando o inspecionar
+      var limiteTagTitulo = document
+          .getElementsByClassName(paremetroTitulo)[i]
+          .outerHtml
+          .lastIndexOf('/">');
+      var resultadoTagTitulo = document
+          .getElementsByClassName(paremetroTitulo)[i]
+          .outerHtml
+          .substring(33, limiteTagTitulo);
+      print(resultadoTagTitulo);
+      if(paremetroTitulo.contains("lyric")){
+        tituloLetra = resultadoTagTitulo
+            .replaceAll(
+          RegExp(r'</h1> <h2><a href="/'),
+          ' ',
+        )
+            .replaceAll(RegExp(r'[-,/]'), ' ')
+            .replaceAll(">", "");
+      }else{
+        tituloLetra = resultadoTagTitulo
+            .replaceAll(
+            RegExp(
+              r'</h1> <h2> <a href="',
+            ),
+            '')
+            .replaceAll(RegExp(r'[-,/]'), ' ');
+      }
+      print("sdad " + tituloLetra);
+      //pegando a letra completa apartir dos parametros passados para o SUB STRING
+      // 23 pois corresponde ao numero de caracters <div class="cnt-letra">
+      var resultadoTagLetra = document
+          .getElementsByClassName(parametroLetra)[i]
+          .outerHtml
+          .substring(23);
+      var letraCompleta = resultadoTagLetra.replaceAll(
+          RegExp(
+            r'</div>',
+          ),
+          '');
+      return letraCompleta.split("<p>");
     }
   }
 
@@ -86,9 +115,12 @@ class PesquisaLetra {
       retornoResposta.getElementsByTagName("a").forEach((elemento) {
         // pegando o conteudo contido dentro do item da lista
         String linksResposta = elemento.outerHtml;
-        if (linksResposta.contains("www.letras.mus.br") &&
-            // verificando se a varivavel contem nome da classe e o nome do site
-            linksResposta.contains("BNeawe")) {
+        if (linksResposta.contains("m.letras.mus.br") &&
+                // verificando se a varivavel contem nome da classe e o nome do site
+                linksResposta.contains("BNeawe") ||
+            linksResposta.contains("www.letras.mus.br") &&
+                // verificando se a varivavel contem nome da classe e o nome do site
+                linksResposta.contains("BNeawe")) {
           Map<String, String> dados = {};
           //print(linksResposta);
           // variaveis vai receber String partindo da primeira ocorrencia
@@ -105,7 +137,7 @@ class PesquisaLetra {
       });
       return linksNome;
     } catch (e) {
-      List<String> retornoErro = [];
+      List<Map<String, String>> retornoErro = [];
       return retornoErro;
     }
   }
