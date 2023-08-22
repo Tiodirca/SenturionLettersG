@@ -11,25 +11,15 @@ class PesquisaLetra {
   static Future<List<String>> pesquisarLetra(String linkLetra) async {
     var root = Uri.parse(linkLetra);
     List<String> letraCortada = [];
-
-    print(linkLetra.toString());
     try {
       final response =
           await http.get(root).timeout(const Duration(seconds: 20));
       var document = parse(response.body);
-      //for para pegar todos os indexs
-      if (linkLetra.contains("www.letras.mus.br")) {
-        String parametroClasseSite = "cnt-letra";
-        String parametroClasseTituloMusica = "cnt-head_title";
-        letraCortada = pegarLetraCompleta(
-            parametroClasseSite, parametroClasseTituloMusica, document);
-      } else {
-        String parametroClasseSite = "lyric-cnt g-1";
-        String parametroClasseTituloMusica = "lyric-title g-1";
-        letraCortada = pegarLetraCompleta(
-            parametroClasseSite, parametroClasseTituloMusica, document);
-      }
-
+      String parametroClasseSite = "lyric-original";
+      String parametroClasseNomeMusica = "head-title";
+      String parametroClasseNomeCantor = "head-subtitle";
+      letraCortada = await pegarLetraCompleta(parametroClasseSite,
+          parametroClasseNomeMusica, parametroClasseNomeCantor, document);
       return letraCortada;
     } catch (e) {
       debugPrint(e.toString());
@@ -37,42 +27,31 @@ class PesquisaLetra {
     }
   }
 
-  static pegarLetraCompleta(
-      String parametroLetra, String paremetroTitulo, var document) {
+  static pegarLetraCompleta(String parametroLetra, String paremetroNomeMusica,
+      String parametroNomeCantor, var document) async {
     for (int i = 0;
-        i < document.getElementsByClassName(parametroLetra).length;
-        i++) {
-      //pegando o titulo e cantores da musica da musica apartir dos parametros passados para o SUB STRING
-      //parametros passados para os GET ELEMENTS BY CLASS NAME pegados no site do letras.mus.com.br
-      // usando o inspecionar
-      var limiteTagTitulo = document
-          .getElementsByClassName(paremetroTitulo)[i]
+        i < document.getElementsByClassName(parametroLetra).length;) {
+      // definindo que as variaveis vao receber os valores
+      // usando o getElement para pegar os valores dentro das classe
+      // passada como parametros
+      var nomeMusica =
+          document.getElementsByClassName(paremetroNomeMusica)[i].outerHtml;
+      nomeMusica = nomeMusica
+          .toString()
+          .replaceAll('<h1 class="head-title">', "")
+          .toString()
+          .replaceAll("</h1>", "");
+      var limiteTagNomeCantor = document
+          .getElementsByClassName(parametroNomeCantor)[i]
           .outerHtml
           .lastIndexOf('/">');
-      var resultadoTagTitulo = document
-          .getElementsByClassName(paremetroTitulo)[i]
+      var resultadoTagNomeCantor = document
+          .getElementsByClassName(parametroNomeCantor)[i]
           .outerHtml
-          .substring(33, limiteTagTitulo);
-      print(resultadoTagTitulo);
-      if(paremetroTitulo.contains("lyric")){
-        tituloLetra = resultadoTagTitulo
-            .replaceAll(
-          RegExp(r'</h1> <h2><a href="/'),
-          ' ',
-        )
-            .replaceAll(RegExp(r'[-,/]'), ' ')
-            .replaceAll(">", "");
-      }else{
-        tituloLetra = resultadoTagTitulo
-            .replaceAll(
-            RegExp(
-              r'</h1> <h2> <a href="',
-            ),
-            '')
-            .replaceAll(RegExp(r'[-,/]'), ' ');
-      }
-      print("sdad " + tituloLetra);
-      //pegando a letra completa apartir dos parametros passados para o SUB STRING
+          .substring(37, limiteTagNomeCantor);
+      tituloLetra = nomeMusica + " - " + resultadoTagNomeCantor.toString().replaceAll("-", " ");
+      //pegando a letra completa apartir dos
+      // parametros passados para o SUB STRING
       // 23 pois corresponde ao numero de caracters <div class="cnt-letra">
       var resultadoTagLetra = document
           .getElementsByClassName(parametroLetra)[i]
@@ -87,7 +66,8 @@ class PesquisaLetra {
     }
   }
 
-  // future para retornar o titulo da letra da musica pesquisa
+  // future para retornar o titulo
+  // da letra da musica pesquisa
   static Future<String> exibirTituloLetra() async {
     return tituloLetra;
   }
