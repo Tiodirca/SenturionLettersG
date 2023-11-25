@@ -36,7 +36,6 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
   realizarPesquisaLinksLetraTexto() async {
     await PesquisaLetra.pesquisarLinks(controllerPesquisa.text)
         .then((value) => setState(() {
-          print("Sads" + value.toString());
               resultadoLinks = value;
               boolExibirTelaCarregamento = false;
               if (resultadoLinks.isNotEmpty) {
@@ -58,7 +57,7 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
           String linkMusica = resultadoLinks.elementAt(index).values.toString();
           // removendo caracteres que nao sao necessarios
           nomeMusica =
-              nomeMusica.replaceAll('(AP7Wnd">', "").replaceAll(")", "");
+              nomeMusica.replaceAll('(AP7Wnd">', "").replaceAll(")", "").replaceAll("(", "");
           linkMusica = linkMusica.replaceAll("(", "").replaceAll(")", "");
           return ListTile(
             iconColor: Colors.black,

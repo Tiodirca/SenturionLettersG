@@ -9,17 +9,45 @@ class PesquisaLetra {
   static String tituloLetra = "";
 
   static Future<List<String>> pesquisarLetra(String linkLetra) async {
+    if (linkLetra.contains("cifraclub")) {
+      linkLetra = "$linkLetra/letra/";
+    }
     var root = Uri.parse(linkLetra);
     List<String> letraCortada = [];
     try {
       final response =
           await http.get(root).timeout(const Duration(seconds: 20));
       var document = parse(response.body);
-      String parametroClasseSite = "lyric-original";
-      String parametroClasseNomeMusica = "head-title";
-      String parametroClasseNomeCantor = "head-subtitle";
-      letraCortada = await pegarLetraCompleta(parametroClasseSite,
-          parametroClasseNomeMusica, parametroClasseNomeCantor, document);
+      String parametroClasseSiteLetra = "lyric-original";
+      String parametroClasseNomeMusicaLetra = "head-title";
+      String parametroClasseNomeCantorLetra = "head-subtitle";
+      String parametroRemoverStringLetra = '<h1 class="head-title">';
+      int parametroCorteNomeMusicaLetra = 37;
+
+      String parametroClasseSiteCifra = "letra";
+      String parametroClasseNomeMusicaCifra = "t1";
+      String parametroClasseNomeCantorCifra = "t3";
+      String parametroRemoverStringCifra = '<h1 class="t1">';
+      int parametroCorteNomeMusicaCifra = 25;
+
+      if (linkLetra.contains("m.letras.mus.br") ||
+          linkLetra.contains("www.letras.mus.br")) {
+        letraCortada = await pegarLetraCompleta(
+            parametroClasseSiteLetra,
+            parametroClasseNomeMusicaLetra,
+            parametroClasseNomeCantorLetra,
+            document,
+            parametroCorteNomeMusicaLetra,
+            parametroRemoverStringLetra);
+      } else {
+        letraCortada = await pegarLetraCompleta(
+            parametroClasseSiteCifra,
+            parametroClasseNomeMusicaCifra,
+            parametroClasseNomeCantorCifra,
+            document,
+            parametroCorteNomeMusicaCifra,
+            parametroRemoverStringCifra);
+      }
       return letraCortada;
     } catch (e) {
       debugPrint(e.toString());
@@ -27,8 +55,13 @@ class PesquisaLetra {
     }
   }
 
-  static pegarLetraCompleta(String parametroLetra, String paremetroNomeMusica,
-      String parametroNomeCantor, var document) async {
+  static pegarLetraCompleta(
+      String parametroLetra,
+      String paremetroNomeMusica,
+      String parametroNomeCantor,
+      var document,
+      int numeroCorte,
+      String parametroReplace) async {
     for (int i = 0;
         i < document.getElementsByClassName(parametroLetra).length;) {
       // definindo que as variaveis vao receber os valores
@@ -38,7 +71,7 @@ class PesquisaLetra {
           document.getElementsByClassName(paremetroNomeMusica)[i].outerHtml;
       nomeMusica = nomeMusica
           .toString()
-          .replaceAll('<h1 class="head-title">', "")
+          .replaceAll(parametroReplace, "")
           .toString()
           .replaceAll("</h1>", "");
       var limiteTagNomeCantor = document
@@ -48,8 +81,10 @@ class PesquisaLetra {
       var resultadoTagNomeCantor = document
           .getElementsByClassName(parametroNomeCantor)[i]
           .outerHtml
-          .substring(37, limiteTagNomeCantor);
-      tituloLetra = nomeMusica + " - " + resultadoTagNomeCantor.toString().replaceAll("-", " ");
+          .substring(numeroCorte, limiteTagNomeCantor);
+      tituloLetra = nomeMusica +
+          " - " +
+          resultadoTagNomeCantor.toString().replaceAll("-", " ");
       //pegando a letra completa apartir dos
       // parametros passados para o SUB STRING
       // 23 pois corresponde ao numero de caracters <div class="cnt-letra">
@@ -95,22 +130,22 @@ class PesquisaLetra {
       retornoResposta.getElementsByTagName("a").forEach((elemento) {
         // pegando o conteudo contido dentro do item da lista
         String linksResposta = elemento.outerHtml;
+
         if (linksResposta.contains("m.letras.mus.br") &&
-                // verificando se a varivavel contem nome da classe e o nome do site
                 linksResposta.contains("BNeawe") ||
             linksResposta.contains("www.letras.mus.br") &&
-                // verificando se a varivavel contem nome da classe e o nome do site
-                linksResposta.contains("BNeawe")) {
+                linksResposta.contains("BNeawe") ||
+            linksResposta.contains("www.cifraclub.com.br")) {
           Map<String, String> dados = {};
-          //print(linksResposta);
-          // variaveis vai receber String partindo da primeira ocorrencia
-          // do primeiro INDEX OF e indo ate a primeira correncia do segundo INDEX OF
+          // variavel vai receber  uma string
+          // partindo da primeira ocorrencia
+          // do primeiro INDEX OF e indo ate a primeira
+          // correncia do segundo INDEX OF
           String nomeLink = linksResposta.substring(
               linksResposta.indexOf('AP7Wnd">'),
               linksResposta.indexOf("</div>"));
           String link =
               linksResposta.substring(16, linksResposta.indexOf("/&amp"));
-          //print(linksResposta.substring(16, linksResposta.indexOf("/&amp")));
           dados[nomeLink] = link;
           linksNome.add(dados);
         }
