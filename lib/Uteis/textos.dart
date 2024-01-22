@@ -12,7 +12,8 @@ class Textos {
   static String btnCriarLetraTexto = "Criar letra a partir de um texto";
 
   static String btnEditar = "Editar";
-  static String btnGerarArquivo = "Gerar Arquivo";
+  static String btnGerarArquivo = "Gerar Slide";
+  static String btnBaixarPDF = "Baixar PDF";
   static String btnUsar = "Usar";
   static String btnTrocarModelo = "Trocar de Modelo";
   static String btnTrocarModeloNome = "Trocar de Modelo/Nome Letra";
@@ -73,6 +74,10 @@ class Textos {
   static String descricaoDividirLetraTextoAddEstrofe =
       "Para colocar o texto na linha de baixo pule para a proxima linha, para adicionar uma "
       "estrofe nova, pule a linha duas vezes,deixando um espaço entre uma estrofe e outra";
+
+
+  static String nomeIgreja = "ADTL Parque São Carlos";
+  static String txtGeradoApk = "Letra criada por Senturion Letters G";
 
   // ERROS
   static String erroPesquisaLetraUnir =

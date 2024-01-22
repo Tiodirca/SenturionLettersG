@@ -23,6 +23,7 @@ class GerarArquivo {
         dadosBackEnd
             .addAll({"versos[$i]": letraCompleta[i].substring(5).toString()});
       }
+      print(dadosBackEnd.values.toString());
       // add elemento contendo o tamanho do map criado com os elementos da lista
       dadosBackEnd.addAll({"tamanho_lista": dadosBackEnd.length.toString()});
       dadosBackEnd.addAll({"modelo_slide": tipoModelo.toString()});

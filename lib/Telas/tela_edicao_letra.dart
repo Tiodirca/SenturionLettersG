@@ -569,19 +569,6 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
           ),
           onWillPop: () async {
             redirecionarTela();
-            // if (widget.linksLetras.isEmpty) {
-            //   Map dados = {};
-            //   dados[Constantes.parametrosTelaLinkLetra] = "";
-            //   dados[Constantes.parametrosTelaLetra] = widget.letraCompleta;
-            //   dados[Constantes.paramatrosTelaNomeLetra] = nomeLetra;
-            //   Navigator.pushReplacementNamed(
-            //     context,
-            //     Constantes.rotaTelaListagemLetra,
-            //     arguments: dados,
-            //   );
-            // } else {
-            //
-            // }
             return false;
           },
         ));

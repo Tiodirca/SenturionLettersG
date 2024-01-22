@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Uteis/Servicos/PDF/GerarPDF.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
 import 'package:senturionlettersg/Uteis/metodos_auxiliares.dart';
@@ -133,6 +134,46 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
       debugPrint(retornoMetodo.toString());
     }
   }
+
+  Widget Botao(String nomeBotao, Color corBotao) => SizedBox(
+        width: 110,
+        height: 65,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: corBotao,
+          ),
+          onPressed: () {
+            if (nomeBotao == Textos.btnTrocarModelo) {
+              setState(() {
+                boolExibirBotoes = false;
+                exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+              });
+            } else if (nomeBotao == Textos.btnGerarArquivo) {
+              passarValoresGerarArquivo();
+            } else if (nomeBotao == Textos.btnEditar) {
+              Map dados = {};
+              dados[Constantes.parametrosTelaLetra] = letraCompletaCortada;
+              dados[Constantes.parametrosTelaNomeLetra] = nomeLetra;
+              dados[Constantes.parametrosTelaModelo] = tipoModelo;
+              dados[Constantes.parametrosTelaLinkLetra] = [];
+              Navigator.pushReplacementNamed(
+                  context, Constantes.rotaTelaEdicaoLetra,
+                  arguments: dados);
+            } else if (nomeBotao == Textos.btnBaixarPDF) {
+              GerarPDF(
+                      letraCompleta: letraCompletaCortada,
+                      nomeLetra: nomeLetra,
+                      exibirLogo: boolExibirLogo)
+                  .gerarPDF();
+            }
+          },
+          child: Text(nomeBotao,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 18,
+              )),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -373,72 +414,12 @@ class _TelaLisagemLetraState extends State<TelaLisagemLetra> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(
-                              width: 110,
-                              height: 65,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corCastanho,
-                                ),
-                                onPressed: () {
-                                  Map dados = {};
-                                  dados[Constantes.parametrosTelaLetra] =
-                                      letraCompletaCortada;
-                                  dados[Constantes.parametrosTelaNomeLetra] =
-                                      nomeLetra;
-                                  dados[Constantes.parametrosTelaModelo] =
-                                      tipoModelo;
-                                  dados[Constantes.parametrosTelaLinkLetra] =
-                                      [];
-                                  Navigator.pushReplacementNamed(
-                                      context, Constantes.rotaTelaEdicaoLetra,
-                                      arguments: dados);
-                                },
-                                child: Text(Textos.btnEditar,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 110,
-                              height: 65,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corVerdeCiano,
-                                ),
-                                onPressed: () {
-                                  passarValoresGerarArquivo();
-                                },
-                                child: Text(Textos.btnGerarArquivo,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 110,
-                              height: 65,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corAzulCiano,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    boolExibirBotoes = false;
-                                    exibicaoTela =
-                                        Constantes.exibicaoTelaSelecaoLogo;
-                                  });
-                                },
-                                child: Text(Textos.btnTrocarModelo,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
+                            Botao(Textos.btnEditar, PaletaCores.corCastanho),
+                            Botao(Textos.btnGerarArquivo,
+                                PaletaCores.corVerdeCiano),
+                            Botao(Textos.btnBaixarPDF, PaletaCores.corVermelha),
+                            Botao(Textos.btnTrocarModelo,
+                                PaletaCores.corAzulCiano),
                           ],
                         ),
                       ),
