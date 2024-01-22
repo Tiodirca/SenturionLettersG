@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Modelo/check_box_model.dart';
+import 'package:senturionlettersg/Uteis/Servicos/PDF/GerarPDF.dart';
 import 'package:senturionlettersg/Uteis/Servicos/gerar_arquivo.dart';
 import 'package:senturionlettersg/Uteis/Servicos/pesquisa_letra.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
@@ -220,6 +221,65 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
           });
         },
       );
+
+  Widget Botao(String nomeBotao, Color corBotao) => SizedBox(
+    width: 110,
+    height: 65,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: corBotao,
+      ),
+      onPressed: () {
+        if (nomeBotao == Textos.btnTrocarModelo) {
+          setState(() {
+            controllerNomeLetraFinal.text = nomeLetraFinal;
+            exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+            boolExibirBotoes = false;
+          });
+        } else if (nomeBotao == Textos.btnSalvar) {
+          if (letraFinal.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content:
+                    Text(Textos.erroLetraFinalVazia)));
+          } else {
+            passarValoresGerarArquivo();
+          }
+        } else if (nomeBotao == Textos.btnEditar) {
+          if (letraFinal.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                    content:
+                    Text(Textos.erroLetraFinalVazia)));
+          } else {
+            Map dados = {};
+            dados[Constantes.parametrosTelaLetra] =
+                letraFinal;
+            dados[Constantes.parametrosTelaNomeLetra] =
+                nomeLetraFinal;
+            dados[Constantes.parametrosTelaModelo] =
+                tipoModelo;
+            dados[Constantes.parametrosTelaLinkLetra] =
+                widget.linksLetrasUnirPesquisa;
+            Navigator.pushReplacementNamed(
+                context, Constantes.rotaTelaEdicaoLetra,
+                arguments: dados);
+          }
+        } else if (nomeBotao == Textos.btnBaixarPDF) {
+          GerarPDF(
+              letraCompleta: letraFinal,
+              nomeLetra: nomeLetraFinal,
+              exibirLogo: boolExibirLogo)
+              .gerarPDF();
+        }
+      },
+      child: Text(nomeBotao,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 18,
+          )),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -610,88 +670,10 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      SizedBox(
-                        width: 110,
-                        height: 65,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: PaletaCores.corCastanho,
-                          ),
-                          onPressed: () {
-                            if (letraFinal.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(Textos.erroLetraFinalVazia)));
-                            } else {
-                              Map dados = {};
-                              dados[Constantes.parametrosTelaLetra] =
-                                  letraFinal;
-                              dados[Constantes.parametrosTelaNomeLetra] =
-                                  nomeLetraFinal;
-                              dados[Constantes.parametrosTelaModelo] =
-                                  tipoModelo;
-                              dados[Constantes.parametrosTelaLinkLetra] =
-                                  widget.linksLetrasUnirPesquisa;
-                              Navigator.pushReplacementNamed(
-                                  context, Constantes.rotaTelaEdicaoLetra,
-                                  arguments: dados);
-                            }
-                          },
-                          child: Text(Textos.btnEditar,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 18,
-                              )),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 110,
-                        height: 65,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: PaletaCores.corVerdeCiano,
-                          ),
-                          onPressed: () {
-                            if (letraFinal.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content:
-                                          Text(Textos.erroLetraFinalVazia)));
-                            } else {
-                              passarValoresGerarArquivo();
-                            }
-                          },
-                          child: Text(Textos.btnGerarArquivo,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 18,
-                              )),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MetodosAuxiliares.verificarTipoDispositivo()
-                            ? 150
-                            : 200,
-                        height: 65,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: PaletaCores.corAzulCiano,
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              controllerNomeLetraFinal.text = nomeLetraFinal;
-                              exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
-                              boolExibirBotoes = false;
-                            });
-                          },
-                          child: Text(Textos.btnTrocarModeloNome,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 18,
-                              )),
-                        ),
-                      ),
+                      Botao(Textos.btnEditar, PaletaCores.corCastanho),
+                      Botao(Textos.btnSalvar, PaletaCores.corVerdeCiano),
+                      Botao(Textos.btnBaixarPDF, PaletaCores.corVermelha),
+                      Botao(Textos.btnTrocarModeloNome, PaletaCores.corAzulCiano),
                     ],
                   ),
                 )),
