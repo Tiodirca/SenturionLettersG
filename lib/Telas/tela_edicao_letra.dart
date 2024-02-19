@@ -301,276 +301,279 @@ class _TelaEdicaoLetraState extends State<TelaEdicaoLetra> {
 
     return Theme(
         data: estilo.estiloGeral,
-        child: WillPopScope(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(Textos.telaEdicaoLetra),
+        child:  Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: (){
+                redirecionarTela();
+              },
             ),
-            body: Container(
-              margin: const EdgeInsets.only(right: 10.0, left: 10.0),
-              width: larguraTela,
-              height: alturaTela,
-              child: LayoutBuilder(
-                builder: (p0, p1) {
-                  if (exibicaoTela == Constantes.exibicaoTelaSelecaoLogo) {
-                    return SizedBox(
-                      width: larguraTela,
-                      height: alturaTela,
+            title: Text(Textos.telaEdicaoLetra),
+          ),
+          body: Container(
+            margin: const EdgeInsets.only(right: 10.0, left: 10.0),
+            width: larguraTela,
+            height: alturaTela,
+            child: LayoutBuilder(
+              builder: (p0, p1) {
+                if (exibicaoTela == Constantes.exibicaoTelaSelecaoLogo) {
+                  return SizedBox(
+                    width: larguraTela,
+                    height: alturaTela,
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(
+                              left: 5.0, right: 5.0, top: 20.0, bottom: 20.0),
+                          width: larguraTela,
+                          child: Text(
+                            Textos.descricaoSelecaoLogo,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 30.0),
+                          child: Wrap(
+                            children: [
+                              Card(
+                                elevation: 0,
+                                color: valorRadioButton == 0
+                                    ? PaletaCores.corVerdeCiano
+                                    : Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(30))),
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  width: 300,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.asset(
+                                          'assets/imagens/logo_adtl.png',
+                                        ),
+                                      ),
+                                      Radio(
+                                          activeColor:
+                                          PaletaCores.corCastanho,
+                                          value: 0,
+                                          groupValue: valorRadioButton,
+                                          onChanged: (_) {
+                                            mudarRadioButton(0);
+                                          }),
+                                      Text(
+                                        Textos.radioButtonGeral,
+                                        style: TextStyle(
+                                          color: valorRadioButton == 0
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Card(
+                                elevation: 0,
+                                color: valorRadioButton == 1
+                                    ? PaletaCores.corVerdeCiano
+                                    : Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(30))),
+                                child: Container(
+                                  margin: const EdgeInsets.all(5),
+                                  width: 300,
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: Image.asset(
+                                          'assets/imagens/logo_geracao_fire.png',
+                                        ),
+                                      ),
+                                      Radio(
+                                          activeColor:
+                                          PaletaCores.corCastanho,
+                                          value: 1,
+                                          groupValue: valorRadioButton,
+                                          onChanged: (_) {
+                                            mudarRadioButton(1);
+                                          }),
+                                      Text(
+                                        Textos.radioButtonGeracaoFire,
+                                        style: TextStyle(
+                                          color: valorRadioButton == 1
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: 18.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 150,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: PaletaCores.corVerdeCiano,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                boolExibirBotoes = true;
+                                exibicaoTela =
+                                    Constantes.exibicaoTelaListagemLetra;
+                              });
+                            },
+                            child: Text(Textos.btnUsar,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
                       child: Column(
                         children: [
                           Container(
                             margin: const EdgeInsets.only(
-                                left: 5.0, right: 5.0, top: 20.0, bottom: 20.0),
+                                left: 5.0, right: 5.0, top: 20.0),
                             width: larguraTela,
                             child: Text(
-                              Textos.descricaoSelecaoLogo,
+                              Textos.descricaoTelaEdicaoLetra,
                               textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
                           Container(
-                            margin: const EdgeInsets.only(bottom: 30.0),
-                            child: Wrap(
-                              children: [
-                                Card(
-                                  elevation: 0,
-                                  color: valorRadioButton == 0
-                                      ? PaletaCores.corVerdeCiano
-                                      : Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    width: 300,
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: Image.asset(
-                                            'assets/imagens/logo_adtl.png',
-                                          ),
-                                        ),
-                                        Radio(
-                                            activeColor:
-                                                PaletaCores.corCastanho,
-                                            value: 0,
-                                            groupValue: valorRadioButton,
-                                            onChanged: (_) {
-                                              mudarRadioButton(0);
-                                            }),
-                                        Text(
-                                          Textos.radioButtonGeral,
-                                          style: TextStyle(
-                                            color: valorRadioButton == 0
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                      ],
+                              margin: const EdgeInsets.only(
+                                  top: 20.0, bottom: 20.0),
+                              width: larguraTela,
+                              child: Column(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    "${Textos.nomeLetra} : $nomeLetra",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "Quantidade de Slides : ${letraCompletaEditada.length}",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 20,
                                     ),
                                   ),
-                                ),
-                                Card(
-                                  elevation: 0,
-                                  color: valorRadioButton == 1
-                                      ? PaletaCores.corVerdeCiano
-                                      : Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(30))),
-                                  child: Container(
-                                    margin: const EdgeInsets.all(5),
-                                    width: 300,
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          width: 50,
-                                          height: 50,
-                                          child: Image.asset(
-                                            'assets/imagens/logo_geracao_fire.png',
-                                          ),
-                                        ),
-                                        Radio(
-                                            activeColor:
-                                                PaletaCores.corCastanho,
-                                            value: 1,
-                                            groupValue: valorRadioButton,
-                                            onChanged: (_) {
-                                              mudarRadioButton(1);
-                                            }),
-                                        Text(
-                                          Textos.radioButtonGeracaoFire,
-                                          style: TextStyle(
-                                            color: valorRadioButton == 1
-                                                ? Colors.white
-                                                : Colors.black,
-                                            fontSize: 18.0,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                                ],
+                              )),
+                          LayoutBuilder(
+                            builder: (p0, p1) {
+                              if (Platform.isAndroid || Platform.isIOS) {
+                                return listagemLetra(
+                                    larguraTela, alturaTela, 35, 20, 200);
+                              } else {
+                                return listagemLetra(larguraTela * 0.7,
+                                    alturaTela, 50, 30, 300);
+                              }
+                            },
+                          )
+                        ],
+                      ));
+                }
+              },
+            ),
+          ),
+          bottomNavigationBar: SizedBox(
+              width: larguraTela,
+              height: alturaTela * 0.1,
+              child: Visibility(
+                  visible: boolExibirBotoes,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: SizedBox(
+                      width: larguraTela,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
                           SizedBox(
-                            width: 150,
-                            height: 50,
+                            width: 130,
+                            height: 65,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: PaletaCores.corVerdeCiano,
                               ),
                               onPressed: () {
-                                setState(() {
-                                  boolExibirBotoes = true;
-                                  exibicaoTela =
-                                      Constantes.exibicaoTelaListagemLetra;
-                                });
+                                bool slide = false;
+                                for (var element in letraCompletaEditada) {
+                                  if (element ==
+                                      Constantes.stringPularLinhaSlide ||
+                                      element.isEmpty) {
+                                    slide = true;
+                                  }
+                                }
+                                if (slide) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content:
+                                          Text(Textos.erroSlideVazio)));
+                                } else {
+                                  redirecionarTela();
+                                }
                               },
-                              child: Text(Textos.btnUsar,
+                              child: Text(Textos.btnSalvar,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  )),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 130,
+                            height: 65,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: PaletaCores.corAzulCiano,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  boolExibirBotoes = false;
+                                  exibicaoTela =
+                                      Constantes.exibicaoTelaSelecaoLogo;
+                                });
+                              },
+                              child: Text(Textos.btnTrocarModelo,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
                                   )),
                             ),
                           ),
                         ],
                       ),
-                    );
-                  } else {
-                    return SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  left: 5.0, right: 5.0, top: 20.0),
-                              width: larguraTela,
-                              child: Text(
-                                Textos.descricaoTelaEdicaoLetra,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            Container(
-                                margin: const EdgeInsets.only(
-                                    top: 20.0, bottom: 20.0),
-                                width: larguraTela,
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      "${Textos.nomeLetra} : $nomeLetra",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Quantidade de Slides : ${letraCompletaEditada.length}",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                )),
-                            LayoutBuilder(
-                              builder: (p0, p1) {
-                                if (Platform.isAndroid || Platform.isIOS) {
-                                  return listagemLetra(
-                                      larguraTela, alturaTela, 35, 20, 200);
-                                } else {
-                                  return listagemLetra(larguraTela * 0.7,
-                                      alturaTela, 50, 30, 300);
-                                }
-                              },
-                            )
-                          ],
-                        ));
-                  }
-                },
-              ),
-            ),
-            bottomNavigationBar: SizedBox(
-                width: larguraTela,
-                height: alturaTela * 0.1,
-                child: Visibility(
-                    visible: boolExibirBotoes,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SizedBox(
-                        width: larguraTela,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SizedBox(
-                              width: 110,
-                              height: 65,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corVerdeCiano,
-                                ),
-                                onPressed: () {
-                                  bool slide = false;
-                                  for (var element in letraCompletaEditada) {
-                                    if (element ==
-                                            Constantes.stringPularLinhaSlide ||
-                                        element.isEmpty) {
-                                      slide = true;
-                                    }
-                                  }
-                                  if (slide) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content:
-                                                Text(Textos.erroSlideVazio)));
-                                  } else {
-                                    redirecionarTela();
-                                  }
-                                },
-                                child: Text(Textos.btnSalvar,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 110,
-                              height: 65,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corAzulCiano,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    boolExibirBotoes = false;
-                                    exibicaoTela =
-                                        Constantes.exibicaoTelaSelecaoLogo;
-                                  });
-                                },
-                                child: Text(Textos.btnTrocarModelo,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ))),
-          ),
-          onWillPop: () async {
-            redirecionarTela();
-            return false;
-          },
-        ));
+                    ),
+                  ))),
+        ),);
   }
 }

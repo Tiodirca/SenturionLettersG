@@ -47,8 +47,6 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
             }));
   }
 
-
-
   Widget listagemLinksSelecaoLetraTexto(double larguraTela) => ListView.builder(
         itemCount: resultadoLinks.length,
         itemBuilder: (context, index) {
@@ -56,8 +54,10 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
           String nomeMusica = resultadoLinks.elementAt(index).keys.toString();
           String linkMusica = resultadoLinks.elementAt(index).values.toString();
           // removendo caracteres que nao sao necessarios
-          nomeMusica =
-              nomeMusica.replaceAll('(AP7Wnd">', "").replaceAll(")", "").replaceAll("(", "");
+          nomeMusica = nomeMusica
+              .replaceAll('(AP7Wnd">', "")
+              .replaceAll(")", "")
+              .replaceAll("(", "");
           linkMusica = linkMusica.replaceAll("(", "").replaceAll(")", "");
           return ListTile(
             iconColor: Colors.black,
@@ -113,155 +113,159 @@ class _TelaPesquisaState extends State<TelaPesquisa> {
     double alturaTela = MediaQuery.of(context).size.height;
     double larguraTela = MediaQuery.of(context).size.width;
     return Theme(
-        data: estilo.estiloGeral,
-        child: WillPopScope(
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(Textos.telaPesquisa),
+      data: estilo.estiloGeral,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: !boolExibirTelaCarregamento ? PaletaCores.corAzulMagenta: Colors.white,
+            leading: Visibility(
+              visible: !boolExibirTelaCarregamento,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.pushReplacementNamed(
+                      context, Constantes.rotaTelaInicial);
+                },
+              ),
             ),
-            body: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-              },
-              child: Container(
-                  margin: const EdgeInsets.all(10),
-                  width: larguraTela,
-                  height: alturaTela,
-                  child: LayoutBuilder(
-                    builder: (p0, p1) {
-                      if (boolExibirTelaCarregamento) {
-                        return SizedBox(
-                            width: larguraTela,
-                            height: alturaTela,
-                            child: const Center(
-                              child: TelaCarregamento(),
-                            ));
-                      } else {
-                        return SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Column(
+            title: Visibility(
+              visible: !boolExibirTelaCarregamento,
+              child: Text(Textos.telaPesquisa),
+            )),
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: Container(
+              margin: const EdgeInsets.all(10),
+              width: larguraTela,
+              height: alturaTela,
+              child: LayoutBuilder(
+                builder: (p0, p1) {
+                  if (boolExibirTelaCarregamento) {
+                    return SizedBox(
+                        width: larguraTela,
+                        height: alturaTela,
+                        child: const Center(
+                          child: TelaCarregamento(),
+                        ));
+                  } else {
+                    return SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          children: [
+                            Container(
+                                margin: const EdgeInsets.only(
+                                    bottom: 20.0, top: 10.0),
+                                width: larguraTela,
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  Textos.descricaoBarraPesquisaLetra,
+                                  style: const TextStyle(fontSize: 20),
+                                )),
+                            Wrap(
                               children: [
                                 Container(
                                     margin: const EdgeInsets.only(
-                                        bottom: 20.0, top: 10.0),
-                                    width: larguraTela,
-                                    child: Text(
-                                      textAlign: TextAlign.center,
-                                      Textos.descricaoBarraPesquisaLetra,
-                                      style: const TextStyle(fontSize: 20),
+                                        left: 10.0, right: 10.0),
+                                    width: larguraTela * 0.7,
+                                    child: Form(
+                                      key: chaveFormulario,
+                                      child: TextFormField(
+                                        onFieldSubmitted: (value) {
+                                          if (chaveFormulario.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              boolExibirListagemLinks = false;
+                                              boolExibirTelaCarregamento = true;
+                                            });
+                                            realizarPesquisaLinksLetraTexto();
+                                          }
+                                        },
+                                        controller: controllerPesquisa,
+                                        decoration: InputDecoration(
+                                            labelStyle: const TextStyle(
+                                                color:
+                                                    PaletaCores.corAzulMagenta),
+                                            labelText:
+                                                Textos.labelBarraPesquisaLetra,
+                                            hintText:
+                                                Textos.hintBarraPesquisaLetra),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return Textos.erroCampoVazio;
+                                          }
+                                          return null;
+                                        },
+                                      ),
                                     )),
-                                Wrap(
-                                  children: [
-                                    Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 10.0, right: 10.0),
-                                        width: larguraTela * 0.7,
-                                        child: Form(
-                                          key: chaveFormulario,
-                                          child: TextFormField(
-                                            onFieldSubmitted: (value) {
-                                              if (chaveFormulario.currentState!
-                                                  .validate()) {
-                                                setState(() {
-                                                  boolExibirListagemLinks =
-                                                      false;
-                                                  boolExibirTelaCarregamento =
-                                                      true;
-                                                });
-                                                realizarPesquisaLinksLetraTexto();
-                                              }
-                                            },
-                                            controller: controllerPesquisa,
-                                            decoration: InputDecoration(
-                                              labelStyle: const TextStyle(
-                                                color: PaletaCores.corAzulMagenta
-                                              ),
-                                              labelText: Textos.labelBarraPesquisaLetra,
-                                                hintText: Textos
-                                                    .hintBarraPesquisaLetra),
-                                            validator: (value) {
-                                              if (value!.isEmpty) {
-                                                return Textos.erroCampoVazio;
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                        )),
-                                    SizedBox(
-                                        width: 50,
-                                        height: 50,
-                                        child: FloatingActionButton(
-                                          backgroundColor: Colors.white,
-                                          onPressed: () async {
-                                            if (chaveFormulario.currentState!
-                                                .validate()) {
-                                              setState(() {
-                                                boolExibirListagemLinks = false;
-                                                boolExibirTelaCarregamento =
-                                                    true;
-                                              });
-                                              realizarPesquisaLinksLetraTexto();
-                                            }
-                                          },
-                                          child: const Icon(
-                                            Icons.search_rounded,
-                                            color: Colors.black,
-                                            size: 30,
-                                          ),
-                                        ))
-                                  ],
-                                ),
-                                Visibility(
-                                    visible: boolExibirListagemLinks,
-                                    child: Container(
-                                        margin: const EdgeInsets.only(
-                                          top: 20.0,
-                                        ),
-                                        width: larguraTela,
-                                        height: alturaTela * 0.7,
-                                        child: Column(
-                                          children: [
-                                            Text(
-                                              textAlign: TextAlign.center,
-                                              Textos.descricaoListagemLinks,
-                                              style:
-                                                  const TextStyle(fontSize: 20),
-                                            ),
-                                            Visibility(
-                                              visible: widget.tipoPesquisa ==
-                                                      Constantes
-                                                          .tipoPesquisaDupla
-                                                  ? true
-                                                  : false,
-                                              child: SizedBox(
-                                                width: larguraTela,
-                                                height: alturaTela * 0.35,
-                                                child:
-                                                    WidgetListagemLinksSeleLetraTexto(
-                                                        linksLetrasUnir:
-                                                            linksLetrasUnir),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: larguraTela,
-                                              height: alturaTela * 0.3,
-                                              child:
-                                                  listagemLinksSelecaoLetraTexto(
-                                                      larguraTela),
-                                            )
-                                          ],
-                                        ))),
+                                SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: FloatingActionButton(
+                                      backgroundColor: Colors.white,
+                                      onPressed: () async {
+                                        if (chaveFormulario.currentState!
+                                            .validate()) {
+                                          setState(() {
+                                            boolExibirListagemLinks = false;
+                                            boolExibirTelaCarregamento = true;
+                                          });
+                                          realizarPesquisaLinksLetraTexto();
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.search_rounded,
+                                        color: Colors.black,
+                                        size: 30,
+                                      ),
+                                    ))
                               ],
-                            ));
-                      }
-                    },
-                  )),
-            ),
-          ),
-          onWillPop: () async {
-            Navigator.pushReplacementNamed(context, Constantes.rotaTelaInicial);
-            return false;
-          },
-        ));
+                            ),
+                            Visibility(
+                                visible: boolExibirListagemLinks,
+                                child: Container(
+                                    margin: const EdgeInsets.only(
+                                      top: 20.0,
+                                    ),
+                                    width: larguraTela,
+                                    height: alturaTela * 0.7,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          textAlign: TextAlign.center,
+                                          Textos.descricaoListagemLinks,
+                                          style: const TextStyle(fontSize: 20),
+                                        ),
+                                        Visibility(
+                                          visible: widget.tipoPesquisa ==
+                                                  Constantes.tipoPesquisaDupla
+                                              ? true
+                                              : false,
+                                          child: SizedBox(
+                                            width: larguraTela,
+                                            height: alturaTela * 0.35,
+                                            child:
+                                                WidgetListagemLinksSeleLetraTexto(
+                                                    linksLetrasUnir:
+                                                        linksLetrasUnir),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: larguraTela,
+                                          height: alturaTela * 0.3,
+                                          child: listagemLinksSelecaoLetraTexto(
+                                              larguraTela),
+                                        )
+                                      ],
+                                    ))),
+                          ],
+                        ));
+                  }
+                },
+              )),
+        ),
+      ),
+    );
   }
 }

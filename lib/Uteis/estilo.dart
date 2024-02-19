@@ -34,6 +34,7 @@ class Estilo {
             borderRadius: BorderRadius.circular(20),
           ),),
 
+
       // estilo dos botoes
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

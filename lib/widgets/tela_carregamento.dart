@@ -13,8 +13,10 @@ class TelaCarregamento extends StatelessWidget {
         width: larguraTela * 0.9,
         height: 200,
         child: Card(
-          elevation: 20,
+          color: Colors.white,
+          elevation: 1,
           shape: const RoundedRectangleBorder(
+            side: BorderSide(width: 1,color: PaletaCores.corAzulMagenta),
               borderRadius: BorderRadius.all(Radius.circular(30))),
           child: Center(
             child: Column(
@@ -24,6 +26,7 @@ class TelaCarregamento extends StatelessWidget {
                   Textos.txtTelaCarregamento,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
+                    color: PaletaCores.corAzulMagenta,
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(

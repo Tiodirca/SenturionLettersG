@@ -40,6 +40,7 @@ class _TelaInicialState extends State<TelaInicial> {
           child: Text(tituloBtn,
               textAlign: TextAlign.center,
               style: const TextStyle(
+                color: Colors.white,
                 fontSize: 20,
               )),
         ),
@@ -89,8 +90,7 @@ class _TelaInicialState extends State<TelaInicial> {
                   ))
             ]),
           ),
-          bottomSheet: Container(
-              color: Colors.white,
+          bottomNavigationBar: Container(
               padding: const EdgeInsets.all(10),
               width: larguraTela,
               child: const Text(

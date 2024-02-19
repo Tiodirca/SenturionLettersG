@@ -108,6 +108,7 @@ class _WidgetListagemLinksSeleLetraTextoState
                     child: Text(Textos.btnUsar,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
+                          color: Colors.white,
                           fontSize: 20,
                         )),
                   ),
