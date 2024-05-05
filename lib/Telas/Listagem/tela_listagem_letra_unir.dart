@@ -52,7 +52,6 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     iniciarPesquisa();
   }
@@ -223,464 +222,447 @@ class _TelaListagemLetraUnirState extends State<TelaListagemLetraUnir> {
       );
 
   Widget botao(String nomeBotao, Color corBotao) => SizedBox(
-    width: 130,
-    height: 70,
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: corBotao,
-      ),
-      onPressed: () {
-        if (nomeBotao == Textos.btnTrocarModelo) {
-          setState(() {
-            controllerNomeLetraFinal.text = nomeLetraFinal;
-            exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
-            boolExibirBotoes = false;
-          });
-        } else if (nomeBotao == Textos.btnSalvar) {
-          if (letraFinal.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content:
-                    Text(Textos.erroLetraFinalVazia)));
-          } else {
-            passarValoresGerarArquivo();
-          }
-        } else if (nomeBotao == Textos.btnEditar) {
-          if (letraFinal.isEmpty) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content:
-                    Text(Textos.erroLetraFinalVazia)));
-          } else {
-            Map dados = {};
-            dados[Constantes.parametrosTelaLetra] =
-                letraFinal;
-            dados[Constantes.parametrosTelaNomeLetra] =
-                nomeLetraFinal;
-            dados[Constantes.parametrosTelaModelo] =
-                tipoModelo;
-            dados[Constantes.parametrosTelaLinkLetra] =
-                widget.linksLetrasUnirPesquisa;
-            Navigator.pushReplacementNamed(
-                context, Constantes.rotaTelaEdicaoLetra,
-                arguments: dados);
-          }
-        } else if (nomeBotao == Textos.btnBaixarPDF) {
-          GerarPDF(
-              letraCompleta: letraFinal,
-              nomeLetra: nomeLetraFinal,
-              exibirLogo: boolExibirLogo)
-              .gerarPDF();
-        }
-      },
-      child: Text(nomeBotao,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 17,
-          )),
-    ),
-  );
+        width: 130,
+        height: 70,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            side: BorderSide(width: 2, color: corBotao),
+          ),
+          onPressed: () {
+            if (nomeBotao == Textos.btnTrocarModelo) {
+              setState(() {
+                controllerNomeLetraFinal.text = nomeLetraFinal;
+                exibicaoTela = Constantes.exibicaoTelaSelecaoLogo;
+                boolExibirBotoes = false;
+              });
+            } else if (nomeBotao == Textos.btnSalvar) {
+              if (letraFinal.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(Textos.erroLetraFinalVazia)));
+              } else {
+                passarValoresGerarArquivo();
+              }
+            } else if (nomeBotao == Textos.btnEditar) {
+              if (letraFinal.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(Textos.erroLetraFinalVazia)));
+              } else {
+                Map dados = {};
+                dados[Constantes.parametrosTelaLetra] = letraFinal;
+                dados[Constantes.parametrosTelaNomeLetra] = nomeLetraFinal;
+                dados[Constantes.parametrosTelaModelo] = tipoModelo;
+                dados[Constantes.parametrosTelaLinkLetra] =
+                    widget.linksLetrasUnirPesquisa;
+                Navigator.pushReplacementNamed(
+                    context, Constantes.rotaTelaEdicaoLetra,
+                    arguments: dados);
+              }
+            } else if (nomeBotao == Textos.btnBaixarPDF) {
+              GerarPDF(
+                      letraCompleta: letraFinal,
+                      nomeLetra: nomeLetraFinal,
+                      exibirLogo: boolExibirLogo)
+                  .gerarPDF();
+            }
+          },
+          child: Text(nomeBotao,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: PaletaCores.corAzulMagenta,
+                fontSize: 17,
+              )),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     double alturaTela = MediaQuery.of(context).size.height;
     double larguraTela = MediaQuery.of(context).size.width;
     return Theme(
-        data: estilo.estiloGeral,
-        child:Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back_ios),
-              color: Colors.white,
-              onPressed: (){
-                Navigator.pushReplacementNamed(context, Constantes.rotaTelaPesquisa,
-                    arguments: Constantes.tipoPesquisaDupla);
-              },
-            ),
-            title: Text(Textos.telaVisualizacaoLetraUnir),
+      data: estilo.estiloGeral,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
+              Navigator.pushReplacementNamed(
+                  context, Constantes.rotaTelaPesquisa,
+                  arguments: Constantes.tipoPesquisaDupla);
+            },
           ),
-
-          body: SizedBox(
-            width: larguraTela,
-            height: alturaTela,
-            child: LayoutBuilder(
-              builder: (p0, p1) {
-                if (exibicaoTela == Constantes.exibicaoTelaCarregar) {
-                  return SizedBox(
-                      width: larguraTela,
-                      height: alturaTela,
-                      child: const Center(
-                        child: TelaCarregamento(),
-                      ));
-                } else if (exibicaoTela ==
-                    Constantes.exibicaoTelaSelecaoLogo) {
-                  return SizedBox(
-                      width: larguraTela,
-                      height: alturaTela,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(
-                                  left: 5.0,
-                                  right: 5.0,
-                                  top: 20.0,
-                                  bottom: 20.0),
-                              width: larguraTela,
-                              child: Text(
-                                Textos.descricaoSelecaoLogo,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 30.0),
-                              child: Wrap(
-                                children: [
-                                  Card(
-                                    elevation: 0,
-                                    color: valorRadioButton == 0
-                                        ? PaletaCores.corVerdeCiano
-                                        : Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    child: Container(
-                                      margin: const EdgeInsets.all(5),
-                                      width: 300,
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: Image.asset(
-                                              'assets/imagens/logo_adtl.png',
-                                            ),
-                                          ),
-                                          Radio(
-                                              activeColor:
-                                              PaletaCores.corCastanho,
-                                              value: 0,
-                                              groupValue: valorRadioButton,
-                                              onChanged: (_) async {
-                                                mudarRadioButton(0);
-                                              }),
-                                          Text(
-                                            Textos.radioButtonGeral,
-                                            style: TextStyle(
-                                              color: valorRadioButton == 0
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                              fontSize: 18.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  Card(
-                                    elevation: 0,
-                                    color: valorRadioButton == 1
-                                        ? PaletaCores.corVerdeCiano
-                                        : Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(30))),
-                                    child: Container(
-                                      margin: const EdgeInsets.all(5),
-                                      width: 300,
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: Image.asset(
-                                              'assets/imagens/logo_geracao_fire.png',
-                                            ),
-                                          ),
-                                          Radio(
-                                              activeColor:
-                                              PaletaCores.corCastanho,
-                                              value: 1,
-                                              groupValue: valorRadioButton,
-                                              onChanged: (_) {
-                                                mudarRadioButton(1);
-                                              }),
-                                          Text(
-                                            Textos.radioButtonGeracaoFire,
-                                            style: TextStyle(
-                                              color: valorRadioButton == 1
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                              fontSize: 18.0,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Text(
-                              Textos.nomeLetra,
+          title: Text(Textos.telaVisualizacaoLetraUnir),
+        ),
+        body: SizedBox(
+          width: larguraTela,
+          height: alturaTela,
+          child: LayoutBuilder(
+            builder: (p0, p1) {
+              if (exibicaoTela == Constantes.exibicaoTelaCarregar) {
+                return SizedBox(
+                    width: larguraTela,
+                    height: alturaTela,
+                    child: const Center(
+                      child: TelaCarregamento(),
+                    ));
+              } else if (exibicaoTela == Constantes.exibicaoTelaSelecaoLogo) {
+                return SizedBox(
+                    width: larguraTela,
+                    height: alturaTela,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(
+                                left: 5.0, right: 5.0, top: 20.0, bottom: 20.0),
+                            width: larguraTela,
+                            child: Text(
+                              Textos.descricaoSelecaoLogo,
                               textAlign: TextAlign.center,
                               style: const TextStyle(fontSize: 20),
                             ),
-                            Container(
-                                margin: const EdgeInsets.only(
-                                    left: 10.0,
-                                    right: 10.0,
-                                    bottom: 10.0,
-                                    top: 10.0),
-                                width: larguraTela * 0.4,
-                                child: Form(
-                                  key: chaveFormulario,
-                                  child: TextFormField(
-                                    controller: controllerNomeLetraFinal,
-                                    decoration: InputDecoration(
-                                        hintText:
-                                        Textos.hintTextFieldNomeLetra),
-                                    validator: (value) {
-                                      if (value!.isEmpty) {
-                                        return Textos.erroCampoVazio;
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                )),
-                            SizedBox(
-                              width: 150,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: PaletaCores.corVerdeCiano,
-                                ),
-                                onPressed: () {
-                                  if (chaveFormulario.currentState!
-                                      .validate()) {
-                                    setState(() {
-                                      nomeLetraFinal =
-                                          controllerNomeLetraFinal.text;
-                                      exibicaoTela = Constantes
-                                          .exibicaoTelaListagemLetra;
-                                      boolExibirBotoes = true;
-                                    });
-                                  }
-                                },
-                                child: Text(Textos.btnUsar,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                    )),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ));
-                } else {
-                  return SizedBox(
-                      width: larguraTela,
-                      height: alturaTela * 0.7,
-                      child: Column(
-                        children: [
-                          Expanded(
-                              flex: 1,
-                              child: Container(
-                                  margin: const EdgeInsets.symmetric(
-                                      vertical: 10.0),
-                                  height: alturaTela,
-                                  width: larguraTela,
-                                  child: SingleChildScrollView(
-                                    child: Text(
-                                      Textos
-                                          .descricaoTelaVisualizacaoLetraUnir,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(fontSize: 18),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 30.0),
+                            child: Wrap(
+                              children: [
+                                Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: valorRadioButton == 0
+                                            ? PaletaCores.corVerdeCiano
+                                            : Colors.white,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: Image.asset(
+                                            'assets/imagens/logo_adtl.png',
+                                          ),
+                                        ),
+                                        Radio(
+                                            activeColor:
+                                                PaletaCores.corCastanho,
+                                            value: 0,
+                                            groupValue: valorRadioButton,
+                                            onChanged: (_) async {
+                                              mudarRadioButton(0);
+                                            }),
+                                        Text(
+                                          Textos.radioButtonGeral,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ))),
-                          Expanded(
-                              flex: 10,
-                              child: SizedBox(
-                                  width: larguraTela,
-                                  height: alturaTela * 0.6,
-                                  child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Wrap(
-                                        alignment: WrapAlignment.spaceEvenly,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            children: [
-                                              Text(primeiraLetraNome,
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                      FontWeight.bold)),
-                                              Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.0),
-                                                  side: const BorderSide(
-                                                    color: PaletaCores
-                                                        .corAzulMagenta,
-                                                  ),
-                                                ),
-                                                child: Container(
-                                                  padding:
-                                                  const EdgeInsets.all(
-                                                      5.0),
-                                                  width: MetodosAuxiliares
-                                                      .verificarTipoDispositivo()
-                                                      ? larguraTela * 0.9
-                                                      : 500,
-                                                  height: alturaTela * 0.6,
-                                                  child: ListView(
-                                                    children: [
-                                                      ...itensCBPrimeiraLetra
-                                                          .map((e) =>
-                                                          checkBoxPersonalizado(
-                                                            boolExibirLogo,
-                                                            e,
-                                                          ))
-                                                          .toList()
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                  "${Textos.qtdSlides} ${itensCBPrimeiraLetra.length}",
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                  )),
-                                            ],
+                                  ),
+                                ),
+                                Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: valorRadioButton == 1
+                                            ? PaletaCores.corVerdeCiano
+                                            : Colors.white,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(30))),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(5),
+                                    width: 300,
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 50,
+                                          height: 50,
+                                          child: Image.asset(
+                                            'assets/imagens/logo_geracao_fire.png',
                                           ),
-                                          Column(
-                                            children: [
-                                              Text(segundaLetraNome,
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                      FontWeight.bold)),
-                                              Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.0),
-                                                  side: const BorderSide(
-                                                    color: PaletaCores
-                                                        .corAzulMagenta,
-                                                  ),
-                                                ),
-                                                child: Container(
-                                                  padding:
-                                                  const EdgeInsets.all(
-                                                      5.0),
-                                                  width: MetodosAuxiliares
-                                                      .verificarTipoDispositivo()
-                                                      ? larguraTela * 0.9
-                                                      : 500,
-                                                  height: alturaTela * 0.6,
-                                                  child: ListView(
-                                                    children: [
-                                                      ...itensCBSegundaLetra
-                                                          .map((e) =>
-                                                          checkBoxPersonalizado(
-                                                            boolExibirLogo,
-                                                            e,
-                                                          ))
-                                                          .toList()
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                  "${Textos.qtdSlides} ${itensCBSegundaLetra.length}",
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                  )),
-                                            ],
+                                        ),
+                                        Radio(
+                                            activeColor:
+                                                PaletaCores.corCastanho,
+                                            value: 1,
+                                            groupValue: valorRadioButton,
+                                            onChanged: (_) {
+                                              mudarRadioButton(1);
+                                            }),
+                                        Text(
+                                          Textos.radioButtonGeracaoFire,
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 18.0,
                                           ),
-                                          Column(
-                                            children: [
-                                              Text(
-                                                  "${Textos.nomeLetraFinalUnir} : $nomeLetraFinal",
-                                                  style: const TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                      FontWeight.bold)),
-                                              Card(
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                  BorderRadius.circular(
-                                                      20.0),
-                                                  side: const BorderSide(
-                                                    color: PaletaCores
-                                                        .corAzulMagenta,
-                                                  ),
-                                                ),
-                                                child: Container(
-                                                    padding:
-                                                    const EdgeInsets.all(
-                                                        5.0),
-                                                    width: MetodosAuxiliares
-                                                        .verificarTipoDispositivo()
-                                                        ? larguraTela * 0.9
-                                                        : 500,
-                                                    height: alturaTela * 0.6,
-                                                    child: ListView.builder(
-                                                      itemCount:
-                                                      letraFinal.length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        return ListTile(
-                                                            title:
-                                                            ConteudoLetraWidget(
-                                                              exibirLogo:
-                                                              boolExibirLogo,
-                                                              tituloLetra:
-                                                              nomeLetraFinal,
-                                                              conteudoLetra:
-                                                              letraFinal
-                                                                  .elementAt(
-                                                                  index),
-                                                            ));
-                                                      },
-                                                    )),
-                                              ),
-                                              Text(
-                                                  "${Textos.qtdSlides} ${letraFinal.length}",
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                  )),
-                                            ],
-                                          ),
-                                        ],
-                                      )))),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Text(
+                            Textos.nomeLetra,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          Container(
+                              margin: const EdgeInsets.only(
+                                  left: 10.0,
+                                  right: 10.0,
+                                  bottom: 10.0,
+                                  top: 10.0),
+                              width: larguraTela * 0.4,
+                              child: Form(
+                                key: chaveFormulario,
+                                child: TextFormField(
+                                  controller: controllerNomeLetraFinal,
+                                  decoration: InputDecoration(
+                                      hintText: Textos.hintTextFieldNomeLetra),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return Textos.erroCampoVazio;
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              )),
+                          SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                side: const BorderSide(
+                                    width: 2, color: PaletaCores.corVerdeCiano),
+                              ),
+                              onPressed: () {
+                                if (chaveFormulario.currentState!.validate()) {
+                                  setState(() {
+                                    nomeLetraFinal =
+                                        controllerNomeLetraFinal.text;
+                                    exibicaoTela =
+                                        Constantes.exibicaoTelaListagemLetra;
+                                    boolExibirBotoes = true;
+                                  });
+                                }
+                              },
+                              child: Text(Textos.btnUsar,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  )),
+                            ),
+                          ),
                         ],
-                      ));
-                }
-              },
-            ),
+                      ),
+                    ));
+              } else {
+                return SizedBox(
+                    width: larguraTela,
+                    height: alturaTela * 0.7,
+                    child: Column(
+                      children: [
+                        Expanded(
+                            flex: 1,
+                            child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                height: alturaTela,
+                                width: larguraTela,
+                                child: SingleChildScrollView(
+                                  child: Text(
+                                    Textos.descricaoTelaVisualizacaoLetraUnir,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
+                                ))),
+                        Expanded(
+                            flex: 10,
+                            child: SizedBox(
+                                width: larguraTela,
+                                height: alturaTela * 0.6,
+                                child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: Wrap(
+                                      alignment: WrapAlignment.spaceEvenly,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(primeiraLetraNome,
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                side: const BorderSide(
+                                                  color: PaletaCores
+                                                      .corAzulMagenta,
+                                                ),
+                                              ),
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                width: MetodosAuxiliares
+                                                        .verificarTipoDispositivo()
+                                                    ? larguraTela * 0.9
+                                                    : 500,
+                                                height: alturaTela * 0.6,
+                                                child: ListView(
+                                                  children: [
+                                                    ...itensCBPrimeiraLetra
+                                                        .map((e) =>
+                                                            checkBoxPersonalizado(
+                                                              boolExibirLogo,
+                                                              e,
+                                                            ))
+                                                        .toList()
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                                "${Textos.qtdSlides} ${itensCBPrimeiraLetra.length}",
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                )),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(segundaLetraNome,
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                side: const BorderSide(
+                                                  color: PaletaCores
+                                                      .corAzulMagenta,
+                                                ),
+                                              ),
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                width: MetodosAuxiliares
+                                                        .verificarTipoDispositivo()
+                                                    ? larguraTela * 0.9
+                                                    : 500,
+                                                height: alturaTela * 0.6,
+                                                child: ListView(
+                                                  children: [
+                                                    ...itensCBSegundaLetra
+                                                        .map((e) =>
+                                                            checkBoxPersonalizado(
+                                                              boolExibirLogo,
+                                                              e,
+                                                            ))
+                                                        .toList()
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                                "${Textos.qtdSlides} ${itensCBSegundaLetra.length}",
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                )),
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                                "${Textos.nomeLetraFinalUnir} : $nomeLetraFinal",
+                                                style: const TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                            Card(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                side: const BorderSide(
+                                                  color: PaletaCores
+                                                      .corAzulMagenta,
+                                                ),
+                                              ),
+                                              child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(5.0),
+                                                  width: MetodosAuxiliares
+                                                          .verificarTipoDispositivo()
+                                                      ? larguraTela * 0.9
+                                                      : 500,
+                                                  height: alturaTela * 0.6,
+                                                  child: ListView.builder(
+                                                    itemCount:
+                                                        letraFinal.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return ListTile(
+                                                          title:
+                                                              ConteudoLetraWidget(
+                                                        exibirLogo:
+                                                            boolExibirLogo,
+                                                        tituloLetra:
+                                                            nomeLetraFinal,
+                                                        conteudoLetra:
+                                                            letraFinal
+                                                                .elementAt(
+                                                                    index),
+                                                      ));
+                                                    },
+                                                  )),
+                                            ),
+                                            Text(
+                                                "${Textos.qtdSlides} ${letraFinal.length}",
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                )),
+                                          ],
+                                        ),
+                                      ],
+                                    )))),
+                      ],
+                    ));
+              }
+            },
           ),
-          bottomNavigationBar: SizedBox(
-              height: alturaTela * 0.1,
-              width: larguraTela,
-              child: Visibility(
-                visible: boolExibirBotoes,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    botao(Textos.btnEditar, PaletaCores.corCastanho),
-                    botao(Textos.btnSalvar, PaletaCores.corVerdeCiano),
-                    botao(Textos.btnBaixarPDF, PaletaCores.corVermelha),
-                    botao(Textos.btnTrocarModeloNome, PaletaCores.corAzulCiano),
-                  ],
-                ),
-              )),
-        ),);
+        ),
+        bottomNavigationBar: SizedBox(
+            height: alturaTela * 0.1,
+            width: larguraTela,
+            child: Visibility(
+              visible: boolExibirBotoes,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  botao(Textos.btnEditar, PaletaCores.corCastanho),
+                  botao(Textos.btnSalvar, PaletaCores.corVerdeCiano),
+                  botao(Textos.btnBaixarPDF, PaletaCores.corVermelha),
+                  botao(Textos.btnTrocarModeloNome, PaletaCores.corAzulCiano),
+                ],
+              ),
+            )),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
 import 'package:senturionlettersg/Uteis/estilo.dart';
@@ -40,7 +41,7 @@ class _TelaInicialState extends State<TelaInicial> {
           child: Text(tituloBtn,
               textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Colors.white,
+                color: PaletaCores.corAzulMagenta,
                 fontSize: 20,
               )),
         ),

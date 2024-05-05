@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:senturionlettersg/Uteis/constantes.dart';
+import 'package:senturionlettersg/Uteis/paleta_cores.dart';
 import 'package:senturionlettersg/Uteis/textos.dart';
 
 class WidgetListagemLinksSeleLetraTexto extends StatefulWidget {
@@ -108,7 +109,7 @@ class _WidgetListagemLinksSeleLetraTextoState
                     child: Text(Textos.btnUsar,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: PaletaCores.corAzulMagenta,
                           fontSize: 20,
                         )),
                   ),

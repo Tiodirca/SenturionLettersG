@@ -19,9 +19,9 @@ class PesquisaLetra {
           await http.get(root).timeout(const Duration(seconds: 20));
       var document = parse(response.body);
       String parametroClasseSiteLetra = "lyric-original";
-      String parametroClasseNomeMusicaLetra = "head-title";
-      String parametroClasseNomeCantorLetra = "head-subtitle";
-      String parametroRemoverStringLetra = '<h1 class="head-title">';
+      String parametroClasseNomeMusicaLetra = "textStyle-primary";
+      String parametroClasseNomeCantorLetra = "textStyle-secondary";
+      String parametroRemoverStringLetraNomeMusica = '<h1 class="textStyle-primary">';
       int parametroCorteNomeMusicaLetra = 37;
 
       String parametroClasseSiteCifra = "letra";
@@ -32,13 +32,14 @@ class PesquisaLetra {
 
       if (linkLetra.contains("m.letras.mus.br") ||
           linkLetra.contains("www.letras.mus.br")) {
+        print("Fdsfsd");
         letraCortada = await pegarLetraCompleta(
             parametroClasseSiteLetra,
             parametroClasseNomeMusicaLetra,
             parametroClasseNomeCantorLetra,
             document,
             parametroCorteNomeMusicaLetra,
-            parametroRemoverStringLetra);
+            parametroRemoverStringLetraNomeMusica);
       } else {
         letraCortada = await pegarLetraCompleta(
             parametroClasseSiteCifra,
@@ -62,29 +63,44 @@ class PesquisaLetra {
       var document,
       int numeroCorte,
       String parametroReplace) async {
+    tituloLetra = "";
     for (int i = 0;
         i < document.getElementsByClassName(parametroLetra).length;) {
       // definindo que as variaveis vao receber os valores
       // usando o getElement para pegar os valores dentro das classe
       // passada como parametros
+      //print(document.getElementsByClassName(parametroLetra).toString());
       var nomeMusica =
           document.getElementsByClassName(paremetroNomeMusica)[i].outerHtml;
       nomeMusica = nomeMusica
           .toString()
           .replaceAll(parametroReplace, "")
           .toString()
-          .replaceAll("</h1>", "");
-      var limiteTagNomeCantor = document
-          .getElementsByClassName(parametroNomeCantor)[i]
-          .outerHtml
-          .lastIndexOf('/">');
-      var resultadoTagNomeCantor = document
-          .getElementsByClassName(parametroNomeCantor)[i]
-          .outerHtml
-          .substring(numeroCorte, limiteTagNomeCantor);
-      tituloLetra = nomeMusica +
-          " - " +
-          resultadoTagNomeCantor.toString().replaceAll("-", " ");
+          .replaceAll("</h1>", "").replaceAll("\n", "").replaceAll("  ", "");
+      if (parametroLetra.contains("letra")) {
+        var limiteTagNomeCantor = document
+            .getElementsByClassName(parametroNomeCantor)[i]
+            .outerHtml
+            .lastIndexOf('/">');
+
+        var resultadoTagNomeCantor = document
+            .getElementsByClassName(parametroNomeCantor)[i]
+            .outerHtml
+            .substring(numeroCorte, limiteTagNomeCantor);
+        tituloLetra = nomeMusica +
+            " - " +
+            resultadoTagNomeCantor.toString().replaceAll("-", " ");
+      } else {
+        String parametroReplaceSiteLetra = '<h2 class="textStyle-secondary">';
+        var nomeCantor =
+            document.getElementsByClassName(parametroNomeCantor)[i].outerHtml;
+        nomeCantor = nomeCantor
+            .toString()
+            .replaceAll(parametroReplaceSiteLetra, "")
+            .toString()
+            .replaceAll("</h2>", "").replaceAll("\n", "").replaceAll("  ", "");
+        tituloLetra = nomeMusica + " - " + nomeCantor;
+      }
       //pegando a letra completa apartir dos
       // parametros passados para o SUB STRING
       // 23 pois corresponde ao numero de caracters <div class="cnt-letra">
