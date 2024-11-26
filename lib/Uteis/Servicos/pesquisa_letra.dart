@@ -21,7 +21,8 @@ class PesquisaLetra {
       String parametroClasseSiteLetra = "lyric-original";
       String parametroClasseNomeMusicaLetra = "textStyle-primary";
       String parametroClasseNomeCantorLetra = "textStyle-secondary";
-      String parametroRemoverStringLetraNomeMusica = '<h1 class="textStyle-primary">';
+      String parametroRemoverStringLetraNomeMusica =
+          '<h1 class="textStyle-primary">';
       int parametroCorteNomeMusicaLetra = 37;
 
       String parametroClasseSiteCifra = "letra";
@@ -32,7 +33,6 @@ class PesquisaLetra {
 
       if (linkLetra.contains("m.letras.mus.br") ||
           linkLetra.contains("www.letras.mus.br")) {
-        print("Fdsfsd");
         letraCortada = await pegarLetraCompleta(
             parametroClasseSiteLetra,
             parametroClasseNomeMusicaLetra,
@@ -76,7 +76,9 @@ class PesquisaLetra {
           .toString()
           .replaceAll(parametroReplace, "")
           .toString()
-          .replaceAll("</h1>", "").replaceAll("\n", "").replaceAll("  ", "");
+          .replaceAll("</h1>", "")
+          .replaceAll("\n", "")
+          .replaceAll("  ", "");
       if (parametroLetra.contains("letra")) {
         var limiteTagNomeCantor = document
             .getElementsByClassName(parametroNomeCantor)[i]
@@ -98,7 +100,9 @@ class PesquisaLetra {
             .toString()
             .replaceAll(parametroReplaceSiteLetra, "")
             .toString()
-            .replaceAll("</h2>", "").replaceAll("\n", "").replaceAll("  ", "");
+            .replaceAll("</h2>", "")
+            .replaceAll("\n", "")
+            .replaceAll("  ", "");
         tituloLetra = nomeMusica + " - " + nomeCantor;
       }
       //pegando a letra completa apartir dos
@@ -120,7 +124,7 @@ class PesquisaLetra {
   // future para retornar o titulo
   // da letra da musica pesquisa
   static Future<String> exibirTituloLetra() async {
-    return tituloLetra;
+    return tituloLetra.replaceAll("/", "");
   }
 
   // future para pesquisar no google o que for digitado
@@ -140,19 +144,28 @@ class PesquisaLetra {
           "Access-Control-Allow-Methods": "POST, OPTIONS"
         },
       ).timeout(const Duration(seconds: 20));
+      //print("SF${resposta.body.toString()}");
       var retornoResposta = parse(resposta.body);
+      //print("RS${retornoResposta.outerHtml}");
+      print(retornoResposta.getElementsByClassName("MjjYud").toString());
       List<Map<String, String>> linksNome = [];
-      // pegando os elementos da lista que estao dentro da TAG A(tag de link)
+      //pegando os elementos da lista que estao dentro da TAG A(tag de link)
       retornoResposta.getElementsByTagName("a").forEach((elemento) {
         // pegando o conteudo contido dentro do item da lista
         String linksResposta = elemento.outerHtml;
-
+        //print("LINKRS:${linksResposta.toString()}");
+        //print("ELSe:${elemento.outerHtml}");
+        if (linksResposta.contains("BNeawe")) {
+          //print("LINK:${linksResposta.toString()}");
+          //print("ELe:${elemento.outerHtml}");
+        }
         if (linksResposta.contains("m.letras.mus.br") &&
                 linksResposta.contains("BNeawe") ||
             linksResposta.contains("www.letras.mus.br") &&
                 linksResposta.contains("BNeawe") ||
             linksResposta.contains("www.cifraclub.com.br")) {
           Map<String, String> dados = {};
+
           // variavel vai receber  uma string
           // partindo da primeira ocorrencia
           // do primeiro INDEX OF e indo ate a primeira
@@ -169,6 +182,7 @@ class PesquisaLetra {
       return linksNome;
     } catch (e) {
       List<Map<String, String>> retornoErro = [];
+      print("ERRO${e.toString()}");
       return retornoErro;
     }
   }
